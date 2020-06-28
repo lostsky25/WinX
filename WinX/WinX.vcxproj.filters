@@ -13,6 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+<<<<<<< Updated upstream
     <Filter Include="Исходные файлы\Applets">
       <UniqueIdentifier>{87c54c3a-8c63-44ce-9a27-1e0ca0d2accb}</UniqueIdentifier>
     </Filter>
@@ -20,6 +21,39 @@
       <UniqueIdentifier>{e8b4975d-5642-4096-9968-43e0756f0d44}</UniqueIdentifier>
     </Filter>
     <Filter Include="Исходные файлы\Applets\XComboBox">
+=======
+    <Filter Include="Исходные файлы\XCore">
+      <UniqueIdentifier>{d0dbc77a-d408-4750-9034-b010340c410e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\Applets">
+      <UniqueIdentifier>{87c54c3a-8c63-44ce-9a27-1e0ca0d2accb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\Applets\XButton">
+      <UniqueIdentifier>{e8b4975d-5642-4096-9968-43e0756f0d44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XTypes">
+      <UniqueIdentifier>{cdd289ca-8eee-46bc-80a0-a0ae492a47b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XTypes\XString">
+      <UniqueIdentifier>{fdff08b7-3008-4f5f-8396-28f5140b8f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XDebug">
+      <UniqueIdentifier>{3e3a45a7-622e-4a22-9986-95214f3c8379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XLayout">
+      <UniqueIdentifier>{b110f279-7196-484e-ad23-70925c09d196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XWindow">
+      <UniqueIdentifier>{cead7304-ba42-45e1-a082-970091709749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XLayout\XVLayout">
+      <UniqueIdentifier>{cd354f7d-17ee-4bfd-b1f9-1bd72af0de14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XLayout\XHLayout">
+      <UniqueIdentifier>{8cfdbeef-21d3-402b-b154-28056c110e3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\Applets\XComboBox">
+>>>>>>> Stashed changes
       <UniqueIdentifier>{9669c15d-cd07-413f-bb3a-7440206d46c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -27,6 +61,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="XApplication.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -73,6 +108,93 @@
     </ClInclude>
     <ClInclude Include="Base.h">
       <Filter>Файлы заголовков</Filter>
+=======
+    <ClCompile Include="XMainWindow.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="XButton.cpp">
+      <Filter>Исходные файлы\XCore\Applets\XButton</Filter>
+    </ClCompile>
+    <ClCompile Include="XApplicationProc.cpp">
+      <Filter>Исходные файлы\XCore</Filter>
+    </ClCompile>
+    <ClCompile Include="XApplication.cpp">
+      <Filter>Исходные файлы\XCore</Filter>
+    </ClCompile>
+    <ClCompile Include="XString.cpp">
+      <Filter>Исходные файлы\XCore\XTypes\XString</Filter>
+    </ClCompile>
+    <ClCompile Include="XEvent.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="XLayout.cpp">
+      <Filter>Исходные файлы\XCore\XLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="XComboBox.cpp">
+      <Filter>Исходные файлы\XCore\Applets\XComboBox</Filter>
+    </ClCompile>
+    <ClCompile Include="XApplet.cpp">
+      <Filter>Исходные файлы\XCore\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="XWindow.cpp">
+      <Filter>Исходные файлы\XCore\XWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="XVLayout.cpp">
+      <Filter>Исходные файлы\XCore\XLayout\XVLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="XHLayout.cpp">
+      <Filter>Исходные файлы\XCore\XLayout\XHLayout</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="XMainWindow.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="XButton.h">
+      <Filter>Исходные файлы\XCore\Applets\XButton</Filter>
+    </ClInclude>
+    <ClInclude Include="XParams.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="XComboBox.h">
+      <Filter>Исходные файлы\XCore\Applets\XComboBox</Filter>
+    </ClInclude>
+    <ClInclude Include="XApplication.h">
+      <Filter>Исходные файлы\XCore</Filter>
+    </ClInclude>
+    <ClInclude Include="XApplicationProc.h">
+      <Filter>Исходные файлы\XCore</Filter>
+    </ClInclude>
+    <ClInclude Include="XTypes.h">
+      <Filter>Исходные файлы\XCore\XTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="XString.h">
+      <Filter>Исходные файлы\XCore\XTypes\XString</Filter>
+    </ClInclude>
+    <ClInclude Include="XDebug.h">
+      <Filter>Исходные файлы\XCore\XDebug</Filter>
+    </ClInclude>
+    <ClInclude Include="XEvent.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="XLayout.h">
+      <Filter>Исходные файлы\XCore\XLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="XApplet.h">
+      <Filter>Исходные файлы\XCore\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="XWindow.h">
+      <Filter>Исходные файлы\XCore\XWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="XVLayout.h">
+      <Filter>Исходные файлы\XCore\XLayout\XVLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="XHLayout.h">
+      <Filter>Исходные файлы\XCore\XLayout\XHLayout</Filter>
+>>>>>>> Stashed changes
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,4 +202,20 @@
       <Filter>Файлы ресурсов</Filter>
     </Manifest>
   </ItemGroup>
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="w102.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+>>>>>>> Stashed changes
 </Project>

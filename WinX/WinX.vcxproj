@@ -139,28 +139,67 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
     <ClCompile Include="Base.cpp" />
+=======
+    <ClCompile Include="XEvent.cpp" />
+>>>>>>> Stashed changes
     <ClCompile Include="main.cpp" />
     <ClCompile Include="XApplet.cpp" />
     <ClCompile Include="XApplication.cpp" />
     <ClCompile Include="XApplicationProc.cpp" />
     <ClCompile Include="XButton.cpp" />
     <ClCompile Include="XComboBox.cpp" />
+<<<<<<< Updated upstream
     <ClCompile Include="XMainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
+=======
+    <ClCompile Include="XHLayout.cpp" />
+    <ClCompile Include="XLayout.cpp" />
+    <ClCompile Include="XMainWindow.cpp" />
+    <ClCompile Include="XString.cpp" />
+    <ClCompile Include="XVLayout.cpp" />
+    <ClCompile Include="XWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="XEvent.h" />
+>>>>>>> Stashed changes
     <ClInclude Include="XApplet.h" />
     <ClInclude Include="XApplication.h" />
     <ClInclude Include="XApplicationProc.h" />
     <ClInclude Include="XButton.h" />
     <ClInclude Include="XComboBox.h" />
+<<<<<<< Updated upstream
     <ClInclude Include="XMainWindow.h" />
     <ClInclude Include="XParams.h" />
+=======
+    <ClInclude Include="XDebug.h" />
+    <ClInclude Include="XHLayout.h" />
+    <ClInclude Include="XLayout.h" />
+    <ClInclude Include="XMainWindow.h" />
+    <ClInclude Include="XParams.h" />
+    <ClInclude Include="XString.h" />
+    <ClInclude Include="XTypes.h" />
+    <ClInclude Include="XVLayout.h" />
+    <ClInclude Include="XWindow.h" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="WinX.manifest" />
   </ItemGroup>
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="w102.ico" />
+  </ItemGroup>
+>>>>>>> Stashed changes
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

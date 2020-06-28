@@ -1,22 +1,66 @@
 #include "XApplication.h"
 #include "XApplicationProc.h"
 
+<<<<<<< Updated upstream
+=======
+//LRESULT CALLBACK XApplicationProc::cursorSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, DWORD_PTR ref_ptr)
+//{
+//
+//}
+
+HWND XApplication::XApplicationMainWindow;
+int XApplication::vOffsetX = 0;
+int XApplication::vOffsetY = 0;
+int XApplication::hOffsetX = 0;
+int XApplication::hOffsetY = 0;
+
+>>>>>>> Stashed changes
 LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	HDC hDC;
 	PAINTSTRUCT ps;
 	RECT rect;
+<<<<<<< Updated upstream
 
+=======
+	
+>>>>>>> Stashed changes
 	int index = 0;
 	char buff[128];
 	int idx_row;
 
 	NMHDR* h = reinterpret_cast<NMHDR*>(lParam);
 	//Base* b = types[0]();
+<<<<<<< Updated upstream
 	
 	switch (uMsg) {
 	case WM_NOTIFY:
 		
+=======
+
+	switch (uMsg) {
+	case WM_NOTIFY:
+
+
+		break;
+
+	case WM_SETCURSOR:
+		if (LOWORD(lParam) == HTCLIENT)
+		{	
+			SetCursor(LoadCursorW(NULL, XApplicationProc::mainCursor.second));
+
+			//for (int i = 0; i < XApplicationProc::cursorsForWindows.size(); i++)
+			//{
+			//	
+			//	SetWindowSubclass(XApplicationProc::cursorsForWindows.at(i).first, 
+			//		XApplicationProc::cursorSubclassProc,
+			//		1, 
+			//		(DWORD_PTR)NULL);
+			//}
+
+			return TRUE;
+		}
+>>>>>>> Stashed changes
 		break;
 	
 	case WM_COMMAND:
@@ -40,7 +84,11 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 		case BN_CLICKED:
 			for (int i = 0; i < XTypes.size(); i++) {
 				if (CurrentHandle == XTypes.at(i).first) {
+<<<<<<< Updated upstream
 					XTypes.at(i).second->clicked();
+=======
+					XTypes.at(i).second->clickEvent();
+>>>>>>> Stashed changes
 				}
 			}
 			//b->clicked();
@@ -96,8 +144,11 @@ XApplication::XApplication(XParams xParams) {
 	icex.dwICC = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
 
+<<<<<<< Updated upstream
 	offsetX = 0;
 	offsetY = 0;
+=======
+>>>>>>> Stashed changes
 
 	WndClassEx.cbSize = sizeof(WndClassEx);
 	WndClassEx.lpfnWndProc = ::XApplicationProc::WndProc;
@@ -114,12 +165,20 @@ XApplication::XApplication(XParams xParams) {
 	WndClassEx.cbClsExtra = 0;
 	WndClassEx.cbWndExtra = 0;
 	WndClassEx.hInstance = xParams.hInstance;
+<<<<<<< Updated upstream
 	WndClassEx.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+=======
+	WndClassEx.hIcon = LoadIcon(xParams.hInstance, MAKEINTRESOURCE("w102.ico"));
+>>>>>>> Stashed changes
 	WndClassEx.hCursor = LoadCursor(NULL, IDC_ARROW);
 	WndClassEx.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	WndClassEx.lpszMenuName = NULL;
 	WndClassEx.lpszClassName = szClassName;
+<<<<<<< Updated upstream
 	WndClassEx.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+=======
+	WndClassEx.hIconSm = LoadIcon(xParams.hInstance, MAKEINTRESOURCE("w102.ico"));
+>>>>>>> Stashed changes
 	//!Заполнить структуру окна
 
 	if (!RegisterClassEx(&WndClassEx)) {
@@ -128,7 +187,10 @@ XApplication::XApplication(XParams xParams) {
 
 	XApplicationMainWindow = CreateWindow(szClassName, L"Window title", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, (HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL);
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 	/*
 		CS_ - Опция стиля класса
 		CW_ - Опция создания окна
@@ -164,7 +226,64 @@ HWND XApplication::GetMainWindowHandle() {
 	return XApplicationMainWindow;
 }
 
+<<<<<<< Updated upstream
 void XApplication::WindowUpdate(void) {
+=======
+void XApplication::setLayout(XVLayout* layout) {
+	//Extract applets from layouts
+	while (!layout->waitingButtonts.empty()) {
+		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, 
+			XApplication::vOffsetX, XApplication::vOffsetY, 
+			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count());
+		layout->waitingButtonts.pop();
+	}
+
+	//while (!XVLayout::waitingComboBox.empty()) {
+	//	XVLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
+	//	XVLayout::waitingComboBox.pop();
+	//}
+
+	/*while (!XHLayout::waitingButtonts.empty()) {
+		XHLayout::waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
+		XHLayout::waitingButtonts.pop();
+	}*/
+
+	//while (!XHLayout::waitingComboBox.empty()) {
+	//	XHLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
+	//	XHLayout::waitingComboBox.pop();
+	//}
+	//!Extract applets from layouts
+}
+
+void XApplication::setLayout(XHLayout* layout) {
+	//Extract applets from layouts
+	while (!layout->waitingButtonts.empty()) {
+		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, 
+			XApplication::vOffsetX, XApplication::vOffsetY, 
+			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count());
+		layout->waitingButtonts.pop();
+	}
+
+	//while (!XVLayout::waitingComboBox.empty()) {
+	//	XVLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
+	//	XVLayout::waitingComboBox.pop();
+	//}
+
+	/*while (!XHLayout::waitingButtonts.empty()) {
+		XHLayout::waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
+		XHLayout::waitingButtonts.pop();
+	}*/
+
+	//while (!XHLayout::waitingComboBox.empty()) {
+	//	XHLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
+	//	XHLayout::waitingComboBox.pop();
+	//}
+	//!Extract applets from layouts
+}
+
+void XApplication::WindowUpdate(void) {
+	
+>>>>>>> Stashed changes
 	while (GetMessage(&XApplicationMessage, NULL, 0, 0)) {
 		XApplicationProc::CurrentHandle = XApplicationMessage.hwnd;
 		TranslateMessage(&XApplicationMessage);
