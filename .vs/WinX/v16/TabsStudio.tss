@@ -2,43 +2,67 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XEvent.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XEvent.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XHLayout.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XHLayout.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\WinX.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XVLayout.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XVLayout.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XMainWindow.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XMainWindow.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XComboBox.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XComboBox.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XApplet.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XApplet.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XWindow.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XWindow.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XApplication.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XApplication.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XApplet.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XApplet.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XApplicationProc.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XApplicationProc.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XButton.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XButton.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XButton.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XButton.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XMainWindow.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XHLayout.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XHLayout.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XLayout.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XLayout.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XLayout.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XLayout.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XApplicationProc.cpp</string>
-      <string>C:\Users\User\Documents\GitHub\WinX\WinX\XApplicationProc.h</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XString.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XString.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\User\source\repos\WinX\WinX\XVLayout.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XVLayout.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\User\source\repos\WinX\WinX\XWindow.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XWindow.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\User\source\repos\WinX\WinX\resource.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\User\source\repos\WinX\WinX\XDebug.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\User\source\repos\WinX\WinX\XParams.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\User\source\repos\WinX\WinX\XTypes.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\User\source\repos\WinX\WinX\XComboBox.cpp</string>
+      <string>C:\Users\User\source\repos\WinX\WinX\XComboBox.h</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

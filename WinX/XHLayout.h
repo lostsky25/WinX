@@ -63,6 +63,11 @@ public:
 	//static std::vector<std::unique_ptr<U>> applets;
 private:
 	bool firstElement = true;
+
+
+	std::queue<XButton*> waitingButtonts;
+	std::queue<XComboBox*> waitingComboBox;
+
 	//static std::queue<XButton*> waitingButtonts;
 	//static std::queue<XComboBox*> waitingComboBox;
 	//template <class T>

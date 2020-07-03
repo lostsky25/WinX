@@ -1,19 +1,8 @@
-<<<<<<< Updated upstream
-﻿  XMainWindow.cpp
-  WinX.vcxproj -> C:\Users\User\Desktop\C\winapi_window\WinX\Debug\WinX.exe
-=======
-﻿  XButton.cpp
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4806: |: небезопасная операция: значение типа "bool", приведенное к типу "long", не может равняться данной константе
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4554: "|": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(208,21): warning C4552: "|": результат выражения не используется
-  XComboBox.cpp
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4806: |: небезопасная операция: значение типа "bool", приведенное к типу "long", не может равняться данной константе
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4554: "|": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(208,21): warning C4552: "|": результат выражения не используется
-  XVLayout.cpp
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4806: |: небезопасная операция: значение типа "bool", приведенное к типу "long", не может равняться данной константе
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4554: "|": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(208,21): warning C4552: "|": результат выражения не используется
-  Создание кода...
-  WinX.vcxproj -> C:\Users\User\Documents\GitHub\WinX\Debug\WinX.exe
->>>>>>> Stashed changes
+﻿  WinX.cpp
+C:\Users\User\source\repos\WinX\WinX\XTypes.h(205,1): warning C4806: |: небезопасная операция: значение типа "bool", приведенное к типу "long", не может равняться данной константе
+C:\Users\User\source\repos\WinX\WinX\XTypes.h(205,1): warning C4554: "|": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
+C:\Users\User\source\repos\WinX\WinX\XTypes.h(208,21): warning C4552: "|": результат выражения не используется
+C:\Users\User\source\repos\WinX\WinX\XApplication.h(64,1): warning C4302: приведение типов: усечение из "const char *" к "WORD"
+C:\Users\User\source\repos\WinX\WinX\XApplication.h(70,1): warning C4302: приведение типов: усечение из "const char *" к "WORD"
+C:\Users\User\source\repos\WinX\WinX\WinX.cpp(3,90): warning C4007: WinMain: должен быть "__stdcall"
+  WinX.vcxproj -> C:\Users\User\source\repos\WinX\Debug\WinX.exe

@@ -18,9 +18,57 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinX.cpp" />
+    <ClCompile Include="XApplet.cpp" />
+    <ClCompile Include="XApplication.cpp" />
+    <ClCompile Include="XApplicationProc.cpp" />
+    <ClCompile Include="XButton.cpp" />
+    <ClCompile Include="XComboBox.cpp" />
+    <ClCompile Include="XEvent.cpp" />
+    <ClCompile Include="XHLayout.cpp" />
+    <ClCompile Include="XLayout.cpp" />
+    <ClCompile Include="XMainWindow.cpp" />
+    <ClCompile Include="XString.cpp" />
+    <ClCompile Include="XVLayout.cpp" />
+    <ClCompile Include="XWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="XApplet.h" />
+    <ClInclude Include="XApplication.h" />
+    <ClInclude Include="XApplicationProc.h" />
+    <ClInclude Include="XButton.h" />
+    <ClInclude Include="XComboBox.h" />
+    <ClInclude Include="XDebug.h" />
+    <ClInclude Include="XEvent.h" />
+    <ClInclude Include="XHLayout.h" />
+    <ClInclude Include="XLayout.h" />
+    <ClInclude Include="XMainWindow.h" />
+    <ClInclude Include="XParams.h" />
+    <ClInclude Include="XString.h" />
+    <ClInclude Include="XTypes.h" />
+    <ClInclude Include="XVLayout.h" />
+    <ClInclude Include="XWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="w10.png" />
+    <Image Include="w102.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource.aps" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="WinX.manifest" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{BDB1661D-65AC-4F72-ACF8-904D4471A5B3}</ProjectGuid>
+    <ProjectGuid>{5671D4C0-5689-4607-B5AB-51885A140A27}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
     <RootNamespace>WinX</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -83,19 +131,22 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ComCtl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -108,11 +159,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -124,6 +177,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -138,68 +193,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-<<<<<<< Updated upstream
-    <ClCompile Include="Base.cpp" />
-=======
-    <ClCompile Include="XEvent.cpp" />
->>>>>>> Stashed changes
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="XApplet.cpp" />
-    <ClCompile Include="XApplication.cpp" />
-    <ClCompile Include="XApplicationProc.cpp" />
-    <ClCompile Include="XButton.cpp" />
-    <ClCompile Include="XComboBox.cpp" />
-<<<<<<< Updated upstream
-    <ClCompile Include="XMainWindow.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Base.h" />
-=======
-    <ClCompile Include="XHLayout.cpp" />
-    <ClCompile Include="XLayout.cpp" />
-    <ClCompile Include="XMainWindow.cpp" />
-    <ClCompile Include="XString.cpp" />
-    <ClCompile Include="XVLayout.cpp" />
-    <ClCompile Include="XWindow.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="XEvent.h" />
->>>>>>> Stashed changes
-    <ClInclude Include="XApplet.h" />
-    <ClInclude Include="XApplication.h" />
-    <ClInclude Include="XApplicationProc.h" />
-    <ClInclude Include="XButton.h" />
-    <ClInclude Include="XComboBox.h" />
-<<<<<<< Updated upstream
-    <ClInclude Include="XMainWindow.h" />
-    <ClInclude Include="XParams.h" />
-=======
-    <ClInclude Include="XDebug.h" />
-    <ClInclude Include="XHLayout.h" />
-    <ClInclude Include="XLayout.h" />
-    <ClInclude Include="XMainWindow.h" />
-    <ClInclude Include="XParams.h" />
-    <ClInclude Include="XString.h" />
-    <ClInclude Include="XTypes.h" />
-    <ClInclude Include="XVLayout.h" />
-    <ClInclude Include="XWindow.h" />
->>>>>>> Stashed changes
-  </ItemGroup>
-  <ItemGroup>
-    <Manifest Include="WinX.manifest" />
-  </ItemGroup>
-<<<<<<< Updated upstream
-=======
-  <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico" />
-    <Image Include="w102.ico" />
-  </ItemGroup>
->>>>>>> Stashed changes
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

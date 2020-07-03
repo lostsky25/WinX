@@ -1,56 +1,38 @@
-<<<<<<< Updated upstream
 #include "XMainWindow.h"
 #include "XParams.h"
 
-#include "Base.h"
-=======
 #define XDebug
 
 #include "XMainWindow.h"
 
 #include "XVLayout.h"
+#include "XEvent.h"
 
 using namespace XTypes;
->>>>>>> Stashed changes
+
 
 void foo2() {
 	OutputDebugStringA("Clicked2\r\n");
 }
 
-<<<<<<< Updated upstream
-class MyClass : public Base
-=======
 class MyClass : public XEvent
->>>>>>> Stashed changes
 {
 public:
 	MyClass(XApplication& parent);
 	~MyClass();
-	
-<<<<<<< Updated upstream
-	void clicked() override {
-=======
+
 	void clickEvent() override {
->>>>>>> Stashed changes
 		OutputDebugStringA("Clicked\r\n");
 	}
 };
 
-<<<<<<< Updated upstream
-class MyClass2 : public Base
-=======
 class MyClass2 : public XEvent
->>>>>>> Stashed changes
 {
 public:
 	MyClass2(XApplication& parent);
 	~MyClass2();
 
-<<<<<<< Updated upstream
-	void clicked() override {
-=======
 	void clickEvent() override {
->>>>>>> Stashed changes
 		OutputDebugStringA("Clicked2\r\n");
 	}
 };
@@ -114,12 +96,10 @@ MyClass2::~MyClass2()
 XMainWindow::XMainWindow(XParams xParams) {
 	Application = new XApplication(xParams);
 
-<<<<<<< Updated upstream
-
-	XButton* btn = new XButton();
-	XButton* btn2 = new XButton();
+	//XButton* btn = new XButton();
+	//XButton* btn2 = new XButton();
 	//XComboBox* comboBox = new XComboBox();
-=======
+
 	XButton* btn = new XButton();
 	XButton* btn2 = new XButton();
 	XButton* btn3 = new XButton();
@@ -135,28 +115,15 @@ XMainWindow::XMainWindow(XParams xParams) {
 	XButton* btn10 = new XButton();
 	XButton* btn11 = new XButton();
 	//XButton* btn7 = new XButton();
->>>>>>> Stashed changes
 
-	MyClass* m = new MyClass(*Application);
-	MyClass2* m2 = new MyClass2(*Application);
-
-<<<<<<< Updated upstream
-	//comboBox->SetMinimumHeight(50);
-	//comboBox->SetMinimumWidth(200);
-
-	btn->SetMinimumHeight(50);
-	btn->SetMinimumWidth(200);
-	btn->SetText((LPWSTR)L"Something");
-
-	btn2->SetMinimumHeight(50);
-	btn2->SetMinimumWidth(200);
-	btn2->SetText((LPWSTR)L"Something2");
+	//* m = new MyClass(*Application);
+	//MyClass2* m2 = new MyClass2(*Application);
 	
-	Application->AppendApplet<XButton>(btn);
-	Application->AppendApplet<XButton>(btn2);
-	Application->SetClickedEvent<XButton, MyClass>(*btn, m, &MyClass::clicked);
-	Application->SetClickedEvent<XButton, MyClass2>(*btn2, m2, &MyClass2::clicked);
-=======
+	//Application->AppendApplet<XButton>(btn);
+	//Application->AppendApplet<XButton>(btn2);
+	//Application->SetClickedEvent<XButton, MyClass>(*btn, m, &MyClass::clicked);
+	//Application->SetClickedEvent<XButton, MyClass2>(*btn2, m2, &MyClass2::clicked);
+
 	/*btn->setMargins(10, 10, 0, 0);
 	btn2->setMargins(10, 100, 0, 10);
 	btn3->setMargins(15, 5, 0, 0);*/
@@ -256,7 +223,6 @@ XMainWindow::XMainWindow(XParams xParams) {
 	Application->setClickedEvent<XButton, MyClass>(*btn7, m, &MyClass::clickEvent);*/
 
 	//Application->setClickedEvent<XButton, MyClass2>(*btn2, m2, &MyClass2::clickEvent);
->>>>>>> Stashed changes
 	//Application->AppendApplet<XButton>(btn2);
 
 	//MyClass* myClass = new MyClass(*Application);
@@ -280,12 +246,9 @@ XMainWindow::XMainWindow(XParams xParams) {
 	//
 	//Application->AppendApplet<XComboBox>(comboBox);
 
-<<<<<<< Updated upstream
-=======
 	Application->setLayout(lv);
 	Application->setLayout(lv2);
 	Application->setLayout(lv3);
 
->>>>>>> Stashed changes
 	Application->WindowUpdate();
 }

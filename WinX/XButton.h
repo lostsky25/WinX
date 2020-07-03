@@ -4,37 +4,42 @@
 
 #include "XApplet.h"
 
-<<<<<<< Updated upstream
-class XButton : XApplet
-{
-public:
-	XButton();
-	void SetText(LPWSTR);	
-	LPWSTR GetText();
+//class XButton : XApplet
+//{
+//public:
+//	XButton();
+//	void SetText(LPWSTR);	
+//	LPWSTR GetText();
+//
+//	// Унаследовано через XApplet
+//	virtual void SetMinimumWidth(int) override;
+//	virtual void SetMinimumHeight(int) override;
+//	virtual int GetWidth() override;
+//	virtual int GetHeight() override;
+//	// !Унаследовано через XApplet
+//
+//private:
+//
+//protected:
+//	friend class XApplication;
+//
+//	// Унаследовано через XApplet
+//	virtual void SetApplet(HWND, int, int) override;
+//	// !Унаследовано через XApplet
 
-	// Унаследовано через XApplet
-	virtual void SetMinimumWidth(int) override;
-	virtual void SetMinimumHeight(int) override;
-	virtual int GetWidth() override;
-	virtual int GetHeight() override;
-	// !Унаследовано через XApplet
-
-private:
-
-protected:
-	friend class XApplication;
-
-	// Унаследовано через XApplet
-	virtual void SetApplet(HWND, int, int) override;
-	// !Унаследовано через XApplet
-
-=======
 class XButton : public XApplet
 {
 public:
-	XButton();
+	XButton() {
+		this->currentId = idBtn;
+		++idBtn;
+	}
+
+	//~XButton();
 
 	void setMargins(int, int, int, int);
+
+	void setText(LPCSTR);
 	
 	virtual XTypes::XSize iconSize() override;
 	virtual void setWindowTitle(XString) override;
@@ -57,6 +62,9 @@ public:
 	virtual void activateWindow() override;
 	virtual void setApplet(HWND, int&, int&, int&, int&, int, int) override;
 
+	virtual int width() override;
+	virtual int height() override;
+
 private:
 	static int idBtn;
 	int currentId;
@@ -67,5 +75,4 @@ protected:
 	friend class XApplication;
 	friend class XHLayout;
 	friend class XVLayout;
->>>>>>> Stashed changes
 };

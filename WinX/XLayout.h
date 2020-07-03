@@ -31,8 +31,6 @@ public:
 protected:
 	friend class XApplication;
 
-	std::queue<XButton*> waitingButtonts;
-	std::queue<XComboBox*> waitingComboBox;
 
 	int _count = 0;
 	static int _layoutId;

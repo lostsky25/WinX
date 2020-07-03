@@ -1,28 +1,8 @@
 #pragma once
 #define ISOLATION_AWARE_ENABLED 1
 #include <Windows.h>
-<<<<<<< Updated upstream
 #include <commctrl.h>
-
-class XApplet
-{
-public:
-	virtual void SetMinimumWidth(int) = 0;
-	virtual void SetMinimumHeight(int) = 0;
-	virtual int GetWidth() = 0;
-	virtual int GetHeight() = 0;
-
-protected:
-	HWND GetHandle();
-	HWND applet;
-	int width;
-	int height;
-	LPWSTR text;
-
-	virtual void SetApplet(HWND, int, int) = 0;
-=======
 #include <atlbase.h>
-#include <commctrl.h>
 
 #include "XLayout.h"
 #include "XTypes.h"
@@ -30,15 +10,13 @@ protected:
 #include "XDebug.h"
 #include "XWindow.h"
 
-//using namespace XTypes;
-
 class XApplet : public XWindow
 {
 public:
 	HWND windowHandle() override;
 	void windowUpdate() override;
-	void setMinimumWidth(int) override;
-	void setMinimumHeight(int) override;
+	//void setMinimumWidth(int) override;
+	//void setMinimumHeight(int) override;
 	void setMaximumHeight(int) override;
 	void setMaximumSize(XTypes::XSize) override;
 	void setMaximumSize(int, int) override;
@@ -56,8 +34,8 @@ public:
 	bool isFullScreen() override;
 	bool isActiveWindow() override;
 	bool isWindow() override;
-	int width() override;
-	int height() override;
+	//int width() override;
+	//int height() override;
 	XTypes::XMargins margins() override;
 	//void windowUpdate() override;
 	//void setMargins(XTypes::XMargins);
@@ -84,7 +62,16 @@ public:
 	virtual void setFixedSize(int, int) = 0;
 	virtual void activateWindow() = 0;
 
+	virtual void setMinimumWidth(int);
+	virtual void setMinimumHeight(int);
+	virtual int width() = 0;
+	virtual int height() = 0;
+
 protected:
+	//HWND GetHandle();
+	int _width;
+	int _height;
+
 	/*
 	* Applet is window handle, it just means HWND.
 	*/
@@ -94,6 +81,5 @@ protected:
 	//XTypes::XLayoutDirection _layoutDirection;						//Layout direction for the another.
 
 	virtual void setApplet(HWND, int&, int&, int&, int&, int, int) = 0;						//Set applet into ...
->>>>>>> Stashed changes
 };
 

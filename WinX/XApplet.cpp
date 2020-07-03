@@ -1,10 +1,5 @@
 #include "XApplet.h"
 
-<<<<<<< Updated upstream
-HWND XApplet::GetHandle() {
-	return applet;
-}
-=======
 HWND XApplet::windowHandle() {
 	if (applet)
 		return applet;
@@ -159,15 +154,8 @@ bool XApplet::isWindow()
 	return this->_isWindow;
 }
 
-int XApplet::width()
-{
-	return _minimumWidth;
-}
 
-int XApplet::height()
-{
-	return _minimumHeight;
-}
+
 
 //void XApplet::updateSize()
 //{
@@ -177,4 +165,3 @@ int XApplet::height()
 //	this->_x = this->_minimumWidth;
 //	this->_y = this->_minimumHeight;*/
 //}
->>>>>>> Stashed changes
