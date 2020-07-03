@@ -2,7 +2,7 @@
 
 int XLayout::_layoutId;
 
-std::map<int, std::pair<XTypes::XRect, XTypes::XMargins>> XLayout::_properties;					//Window margins (left, top, right, bottom).
+std::vector<std::pair<XTypes::XRect, XTypes::XMargins>> XLayout::_properties;					//Window margins (left, top, right, bottom).
 
 //XTypes::XMargins XLayout::margins() {
 //	//return _margins;

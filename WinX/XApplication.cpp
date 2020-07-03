@@ -15,6 +15,7 @@ int XApplication::vOffsetX = 0;
 int XApplication::vOffsetY = 0;
 int XApplication::hOffsetX = 0;
 int XApplication::hOffsetY = 0;
+int XApplication::appletId = 0;
 
 LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -125,7 +126,7 @@ void XApplication::setLayout(XVLayout* layout) {
 	while (!layout->waitingButtonts.empty()) {
 		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow,
 			XApplication::vOffsetX, XApplication::vOffsetY,
-			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count());
+			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count(), appletId++);
 		layout->waitingButtonts.pop();
 	}
 
@@ -151,7 +152,7 @@ void XApplication::setLayout(XHLayout* layout) {
 	while (!layout->waitingButtonts.empty()) {
 		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow,
 			XApplication::vOffsetX, XApplication::vOffsetY,
-			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count());
+			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count(), appletId++);
 		layout->waitingButtonts.pop();
 	}
 

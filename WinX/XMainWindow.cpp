@@ -39,26 +39,7 @@ public:
 
 MyClass::MyClass(XApplication& parent)// : parent(parent)
 {
-	/*btn1 = new XButton();
-	comboBox1 = new XComboBox();
 
-	btn1->SetMinimumHeight(50);
-	btn1->SetMinimumWidth(200);
-	btn1->SetText((LPWSTR)L"jnfskajndjs");
-
-	comboBox1->SetMinimumHeight(50);
-	comboBox1->SetMinimumWidth(200);
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-	parent.AppendApplet<XButton>(btn1);
-	parent.AppendApplet<XComboBox>(comboBox1);
-	parent.AppendApplet<XComboBox>(comboBox1);
-	parent.AppendApplet<XComboBox>(comboBox1);*/
-	
-	//CONNECT(XButton, btn1, lala);
 }
 
 MyClass::~MyClass()
@@ -67,26 +48,7 @@ MyClass::~MyClass()
 
 MyClass2::MyClass2(XApplication& parent)// : parent(parent)
 {
-	/*btn1 = new XButton();
-	comboBox1 = new XComboBox();
 
-	btn1->SetMinimumHeight(50);
-	btn1->SetMinimumWidth(200);
-	btn1->SetText((LPWSTR)L"jnfskajndjs");
-
-	comboBox1->SetMinimumHeight(50);
-	comboBox1->SetMinimumWidth(200);
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-	parent.AppendApplet<XButton>(btn1);
-	parent.AppendApplet<XComboBox>(comboBox1);
-	parent.AppendApplet<XComboBox>(comboBox1);
-	parent.AppendApplet<XComboBox>(comboBox1);*/
-
-	//CONNECT(XButton, btn1, lala);
 }
 
 MyClass2::~MyClass2()
@@ -116,7 +78,7 @@ XMainWindow::XMainWindow(XParams xParams) {
 	XButton* btn11 = new XButton();
 	//XButton* btn7 = new XButton();
 
-	//* m = new MyClass(*Application);
+	MyClass* m = new MyClass(*Application);
 	//MyClass2* m2 = new MyClass2(*Application);
 	
 	//Application->AppendApplet<XButton>(btn);
@@ -131,21 +93,18 @@ XMainWindow::XMainWindow(XParams xParams) {
 	btn5->setMargins(10, 100, 0, 10);
 	btn6->setMargins(15, 5, 0, 0);
 
-	btn7->setMargins(10, 100, 10, 10);
-	btn8->setMargins(10, 110, 110, 10);
+	btn7->setMargins(10, 0, 0, 0);
+	btn8->setMargins(0, 0, 0, 0);
 
-	btn9->setMargins(100, 0, 25, 0);
-	btn10->setMargins(0, 150, 0, 0);
+//////////////////////////////////////////////////////////////
+	btn9->setMargins(15, 0, 0, 0);
+	btn10->setMargins(0, 0, 0, 0);
 	btn11->setMargins(0, 0, 0, 0);
+//////////////////////////////////////////////////////////////
 
 	btn->setMargins(0, 0, 0, 0);
 	btn2->setMargins(0, 0, 0, 0);
 	btn3->setMargins(0, 0, 0, 0);
-
-	//btn4->setMargins(0, 0, 0, 0);
-	//btn5->setMargins(0, 0, 0, 0);
-	//btn6->setMargins(0, 0, 0, 0);
-	//btn7->setMargins(0, 0, 0, 0);
 
 	btn->setMinimumSize(200, 20);
 	btn->setText("btn");
@@ -165,19 +124,19 @@ XMainWindow::XMainWindow(XParams xParams) {
 	btn6->setMinimumSize(200, 20);
 	btn6->setText("btn6");
 
-	btn7->setMinimumSize(200, 20);
+	btn7->setMinimumSize(100, 20);
 	btn7->setText("btn7");
 
-	btn8->setMinimumSize(200, 20);
+	btn8->setMinimumSize(700, 20);
 	btn8->setText("btn8");
 
 	btn9->setMinimumSize(300, 20);
 	btn9->setText("btn9");
 
-	btn10->setMinimumSize(300, 20);
+	btn10->setMinimumSize(100, 20);
 	btn10->setText("btn10");
 
-	btn11->setMinimumSize(400, 50);
+	btn11->setMinimumSize(200, 50);
 	btn11->setText("btn11");
 
 	//btn7->setMinimumSize(200, 20);
@@ -194,15 +153,12 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 	Application->appendApplet<XButton>(btn);
 	Application->appendApplet<XButton>(btn2);
-	Application->appendApplet<XButton>(btn3);
+	Application->appendApplet<XButton>(btn5);
 
 	Application->appendApplet<XButton>(btn4);
-	//Application->appendApplet<XButton>(btn5);
-	//Application->appendApplet<XButton>(btn6);
-	//Application->appendApplet<XButton>(btn7);
 
 	XVLayout* lv = new XVLayout();
-	lv->addApplet<XButton>(btn5);
+	lv->addApplet<XButton>(btn3);
 	lv->addApplet<XButton>(btn6);
 
 	XHLayout* lv2 = new XHLayout();
@@ -214,37 +170,13 @@ XMainWindow::XMainWindow(XParams xParams) {
 	lv3->addApplet<XButton>(btn10);
 	lv3->addApplet<XButton>(btn11);
 
-	/*Application->setClickedEvent<XButton, MyClass>(*btn, m, &MyClass::clickEvent);
-	Application->setClickedEvent<XButton, MyClass>(*btn2, m, &MyClass::clickEvent);
+	Application->setClickedEvent<XButton, MyClass>(*btn, m, &MyClass::clickEvent);
+	/*Application->setClickedEvent<XButton, MyClass>(*btn2, m, &MyClass::clickEvent);
 	Application->setClickedEvent<XButton, MyClass>(*btn3, m, &MyClass::clickEvent);
 	Application->setClickedEvent<XButton, MyClass>(*btn4, m, &MyClass::clickEvent);
 	Application->setClickedEvent<XButton, MyClass>(*btn5, m, &MyClass::clickEvent);
 	Application->setClickedEvent<XButton, MyClass>(*btn6, m, &MyClass::clickEvent);
 	Application->setClickedEvent<XButton, MyClass>(*btn7, m, &MyClass::clickEvent);*/
-
-	//Application->setClickedEvent<XButton, MyClass2>(*btn2, m2, &MyClass2::clickEvent);
-	//Application->AppendApplet<XButton>(btn2);
-
-	//MyClass* myClass = new MyClass(*Application);
-	//Application->SetClickedEvent<XButton>(btn2, ::foo2);
-
-	//CONNECT(XButton, btn2, ::foo2);
-
-	//Application->AppendApplet<XButton>(btn);
-	//btn->SetMinimumHeight(25);
-	//btn->SetMinimumWidth(100);
-	//
-	//Application->AppendApplet<XButton>(btn);
-	//btn->SetMinimumHeight(50);
-	//btn->SetMinimumWidth(100);
-
-	//comboBox->AppendItem((LPWSTR)L"text1");
-	//comboBox->AppendItem((LPWSTR)L"text2");
-	//comboBox->AppendItem((LPWSTR)L"text3");
-	//comboBox->AppendItem((LPWSTR)L"text4");
-	//comboBox->AppendItem((LPWSTR)L"text5");
-	//
-	//Application->AppendApplet<XComboBox>(comboBox);
 
 	Application->setLayout(lv);
 	Application->setLayout(lv2);

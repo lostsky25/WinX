@@ -26,7 +26,7 @@ public:
 	/*static XTypes::XMargins margins();
 	static void setMargin(XTypes::XMargins);
 	static void setMargin(int, int, int, int);*/
-	static std::map<int, std::pair<XTypes::XRect, XTypes::XMargins>> _properties;					//Window margins (left, top, right, bottom).	
+	static std::vector<std::pair<XTypes::XRect, XTypes::XMargins>> _properties;					//Window margins (left, top, right, bottom).	
 
 protected:
 	friend class XApplication;

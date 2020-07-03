@@ -60,7 +60,7 @@ public:
 	virtual void setFixedSize(XTypes::XSize) override;
 	virtual void setFixedSize(int, int) override;
 	virtual void activateWindow() override;
-	virtual void setApplet(HWND, int&, int&, int&, int&, int, int) override;
+	virtual void setApplet(HWND, int&, int&, int&, int&, int, int, int) override;
 
 	virtual int width() override;
 	virtual int height() override;
