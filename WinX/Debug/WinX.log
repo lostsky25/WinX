@@ -1,18 +1,5 @@
-﻿  XApplication.cpp
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4806: '|': unsafe operation: no value of type 'bool' promoted to type 'long' can equal the given constant
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(208,21): warning C4552: '|': result of expression not used
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.h(64,1): warning C4302: 'type cast': truncation from 'const char *' to 'WORD'
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.h(70,1): warning C4302: 'type cast': truncation from 'const char *' to 'WORD'
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.cpp(57,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.cpp(75,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.cpp(27,6): warning C4101: 'idx_row': unreferenced local variable
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.cpp(26,7): warning C4101: 'buff': unreferenced local variable
-  XVLayout.cpp
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4806: '|': unsafe operation: no value of type 'bool' promoted to type 'long' can equal the given constant
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
-C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(208,21): warning C4552: '|': result of expression not used
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.h(64,1): warning C4302: 'type cast': truncation from 'const char *' to 'WORD'
-C:\Users\User\Documents\GitHub\WinX\WinX\XApplication.h(70,1): warning C4302: 'type cast': truncation from 'const char *' to 'WORD'
-  Generating Code...
+﻿  XButton.cpp
+C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4806: |: небезопасная операция: значение типа "bool", приведенное к типу "long", не может равняться данной константе
+C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(205,1): warning C4554: "|": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
+C:\Users\User\Documents\GitHub\WinX\WinX\XTypes.h(208,21): warning C4552: "|": результат выражения не используется
   WinX.vcxproj -> C:\Users\User\Documents\GitHub\WinX\Debug\WinX.exe

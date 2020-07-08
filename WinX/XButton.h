@@ -30,10 +30,7 @@
 class XButton : public XApplet
 {
 public:
-	XButton() {
-		this->currentId = idBtn;
-		++idBtn;
-	}
+	XButton();
 
 	//~XButton();
 
@@ -60,7 +57,7 @@ public:
 	virtual void setFixedSize(XTypes::XSize) override;
 	virtual void setFixedSize(int, int) override;
 	virtual void activateWindow() override;
-	virtual void setApplet(HWND, int&, int&, int&, int&, int, int, int) override;
+	virtual void setApplet(HWND, int&, int&, int&, int&, XLayout*, int, bool) override;
 
 	virtual int width() override;
 	virtual int height() override;
@@ -69,7 +66,11 @@ private:
 	static int idBtn;
 	int currentId;
 
-	std::map<int, bool> baseInfo;
+	/*std::map<HWND, bool> baseVerticalInfo;
+	std::map<HWND, bool> baseHorizontalInfo;*/
+
+	/*std::map<HWND, bool> baseVerticalInfo;
+	std::map<HWND, bool> baseHorizontalInfo;*/
 
 protected:
 	friend class XApplication;

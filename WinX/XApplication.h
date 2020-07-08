@@ -132,7 +132,7 @@ public:
 
 	template <class T>
 	void AppendApplet(T* applet, void (*pProc)()) {
-		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, LayoutDirection::None, 0, appletId++);
+		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, nullptr, appletId++, false);
 		offsetX += applet->_width;
 		offsetY += applet->_height;
 
@@ -146,7 +146,7 @@ public:
 
 	template <class T>
 	void appendApplet(T* applet, void (*pProc)()) {
-		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, LayoutDirection::None, 0, appletId++);
+		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, nullptr, appletId++, false);
 		//offsetX += applet->width();
 		//offsetY += applet->height();
 
@@ -161,7 +161,7 @@ public:
 
 	template <class T>
 	void AppendApplet(T* applet) {
-		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, LayoutDirection::None, 0, appletId++);
+		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, nullptr, appletId++, false);
 		offsetX += applet->_width;
 		offsetY += applet->_height;
 	}
@@ -183,7 +183,7 @@ public:
 			XLayout::_properties.find(i)->second.second.top +
 			_minimumHeight;*/
 
-		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, LayoutDirection::None, 0, appletId++);
+		applet->setApplet(XApplicationMainWindow, vOffsetX, vOffsetY, hOffsetX, hOffsetY, nullptr, appletId++, false);
 	}
 
 	/*void appendApplet(XVLayout* verticalLayout) {

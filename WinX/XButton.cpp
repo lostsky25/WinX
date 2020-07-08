@@ -8,6 +8,10 @@
 //	return this->_text;
 //}
 
+
+XButton::XButton(){
+}
+
 void XButton::setText(LPCSTR text)
 {
 	this->_text = text;
@@ -120,26 +124,31 @@ void XButton::activateWindow()
 }
 
 void XButton::setApplet(HWND parent, int& vOffsetX, int& vOffsetY, 
-	int& hOffsetX, int& hOffsetY, int layoutDirection, int layoutCount, int id) {
+	int& hOffsetX, int& hOffsetY, XLayout* layout, int appletId, bool firstElem) {
+	int _beginVertical = 0;
+	int _beginHorizontal = 0;
 
-	switch (layoutDirection)
+	switch (layout->dir)
 	{
 	case LayoutDirection::None:
 	case LayoutDirection::Vertical:
+
 		_rect.right = _minimumWidth;
 		_rect.bottom = _minimumHeight;
 
+		//Save current rectangle and margins of applet
 		XLayout::_properties.push_back(std::make_pair(_rect, _margins));
 
-		updateSize();
+		//If it's not first layout, we add a previous height layout
+		//if(layout->id > 1){
+			//_beginVertical = XLayout::_beginVerticalLayout.at(layout->id - 2);
+		//}
 
-		_margins.top += (this->currentId > 0 ? XLayout::_properties.at(id - 1).first.bottom : 0);
+		if (!firstElem && XLayout::_appletId > 0) {
+			XLayout::_betweenVeticalApplets += XLayout::_properties.at(XLayout::_appletId - 1).first.bottom;
+		}
 
-		vOffsetX += _margins.left;
-
-		vOffsetY +=
-			_margins.top +
-			(this->currentId > 0 ? XLayout::_properties.at(id - 1).second.bottom : 0);
+		XLayout::_appletId++;
 		
 		break;
 	case LayoutDirection::Horizontal:
@@ -147,16 +156,13 @@ void XButton::setApplet(HWND parent, int& vOffsetX, int& vOffsetY,
 		_rect.bottom = _minimumHeight;
 
 		XLayout::_properties.push_back(std::make_pair(_rect, _margins));
+		//XLayout::_beginHeight
 
-		if (baseInfo.find(this->currentId)->second) {
-			hOffsetX = 0;
-			hOffsetY += _height + XLayout::_properties.at(id - 1).first.bottom;
-			hOffsetX += _margins.left + _margins.right;
+		if (!firstElem && XLayout::_appletId > 0) {
+			XLayout::_betweenHorizontalApplets += XLayout::_properties.at(XLayout::_appletId - 1).first.right;
 		}
-		else {
-			hOffsetX += XLayout::_properties.at(id - 1).first.right +
-				_margins.left + _margins.right;//_margins.left + _margins.right + _minimumWidth;
-		}
+
+		XLayout::_appletId++;
 
 		break;
 	default:
@@ -168,10 +174,10 @@ void XButton::setApplet(HWND parent, int& vOffsetX, int& vOffsetY,
 	applet = CreateWindowEx(
 		WS_EX_TRANSPARENT,
 		L"BUTTON",																	//Predefined class; Unicode assumed.
-		A2W(_text),																		//Button text.
+		A2W(_text),																	//Button text.
 		_windowState._state | BS_PUSHBUTTON,										//Styles.
-		_rect.x + (layoutDirection == LayoutDirection::Horizontal ? hOffsetX : vOffsetX),																	//x position.
-		_rect.y + (layoutDirection == LayoutDirection::Horizontal ? hOffsetY + vOffsetY : vOffsetY),																	//y position.
+		(layout->dir == LayoutDirection::Horizontal ? hOffsetX + XLayout::_betweenHorizontalApplets : vOffsetX),																	//x position.
+		(layout->dir == LayoutDirection::Horizontal ? hOffsetY + XLayout::_beginHeight : /*_beginVertical + XLayout::_betweenVeticalApplets +*/ XLayout::_beginHeight),																	//y position.
 		/*_rect.right*/_minimumWidth,																//Button width.
 		/*_rect.bottom*/_minimumHeight,																//Button height.
 		parent,																		//Parent window.
@@ -179,3 +185,4 @@ void XButton::setApplet(HWND parent, int& vOffsetX, int& vOffsetY,
 		(HINSTANCE)GetWindowLongPtr(parent, GWLP_HINSTANCE),						
 		NULL);																		//Pointer not needed.
 }
+

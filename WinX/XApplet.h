@@ -5,10 +5,18 @@
 #include <atlbase.h>
 
 #include "XLayout.h"
+
+//////////
+//#include "XHLayout.h"
+//#include "XVLayout.h"
+//////////
+
 #include "XTypes.h"
 #include "XString.h"
 #include "XDebug.h"
 #include "XWindow.h"
+
+class XLayout;
 
 class XApplet : public XWindow
 {
@@ -80,6 +88,6 @@ protected:
 	XTypes::XCursor _cursor;										//Cursor when hovering the applet.
 	//XTypes::XLayoutDirection _layoutDirection;						//Layout direction for the another.
 
-	virtual void setApplet(HWND, int&, int&, int&, int&, int, int, int) = 0;						//Set applet into ...
+	virtual void setApplet(HWND, int&, int&, int&, int&, XLayout*, int, bool) = 0;						//Set applet into ...
 };
 

@@ -122,39 +122,63 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 }
 
 void XApplication::setLayout(XVLayout* layout) {
+	bool firstElem = true;
+	XLayout::_beginVerticalLayout.push_back(layout->_beginHeight);
 	//Extract applets from layouts
 	while (!layout->waitingButtonts.empty()) {
+		
+
 		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow,
 			XApplication::vOffsetX, XApplication::vOffsetY,
-			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count(), appletId++);
-		layout->waitingButtonts.pop();
+			XApplication::hOffsetX, XApplication::hOffsetY, layout, appletId++, firstElem);
+
+		//XVLayout::_beginHeight = XLayout::_beginHeight;
+
+		//if (!firstElem) {
+			XLayout::_beginHeight += layout->waitingButtonts.front()->_minimumHeight;
+		//}
+
+		if (firstElem) {
+			firstElem = !firstElem;
+		}
+
+		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(),
+			layout->waitingButtonts.end(), layout->waitingButtonts.front()));
 	}
-
-	//while (!XVLayout::waitingComboBox.empty()) {
-	//	XVLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
-	//	XVLayout::waitingComboBox.pop();
-	//}
-
-	/*while (!XHLayout::waitingButtonts.empty()) {
-		XHLayout::waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
-		XHLayout::waitingButtonts.pop();
-	}*/
-
-	//while (!XHLayout::waitingComboBox.empty()) {
-	//	XHLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
-	//	XHLayout::waitingComboBox.pop();
-	//}
-	//!Extract applets from layouts
+	XLayout::_betweenVeticalApplets = 0;
+	//XLayout::_beginHeight = 0;
 }
 
 void XApplication::setLayout(XHLayout* layout) {
+	bool firstElem = true;
+	int max = 0;
+	XLayout::_beginHorizontalLayout.push_back(layout->_beginWidth);
 	//Extract applets from layouts
 	while (!layout->waitingButtonts.empty()) {
 		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow,
 			XApplication::vOffsetX, XApplication::vOffsetY,
-			XApplication::hOffsetX, XApplication::hOffsetY, layout->dir, layout->count(), appletId++);
-		layout->waitingButtonts.pop();
+			XApplication::hOffsetX, XApplication::hOffsetY, layout, appletId++, firstElem);
+			//layout->maxPreviousLayoutWidth, layout->maxPreviousLayoutHeight);
+		//XLayout::_beginWidth += layout->waitingButtonts.front()->_minimumWidth;
+		//this->_beginWidth = XLayout::_beginWidth;
+		for (int i = 0; i < layout->waitingButtonts.size(); i++) {
+			
+			if (max < layout->waitingButtonts.at(i)->_minimumHeight)
+				max = layout->waitingButtonts.at(i)->_minimumHeight;
+		}
+
+		if (firstElem) {
+			firstElem = !firstElem;
+		}
+		
+		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(),
+			layout->waitingButtonts.end(), layout->waitingButtonts.front()));
 	}
+
+	XLayout::_beginHeight += max;
+
+	XLayout::_betweenHorizontalApplets = 0;
+	//XApplication::hOffsetY = layout->maxPreviousLayoutHeight;
 
 	//while (!XVLayout::waitingComboBox.empty()) {
 	//	XVLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);

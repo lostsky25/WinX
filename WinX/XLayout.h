@@ -30,10 +30,24 @@ public:
 
 protected:
 	friend class XApplication;
+	friend class XButton;
 
+	unsigned maxPreviousLayoutHeight;
+	unsigned maxPreviousLayoutWidth;
 
+	static int _beginHeight;
+	static int _beginWidth;
+	static int _betweenVeticalApplets;
+	static int _betweenHorizontalApplets;
+	static int _appletId;
+	
 	int _count = 0;
 	static int _layoutId;
+
+	int id;
+
+	static std::vector<int> _beginVerticalLayout;
+	static std::vector<int> _beginHorizontalLayout;
 
 	LayoutDirection dir;										//Current direction.
 	virtual void deleteApplet(int) = 0;							//Delete some applet by id.
