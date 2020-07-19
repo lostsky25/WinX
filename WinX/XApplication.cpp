@@ -4,18 +4,9 @@
 class XVLayout;
 class XHLayout;
 
-//LRESULT CALLBACK XApplicationProc::cursorSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, DWORD_PTR ref_ptr)
-//{
-//
-//}
-
-HWND XApplication::XApplicationMainWindow;
+XHANDLE* XApplication::XApplicationMainWindow;
 MSG XApplication::XApplicationMessage;
-int XApplication::vOffsetX = 0;
-int XApplication::vOffsetY = 0;
-int XApplication::hOffsetX = 0;
-int XApplication::hOffsetY = 0;
-int XApplication::appletId = 0;
+int XApplication::appletId;
 
 LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -23,16 +14,13 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 	PAINTSTRUCT ps;
 	RECT rect;
 	int index = 0;
-	char buff[128];
-	int idx_row;
 
 	NMHDR* h = reinterpret_cast<NMHDR*>(lParam);
 	//Base* b = types[0]();
 	
 	switch (uMsg) {
 	case WM_NOTIFY:
-
-
+		
 		break;
 
 	case WM_SETCURSOR:
@@ -40,26 +28,17 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 		{	
 			SetCursor(LoadCursorW(NULL, XApplicationProc::mainCursor.second));
 
-			//for (int i = 0; i < XApplicationProc::cursorsForWindows.size(); i++)
-			//{
-			//	
-			//	SetWindowSubclass(XApplicationProc::cursorsForWindows.at(i).first, 
-			//		XApplicationProc::cursorSubclassProc,
-			//		1, 
-			//		(DWORD_PTR)NULL);
-			//}
-
 			return TRUE;
 		}
 		break;
 	
 	case WM_COMMAND:
-		for (int i = 0; i < XApplicationProc::XComboBoxMessages.size(); i++) {
+		for (unsigned i = 0; i < XApplicationProc::XComboBoxMessages.size(); i++) {
 			switch (HIWORD(wParam))
 			{
 			case CBN_SELCHANGE:
 				if(XApplicationProc::XComboBoxMessages.at(i) != NULL){
-					index = SendMessage(XApplicationProc::XComboBoxMessages.at(i), CB_GETCURSEL, 0, 0);
+					index = SendMessage(XApplicationProc::XComboBoxMessages.at(i)->window->_wnd, CB_GETCURSEL, 0, 0);
 				}
 				break;
 			default:
@@ -68,34 +47,15 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 			break;
 		}
 
-		//event click
+		//Event click
 		switch (LOWORD(wParam))
 		{
 		case BN_CLICKED:
-			for (int i = 0; i < XTypes.size(); i++) {
-				if (CurrentHandle == XTypes.at(i).first) {
-					//XTypes.at(i).second->clicked();
-					XTypes.at(i).second->clickEvent();
+			for (unsigned i = 0; i < XTypes.size(); i++) {
+				if (CurrentHandle == XTypes.at(i).first->window->_wnd) {
+					XTypes.at(i).second->clicked();
 				}
 			}
-			//b->clicked();
-			//for (int type_id = 0; type_id < XTypesMessages.size(); type_id++) {
-				//typedef std::remove_reference<decltype(XApplicationProc::XTypesMessages[type_id])>::type XType;
-					//for (auto& elem : XMapMessages<XType>) {
-						//if (CurrentHandle == elem._Myfirst._Val) {
-						//	OutputDebugStringA("OOOAFKDSMFL");
-					//	}
-				//}
-			//}
-			//std::unique_ptr<Base> temp = qwe[0]();
-
-
-
-			//if (CurrentHandle == XMapMessages<MyClass>.operator[]<0>(0)) {
-			//	//void (*pProc)() = XMapMessages.at(i).second;
-			//	//if ((*pProc) != nullptr)
-			//		//(*pProc)();
-			//}
 			break;
 		default:
 			break;
@@ -121,94 +81,137 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 	return 0;
 }
 
+XApplication::XApplication() {
+	icex = { 0 };
+	WndClassEx = { 0 };
+	szClassName = L"XApplicationMainWindow";
+	hInstance = nullptr;
+	hPrevInstance = nullptr;
+	lpCmdLine = nullptr;
+	nCmdShow = 0;
+	firstElem = false;
+}
+
+
+XApplication::XApplication(XParams xParams) {
+	icex = { 0 };
+	WndClassEx = { 0 };
+	szClassName = L"XApplicationMainWindow";
+	hInstance = nullptr;
+	hPrevInstance = nullptr;
+	lpCmdLine = nullptr; 
+	nCmdShow = 0;
+	firstElem = false;
+
+	XApplicationMainWindow = new XHANDLE();
+	// Ensure that the common control DLL is loaded. 
+	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	icex.dwICC = ICC_LISTVIEW_CLASSES;
+	InitCommonControlsEx(&icex);
+
+	WndClassEx.cbSize = sizeof(WndClassEx);
+	WndClassEx.lpfnWndProc = ::XApplicationProc::WndProc;
+	WndClassEx.style = CS_HREDRAW | CS_VREDRAW; //---> устанавливаются поразрядные флаги (bit flags), так как только один разряд установлен в единичное значение.
+
+	/*
+		CS_GLOBALCLASS - Создать класс, доступный всем приложениям. Обычно этот стиль применяется для создания определяемых пользователем элементов управления в DLL.
+		CS_HREDRAW - Перерисовывать все окно, если изменен размер по горизонтали.
+		CS_NOCLOSE - Запретить команду Close в системном меню.
+		CS_OWNDC - Выделить уникальный контекст устройства для каждого окна, созданного при помощи этого класса.
+		CS_VREDRAW - Перерисовывать все окно, если изменен размер по вертикали.
+	*/
+
+	WndClassEx.cbClsExtra = 0;
+	WndClassEx.cbWndExtra = 0;
+	WndClassEx.hInstance = xParams.hInstance;
+	WndClassEx.hIcon = LoadIcon(xParams.hInstance, IDI_APPLICATION);
+	WndClassEx.hCursor = LoadCursor(NULL, IDC_ARROW);
+	WndClassEx.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	WndClassEx.lpszMenuName = NULL;
+	WndClassEx.lpszClassName = szClassName;
+	WndClassEx.hIconSm = LoadIcon(xParams.hInstance, IDI_APPLICATION);
+	//!Заполнить структуру окна
+
+	if (!RegisterClassEx(&WndClassEx)) {
+		//return EXIT_FAILURE;
+	}
+
+	XApplicationMainWindow->window->_wnd = CreateWindowEx(WS_EX_TRANSPARENT, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, (HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL);
+	/*
+		CS_ - Опция стиля класса
+		CW_ - Опция создания окна
+		DT_ - Опция рисования текста
+		IDC_ - Идентификатор предопределенного курсора
+		IDI_ - Иденитификатор предопределенной иконки (пиктограммы)
+		WM_ - Сообщение окна
+		WS_ - Стиль окна
+	*/
+
+	if (!XApplicationMainWindow) {
+		exit(EXIT_FAILURE);
+	}
+
+	ShowWindow(XApplicationMainWindow->window->_wnd, SW_SHOWDEFAULT);
+}
+
 void XApplication::setLayout(XVLayout* layout) {
-	bool firstElem = true;
-	XLayout::_beginVerticalLayout.push_back(layout->_beginHeight);
-	//Extract applets from layouts
+	firstElem = true;
+	max = 0;
+
+	//Extract applets from layouts.
 	while (!layout->waitingButtonts.empty()) {
-		
+		//Fixed position check.
+		if (layout->waitingButtonts.front()->_fixedPosition) 
+			throw std::invalid_argument("This applet has a \"fixed status\".");
 
-		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow,
-			XApplication::vOffsetX, XApplication::vOffsetY,
-			XApplication::hOffsetX, XApplication::hOffsetY, layout, appletId++, firstElem);
+		XLayout::_beginHeight += layout->waitingButtonts.front()->applet->window->_margins.top;
 
-		//XVLayout::_beginHeight = XLayout::_beginHeight;
+		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
 
-		//if (!firstElem) {
-			XLayout::_beginHeight += layout->waitingButtonts.front()->_minimumHeight;
-		//}
+		XLayout::_beginHeight += layout->waitingButtonts.front()->applet->window->_minimumHeight + layout->waitingButtonts.front()->applet->window->_margins.bottom;
 
 		if (firstElem) {
 			firstElem = !firstElem;
 		}
 
-		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(),
-			layout->waitingButtonts.end(), layout->waitingButtonts.front()));
+		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
 	}
+
 	XLayout::_betweenVeticalApplets = 0;
-	//XLayout::_beginHeight = 0;
 }
 
 void XApplication::setLayout(XHLayout* layout) {
-	bool firstElem = true;
-	int max = 0;
+	firstElem = true;
+	max = 0;
 	XLayout::_beginHorizontalLayout.push_back(layout->_beginWidth);
-	//Extract applets from layouts
-	while (!layout->waitingButtonts.empty()) {
-		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow,
-			XApplication::vOffsetX, XApplication::vOffsetY,
-			XApplication::hOffsetX, XApplication::hOffsetY, layout, appletId++, firstElem);
-			//layout->maxPreviousLayoutWidth, layout->maxPreviousLayoutHeight);
-		//XLayout::_beginWidth += layout->waitingButtonts.front()->_minimumWidth;
-		//this->_beginWidth = XLayout::_beginWidth;
-		for (int i = 0; i < layout->waitingButtonts.size(); i++) {
-			
-			if (max < layout->waitingButtonts.at(i)->_minimumHeight)
-				max = layout->waitingButtonts.at(i)->_minimumHeight;
-		}
 
-		if (firstElem) {
-			firstElem = !firstElem;
-		}
-		
-		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(),
-			layout->waitingButtonts.end(), layout->waitingButtonts.front()));
+	//Extract applets from layouts.
+	if (layout->waitingButtonts.front()->_fixedPosition)
+		throw std::invalid_argument("This applet has a \"fixed status\".");
+
+	//Find the maximum height element with margins in current layout.
+	for (unsigned i = 0; i < layout->waitingButtonts.size(); i++) {
+		if (max < layout->waitingButtonts.at(i)->applet->window->_margins.top + layout->waitingButtonts.at(i)->applet->window->_minimumHeight + layout->waitingButtonts.at(i)->applet->window->_margins.bottom)
+			max = layout->waitingButtonts.at(i)->applet->window->_margins.top + layout->waitingButtonts.at(i)->applet->window->_minimumHeight + layout->waitingButtonts.at(i)->applet->window->_margins.bottom;
 	}
 
+	while (!layout->waitingButtonts.empty()) {
+		//Fixed position check.
+		if (layout->waitingButtonts.front()->_fixedPosition) {
+			throw std::invalid_argument("This applet has a \"fixed status\".");
+		}
+
+		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+
+		XLayout::_betweenHorizontalApplets += layout->waitingButtonts.front()->applet->window->_minimumWidth;
+
+		//if (firstElem) {
+		//	firstElem = !firstElem;
+		//}
+
+		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
+	}
+	XLayout::_beginWidth = 0;
 	XLayout::_beginHeight += max;
-
 	XLayout::_betweenHorizontalApplets = 0;
-	//XApplication::hOffsetY = layout->maxPreviousLayoutHeight;
-
-	//while (!XVLayout::waitingComboBox.empty()) {
-	//	XVLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
-	//	XVLayout::waitingComboBox.pop();
-	//}
-
-	/*while (!XHLayout::waitingButtonts.empty()) {
-		XHLayout::waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
-		XHLayout::waitingButtonts.pop();
-	}*/
-
-	//while (!XHLayout::waitingComboBox.empty()) {
-	//	XHLayout::waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, XApplication::offsetX, XApplication::offsetY);
-	//	XHLayout::waitingComboBox.pop();
-	//}
-	//!Extract applets from layouts
 }
-
-//template <class T>
-//void XApplication::AppendApplet(T btn)
-//{	
-//	btn.appendApplet(XApplicationMainWindow);
-//}
-
-//HWND XApplication::GetMainWindowHandle() {
-//	return XApplicationMainWindow;
-//}
-
-//XApplication::~XApplication(){
-//	//delete XApplicationMainWindow;
-//	delete szClassName;
-//}
-

@@ -1,14 +1,8 @@
 #include "XHLayout.h"
 
-//std::queue<XButton*> XHLayout::waitingButtonts;
-//std::queue<XComboBox*> XHLayout::waitingComboBox;
-//
-//unsigned XHLayout::maxPreviousLayoutHeight = 0;
-//unsigned XHLayout::maxPreviousLayoutWidth = 0;
-
 XHLayout::XHLayout() {
 	//XLayout::_layoutId++;
-	dir = Horizontal;
+	dir = LayoutDirection::Horizontal;
 }
 
 XHLayout::~XHLayout() {

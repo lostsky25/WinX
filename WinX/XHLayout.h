@@ -18,13 +18,11 @@ public:
 	void addApplet(T* _applet) {
 		if (std::is_same<T, XButton>::value) {
 			++_count;
-			waitingButtonts.push_back(reinterpret_cast<XButton*>(_applet));
+			waitingButtonts.emplace_back(_applet);
 			
-			/*XLayout::_beginWidth += _applet->_minimumWidth;
-			this->_beginWidth = XLayout::_beginWidth;*/
+			XLayout::_properties.push_back(std::make_pair(_applet->applet->window->_rect, _applet->applet->window->_margins));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
-			//
 		}
 	}
 

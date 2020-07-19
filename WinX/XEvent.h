@@ -3,6 +3,7 @@
 class XEvent
 {
 public:
-	virtual void clickEvent() = 0;
+	virtual void clicked() = 0;
+	virtual void released() = 0;
 };
 

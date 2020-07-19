@@ -2,7 +2,12 @@
 
 #include "XDebug.h"
 
-#include <Windows.h>
+#include "XWindowFlags.h"
+#include "XWindowType.h"
+#include "XSize.h"
+#include "XString.h"
+
+#include <WinUser.h>
 
 #define CURSOR_ARROW_SMALL					IDC_APPSTARTING		//Standard arrow and small hourglass
 #define CURSOR_ARROW						IDC_ARROW			//Standard arrow
@@ -24,20 +29,8 @@
 
 namespace XTypes{
 
-	typedef struct _XSize {
-		int height;
-		int widht;
-
-		_XSize(){}
-		_XSize(int widht, int height) : 
-			height(height), 
-			widht(widht)
-		{
-		}
-	}XSize;
-
 	typedef struct _XWindowType {
-		DWORD type;
+		DWORD type = 0;
 
 		_XWindowType(){}
 		_XWindowType(DWORD type) : type(type) {
@@ -45,55 +38,13 @@ namespace XTypes{
 		
 	}XWindowType;
 
-	typedef struct _XWindowFlags {
-		DWORD flags;
-
-		_XWindowFlags(){}
-		_XWindowFlags(DWORD flags) : flags(flags) {}
-	}XWindowFlags;
-
-
-	//typedef struct _XCursor {
-	//	//private:
-	//	HCURSOR _cursor;
-	//	LPCWSTR _idc;
-
-	//	//public:	
-	//	_XCursor() {
-	//		this->_cursor = NULL;
-	//		this->_idc = NULL;
-	//	}
-
-	//	void setCursor(LPCWSTR idc) {
-	//		if (idc != NULL)
-	//		{
-	//			this->_idc = idc;
-	//			this->_cursor = LoadCursorW(NULL, this->_idc);
-	//			if (this->_cursor == NULL)
-	//			{
-	//				OutLine("You have an error with cursor name. Check the CURSOR_*.");
-	//			}
-	//		}
-	//		else {
-	//			OutLine("You have an empty idc. Check the pointer.");
-	//		}
-	//	}
-
-	//	HCURSOR cursor(void) {
-	//		return this->_cursor;
-	//	}
-
-	//	LPCWSTR idc(void) {
-	//		return this->_idc;
-	//	}
-	//}XCursor;
 
 	typedef struct _XMargins {
 		//private:
-			int left;
-			int top;
-			int right;
-			int bottom;
+			int left = 0;
+			int top = 0;
+			int right = 0;
+			int bottom = 0;
 			
 		//public:
 			_XMargins(){}
@@ -122,10 +73,10 @@ namespace XTypes{
 	}XLayout;
 
 	typedef struct _XRect {
-		int x;
-		int y;
-		int right;
-		int bottom;
+		int x = 0;
+		int y = 0;
+		int right = 0;
+		int bottom = 0;
 		
 		_XRect(){}
 		_XRect(int x, int y, int right, int bottom) :
@@ -139,8 +90,8 @@ namespace XTypes{
 
 	typedef struct _XCursor {
 		private:
-			HCURSOR _cursor;
-			LPCWSTR _idc;
+			HCURSOR _cursor = nullptr;
+			LPCWSTR _idc = nullptr;
 
 		public:
 			_XCursor() {
@@ -187,28 +138,28 @@ namespace XTypes{
 	}XPoint;
 
 	typedef struct _XWindowState {
-		DWORD _state = WS_CHILD | WS_VISIBLE;
+		LONG _state = WS_CHILD | WS_VISIBLE;
 
 		_XWindowState() {}
 		
-		void overlapped(bool state) {
-			if (state) {
-				_state |= WS_OVERLAPPED | 
-					WS_CAPTION | 
-					WS_SYSMENU | 
-					WS_THICKFRAME | 
-					WS_MINIMIZEBOX | 
-					WS_MAXIMIZEBOX;
-			}
-			else {
-				_state != WS_OVERLAPPED | 
-					WS_CAPTION | 
-					WS_SYSMENU | 
-					WS_THICKFRAME | 
-					WS_MINIMIZEBOX | 
-					WS_MAXIMIZEBOX;
-			}
-		}
+		//void overlapped(bool state) {
+		//	if (state) {
+		//		/*_state |= (WS_OVERLAPPED | 
+		//			WS_CAPTION | 
+		//			WS_SYSMENU | 
+		//			WS_THICKFRAME | 
+		//			WS_MINIMIZEBOX | 
+		//			WS_MAXIMIZEBOX);*/
+		//	}
+		//	else {
+		//		/*_state &= (WS_OVERLAPPED | 
+		//			WS_CAPTION | 
+		//			WS_SYSMENU | 
+		//			WS_THICKFRAME | 
+		//			WS_MINIMIZEBOX | 
+		//			WS_MAXIMIZEBOX);*/
+		//	}
+		//}
 
 	}XWindowState;
 

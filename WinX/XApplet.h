@@ -3,6 +3,9 @@
 #include <Windows.h>
 #include <commctrl.h>
 #include <atlbase.h>
+#include <stdexcept>
+
+#include "xhandle.h"
 
 #include "XLayout.h"
 
@@ -21,73 +24,80 @@ class XLayout;
 class XApplet : public XWindow
 {
 public:
-	HWND windowHandle() override;
+	//XApplet();
+
+	XHANDLE* windowHandle() override;
 	void windowUpdate() override;
-	//void setMinimumWidth(int) override;
-	//void setMinimumHeight(int) override;
 	void setMaximumHeight(int) override;
-	void setMaximumSize(XTypes::XSize) override;
+	void setMaximumSize(XSize) override;
 	void setMaximumSize(int, int) override;
 	void setMaximumWidth(int) override;
 	void setMinimumSize(int, int) override;
-	void setMinimumSize(XTypes::XSize) override;
+	void setMinimumSize(XSize) override;
 	int maximumHeight() override;
-	XTypes::XSize maximumSize() override;
+	XSize maximumSize() override;
 	int maximumWidth() override;
 	int minimumHeight() override;
-	XTypes::XSize minimumSize() override;
+	XSize minimumSize() override;
 	int minimumWidth() override;
 	XTypes::XRect frameGeomtry() override;
-	void setText(LPCSTR) override;
 	bool isFullScreen() override;
 	bool isActiveWindow() override;
 	bool isWindow() override;
-	//int width() override;
-	//int height() override;
 	XTypes::XMargins margins() override;
-	//void windowUpdate() override;
-	//void setMargins(XTypes::XMargins);
-	//void setMargins(int, int, int, int);
+	virtual void updateSize() override;
+	virtual void setPosition(int, int) override;
+	virtual void setWindowOpacity(float) override;
+	virtual float windowOpacity() override; 
+	void setText(XString) override;
+	virtual void setMargins(int, int, int, int) override;
 
-	virtual void setWindowTitle(XString) = 0;
-	virtual XString windowTitle() = 0;
-	virtual XTypes::XSize iconSize() = 0;
-	virtual void setWindowState(XTypes::XWindowState) = 0;
-	virtual XTypes::XSize size() = 0;
-	virtual XTypes::XSize sizeIncrement() = 0;
-	virtual void setBaseSize(XTypes::XSize) = 0;
-	virtual void setBaseSize(int, int) = 0;
-	virtual XTypes::XWindowFlags windowFlags() = 0;
-	virtual XTypes::XIcon windowIcon() = 0;
-	virtual float windowOpacity() = 0;
-	virtual XTypes::XWindowState windowState() = 0;
-	virtual XTypes::XWindowType windowType() = 0;
-	//virtual void setWindowFlags(XTypes::XWindowFlags, bool = true) = 0;
-	virtual void setWindowIcon(XTypes::XIcon) = 0;
-	virtual void setWindowOpacity(float) = 0;
-	virtual void setFixedHeight(int) = 0;
-	virtual void setFixedSize(XTypes::XSize) = 0;
-	virtual void setFixedSize(int, int) = 0;
-	virtual void activateWindow() = 0;
+
+	virtual XWindowType windowType();
+	virtual void setWindowType(DWORD);
+	virtual void setWindowTitle(XString);
+	virtual XString windowTitle();
+	virtual XSize iconSize();
+	virtual void setWindowState(XTypes::XWindowState);
+	virtual XSize size();
+	virtual XSize sizeIncrement();
+	virtual void setBaseSize(XSize);
+	virtual void setBaseSize(int, int);
+	virtual XWindowFlags windowFlags();
+	virtual XTypes::XIcon windowIcon();
+	virtual XTypes::XWindowState windowState();
+	virtual void setWindowIcon(XTypes::XIcon);
+	virtual void setFixedHeight(int);
+	virtual void setFixedWidth(int);
+	virtual void setFixedSize(XSize);
+	virtual void setFixedSize(int, int);
+	virtual void activateWindow();
 
 	virtual void setMinimumWidth(int);
 	virtual void setMinimumHeight(int);
-	virtual int width() = 0;
-	virtual int height() = 0;
+
+	/// <summary>
+	/// This getter needs for information about (minimum) width of applet.
+	/// </summary>
+	/// <returns>width of appplet</returns>
+	virtual int width();
+
+	/// <summary>
+	/// This getter needs for information about (minimum) height of applet.
+	/// </summary>
+	/// <returns>height of appplet</returns>
+	virtual int height();
 
 protected:
-	//HWND GetHandle();
-	int _width;
-	int _height;
+	int _width = 0;
+	int _height = 0;
 
-	/*
-	* Applet is window handle, it just means HWND.
-	*/
-	HWND applet;													//Applet handle.
-	LPCSTR _text;													//Text in applet (this parameter use in XButton etc.).
-	XTypes::XCursor _cursor;										//Cursor when hovering the applet.
-	//XTypes::XLayoutDirection _layoutDirection;						//Layout direction for the another.
-
-	virtual void setApplet(HWND, int&, int&, int&, int&, XLayout*, int, bool) = 0;						//Set applet into ...
+	//Applet is window handle, it just means HWND.
+	//HWND applet = nullptr;												//Applet handle.
+	XHANDLE* applet;														//Applet handle.
+	XString _text = nullptr;												//Text in applet (this parameter use in XButton etc.).
+	XTypes::XCursor _cursor;												//Cursor when hovering the applet.
+	std::vector<std::pair<XTypes::XRect, XTypes::XMargins>> _properties;
+	virtual void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...
 };
 

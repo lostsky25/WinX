@@ -13,7 +13,7 @@
 class XButton;
 class XComboBox;
 
-enum LayoutDirection {
+enum class LayoutDirection {
 	Vertical = 0,
 	Horizontal = 1,
 	None = 2,
@@ -22,34 +22,32 @@ enum LayoutDirection {
 class XLayout
 {
 public:
-
-	/*static XTypes::XMargins margins();
-	static void setMargin(XTypes::XMargins);
-	static void setMargin(int, int, int, int);*/
 	static std::vector<std::pair<XTypes::XRect, XTypes::XMargins>> _properties;					//Window margins (left, top, right, bottom).	
 
 protected:
 	friend class XApplication;
 	friend class XButton;
 
-	unsigned maxPreviousLayoutHeight;
-	unsigned maxPreviousLayoutWidth;
-
 	static int _beginHeight;
 	static int _beginWidth;
+	static int _beginHeightMargins;
+	static int _beginWidthMargins;
+
 	static int _betweenVeticalApplets;
 	static int _betweenHorizontalApplets;
 	static int _appletId;
-	
+
 	int _count = 0;
 	static int _layoutId;
 
-	int id;
+	int id = 0;
 
 	static std::vector<int> _beginVerticalLayout;
 	static std::vector<int> _beginHorizontalLayout;
+	static std::vector<int> _maxHorizontalElement;
+	static std::vector<int> _maxVerticalElement;
 
-	LayoutDirection dir;										//Current direction.
+	LayoutDirection dir = LayoutDirection(0);										//Current direction.
 	virtual void deleteApplet(int) = 0;							//Delete some applet by id.
 	virtual void destroyedLayout() = 0;							//Clear layout and freeing up memory.
 	virtual void activate() = 0;								//By default -> true;

@@ -26,12 +26,16 @@
     <ClCompile Include="XButton.cpp" />
     <ClCompile Include="XComboBox.cpp" />
     <ClCompile Include="XEvent.cpp" />
+    <ClCompile Include="xhandle.cpp" />
     <ClCompile Include="XHLayout.cpp" />
     <ClCompile Include="XLayout.cpp" />
     <ClCompile Include="XMainWindow.cpp" />
+    <ClCompile Include="XSize.cpp" />
     <ClCompile Include="XString.cpp" />
     <ClCompile Include="XVLayout.cpp" />
     <ClCompile Include="XWindow.cpp" />
+    <ClCompile Include="XWindowFlags.cpp" />
+    <ClCompile Include="XWindowType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -42,14 +46,18 @@
     <ClInclude Include="XComboBox.h" />
     <ClInclude Include="XDebug.h" />
     <ClInclude Include="XEvent.h" />
+    <ClInclude Include="xhandle.h" />
     <ClInclude Include="XHLayout.h" />
     <ClInclude Include="XLayout.h" />
     <ClInclude Include="XMainWindow.h" />
     <ClInclude Include="XParams.h" />
+    <ClInclude Include="XSize.h" />
     <ClInclude Include="XString.h" />
     <ClInclude Include="XTypes.h" />
     <ClInclude Include="XVLayout.h" />
     <ClInclude Include="XWindow.h" />
+    <ClInclude Include="XWindowFlags.h" />
+    <ClInclude Include="XWindowType.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
@@ -61,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource.aps" />
+    <None Include="RuleSet.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="WinX.manifest" />
@@ -119,6 +128,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -131,16 +142,18 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <CallingConvention>Cdecl</CallingConvention>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

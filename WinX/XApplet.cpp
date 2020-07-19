@@ -1,10 +1,12 @@
 #include "XApplet.h"
 
-HWND XApplet::windowHandle() {
-	if (applet)
-		return applet;
-	else
+XHANDLE* XApplet::windowHandle() {
+	if (this->applet)
+		return this->applet;
+	else{
 		OutLine("You have a empty applet. Check the pointer.");
+		return nullptr;
+	}
 }
 
 void XApplet::windowUpdate()
@@ -12,50 +14,129 @@ void XApplet::windowUpdate()
 	windowUpdate();
 }
 
-void XApplet::setWindowIcon(XTypes::XIcon) {
-
+XWindowType XApplet::windowType()
+{
+	return this->_type;
 }
 
-void XApplet::setWindowOpacity(float) {
-
-}
-void XApplet::setFixedHeight(int) {
-
-}
-void XApplet::setFixedSize(XTypes::XSize) {
-
-}
-void XApplet::setFixedSize(int, int) {
-
-}
-void XApplet::activateWindow() {
-
+void XApplet::setWindowType(DWORD _type)
+{
+	this->_type.setType(_type);
 }
 
+void XApplet::setWindowTitle(XString _title)
+{
+	_windowTitle = _title;
+}
+
+XString XApplet::windowTitle()
+{
+	return _windowTitle;
+}
+
+XSize XApplet::iconSize()
+{
+	return XSize();
+}
+
+void XApplet::setWindowState(XTypes::XWindowState windowState)
+{
+	this->_windowState = windowState;
+}
+
+XSize XApplet::size()
+{
+	return XSize(applet->window->_minimumHeight, applet->window->_minimumWidth);
+}
+
+XSize XApplet::sizeIncrement()
+{
+	return XSize();
+}
+
+void XApplet::setBaseSize(XSize)
+{
+	//No implementation.
+}
+
+void XApplet::setBaseSize(int, int)
+{
+	//No implementation.
+}
+
+XWindowFlags XApplet::windowFlags()
+{
+	return this->_flags;
+}
+
+XTypes::XIcon XApplet::windowIcon()
+{
+	return XTypes::XIcon();
+}
+
+XTypes::XWindowState XApplet::windowState()
+{
+	return _windowState;
+}
+
+void XApplet::setWindowIcon(XTypes::XIcon)
+{
+	//No implementation.
+}
+
+void XApplet::setFixedHeight(int _minimumHeight)
+{
+	this->_fixedHeightState = true;
+
+	applet->window->_minimumHeight = _minimumHeight;
+}
+
+void XApplet::setFixedWidth(int _minimumWidth)
+{
+	this->_fixedWidthState = true;
+
+	applet->window->_minimumWidth = _minimumWidth;
+}
 
 XTypes::XMargins XApplet::margins() {
-	return _margins;
+	return applet->window->_margins;
+}
+
+void XApplet::setFixedSize(XSize _fixedSize)
+{
+	this->_fixedSizeState = true;
+
+	applet->window->_minimumHeight = _fixedSize.height();
+	applet->window->_minimumWidth = _fixedSize.width();
+}
+
+void XApplet::setFixedSize(int _height, int _width)
+{
+	this->_fixedSizeState = true;
+
+	applet->window->_minimumHeight = _height;
+	applet->window->_minimumWidth = _width;
 }
 
 void XApplet::setMinimumWidth(int width)
 {
-	this->_minimumWidth = width;
+	applet->window->_minimumWidth = width;
 }
 
 void XApplet::setMinimumHeight(int height)
 {
-	this->_minimumHeight = height;
+	applet->window->_minimumHeight = height;
 }
 
 void XApplet::setMaximumHeight(int height)
 {
-	this->_maximumHeight = height;
+	applet->window->_maximumHeight = height;
 }
 
-void XApplet::setMaximumSize(XTypes::XSize size)
+void XApplet::setMaximumSize(XSize size)
 {
-	this->_maximumWidth = size.widht;
-	this->_maximumHeight = size.height;
+	applet->window->_maximumWidth = size.width();
+	applet->window->_maximumHeight = size.height();
 }
 
 void XApplet::setMaximumSize(int width, int height)
@@ -63,71 +144,100 @@ void XApplet::setMaximumSize(int width, int height)
 
 }
 
+int XApplet::height()
+{
+	return applet->window->_minimumHeight;
+}
+
+int XApplet::width()
+{
+	return applet->window->_minimumWidth;
+}
+
+void XApplet::updateSize()
+{
+	this->_width = applet->window->_minimumWidth + applet->window->_maximumWidth;
+	this->_height = applet->window->_minimumHeight + applet->window->_maximumHeight;
+
+	this->_x = applet->window->_minimumWidth;
+	this->_y = applet->window->_minimumHeight;
+}
+
+void XApplet::setMargins(int _left, int _top, int _right, int _bottom) {
+	applet->window->_margins.left = _left;
+	applet->window->_margins.top = _top;
+	applet->window->_margins.right = _right;
+	applet->window->_margins.bottom = _bottom;
+}
+
+void XApplet::setWindowOpacity(float opacity)
+{
+	//No implementation.
+}
+
+float XApplet::windowOpacity()
+{
+	//No implementation.
+	return 0.0f;
+}
+
+void XApplet::setPosition(int x, int y) {
+	this->_fixedPosition = true;
+
+	this->_x = x;
+	this->_y = y;
+}
+
+void XApplet::activateWindow()
+{
+	this->_flags.setFlags(WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON);
+}
+
 void XApplet::setMaximumWidth(int width)
 {
-	this->_maximumWidth = width;
+	applet->window->_maximumWidth = width;
 }
 
 void XApplet::setMinimumSize(int width, int height)
 {
-	this->_minimumWidth = width;
-	this->_minimumHeight = height;
+	applet->window->_minimumWidth = width;
+	applet->window->_minimumHeight = height;
 }
 
-void XApplet::setMinimumSize(XTypes::XSize size)
+void XApplet::setMinimumSize(XSize size)
 {
-	this->_minimumWidth = size.widht;
-	this->_minimumHeight = size.height;
+	applet->window->_minimumWidth = size.width();
+	applet->window->_minimumHeight = size.height();
 }
 
 int XApplet::maximumHeight()
 {
-	return _minimumHeight;
+	return applet->window->_minimumHeight;
 }
 
-XTypes::XSize XApplet::maximumSize()
+XSize XApplet::maximumSize()
 {
-	XTypes::XSize size;
-	size.widht = this->_maximumWidth;
-	size.height = this->_maximumHeight;
-	return size;
+	return XSize(applet->window->_maximumHeight, applet->window->_maximumWidth);
 }
-
-//XTypes::XMargins XApplet::margins() {
-//	return this->_margins;
-//}
-
-//void XApplet::setMargins(XTypes::XMargins margins)
-//{
-//	this->_margins = margins;
-//}
-//
-//void XApplet::setMargins(int left, int top, int right, int bottom)
-//{
-//	this->_margins = {left, top, right, bottom};
-//}
 
 int XApplet::maximumWidth()
 {
-	return _maximumWidth;
+	return applet->window->_maximumWidth;
 }
 
 int XApplet::minimumHeight()
 {
-	return _minimumHeight;
+	return applet->window->_minimumHeight;
 }
 
-XTypes::XSize XApplet::minimumSize()
+XSize XApplet::minimumSize()
 {
-	XTypes::XSize size;
-	size.widht = this->_minimumWidth;
-	size.height = this->_minimumHeight;
-	return size;
+	return XSize(applet->window->_minimumHeight, applet->window->_minimumWidth);
 }
 
 int XApplet::minimumWidth()
 {
-	return _minimumWidth;
+	return applet->window->_minimumWidth;
 }
 
 XTypes::XRect XApplet::frameGeomtry()
@@ -135,7 +245,7 @@ XTypes::XRect XApplet::frameGeomtry()
 	return {_x, _y, _width, _height};
 }
 
-void XApplet::setText(LPCSTR text) {
+void XApplet::setText(XString text) {
 	this->_text = text;
 }
 
@@ -154,14 +264,7 @@ bool XApplet::isWindow()
 	return this->_isWindow;
 }
 
+void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool firstElem) {
 
+}
 
-
-//void XApplet::updateSize()
-//{
-//	/*this->_width = this->_minimumWidth + this->_maximumWidth;
-//	this->_height = this->_minimumHeight + this->_maximumHeight;
-//
-//	this->_x = this->_minimumWidth;
-//	this->_y = this->_minimumHeight;*/
-//}

@@ -55,6 +55,18 @@
     <Filter Include="Исходные файлы\XCore\XString">
       <UniqueIdentifier>{6563862a-ecd4-494d-b224-3c8f94bd1e72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\XCore\kernel">
+      <UniqueIdentifier>{ff7ab55c-244c-4adc-bc25-5ba6494518c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XTypes\XWindowFlags">
+      <UniqueIdentifier>{78eee68d-f5bb-4a3a-9c08-22e866306a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XTypes\XWindowType">
+      <UniqueIdentifier>{f2b9df61-0f8f-4c7e-b3f0-8a4860bf509b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XTypes\XSize">
+      <UniqueIdentifier>{c4c7a6e7-db9a-47a5-b5a3-b8e188a26fb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinX.cpp">
@@ -95,6 +107,18 @@
     </ClCompile>
     <ClCompile Include="XMainWindow.cpp">
       <Filter>Исходные файлы\XCore</Filter>
+    </ClCompile>
+    <ClCompile Include="xhandle.cpp">
+      <Filter>Исходные файлы\XCore\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="XWindowFlags.cpp">
+      <Filter>Исходные файлы\XCore\XTypes\XWindowFlags</Filter>
+    </ClCompile>
+    <ClCompile Include="XWindowType.cpp">
+      <Filter>Исходные файлы\XCore\XTypes\XWindowType</Filter>
+    </ClCompile>
+    <ClCompile Include="XSize.cpp">
+      <Filter>Исходные файлы\XCore\XTypes\XSize</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +170,18 @@
     <ClInclude Include="XParams.h">
       <Filter>Исходные файлы\XCore</Filter>
     </ClInclude>
+    <ClInclude Include="xhandle.h">
+      <Filter>Исходные файлы\XCore\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="XWindowFlags.h">
+      <Filter>Исходные файлы\XCore\XTypes\XWindowFlags</Filter>
+    </ClInclude>
+    <ClInclude Include="XWindowType.h">
+      <Filter>Исходные файлы\XCore\XTypes\XWindowType</Filter>
+    </ClInclude>
+    <ClInclude Include="XSize.h">
+      <Filter>Исходные файлы\XCore\XTypes\XSize</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -166,6 +202,9 @@
   <ItemGroup>
     <None Include="Resource.aps">
       <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="RuleSet.ruleset">
+      <Filter>Исходные файлы</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
