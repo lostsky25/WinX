@@ -10,17 +10,17 @@ class XHLayout : protected XLayout
 {
 public:
 	XHLayout();
-	~XHLayout();
+	~XHLayout() = default;
 
-	int _beginWidth = 0;
+	int beginWidth = 0;
 
 	template <class T>
-	void addApplet(T* _applet) {
+	void addApplet(T* object) {
 		if (std::is_same<T, XButton>::value) {
 			++_count;
-			waitingButtonts.emplace_back(_applet);
+			waitingButtonts.emplace_back(object);
 			
-			XLayout::_properties.push_back(std::make_pair(_applet->applet->window->_rect, _applet->applet->window->_margins));
+			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
 		}

@@ -6,7 +6,7 @@
 #include "XMainWindow.h"
 
 #include "XVLayout.h"
-#include "XEvent.h"
+#include "XObject.h"
 
 //using namespace XTypes;
 
@@ -14,11 +14,11 @@ void foo2() {
 	OutputDebugStringA("Clicked2\r\n");
 }
 
-class ExplorerDialog : public XEvent
+class ExplorerDialog : public XObject
 {
 public:
 	ExplorerDialog(XApplication& parent);
-	~ExplorerDialog();
+	~ExplorerDialog() = default;
 
 	void clicked() override {
 		OutputDebugStringA("Clicked1\r\n");
@@ -30,11 +30,11 @@ public:
 	}
 };
 
-class MyClass2 : public XEvent
+class MyClass2 : public XObject
 {
 public:
 	MyClass2(XApplication& parent);
-	~MyClass2();
+	~MyClass2() = default;
 
 	void clicked() override {
 		OutputDebugStringA("Clicked2\r\n");
@@ -45,11 +45,11 @@ public:
 	}
 };
 
-class MyClass3 : public XEvent
+class MyClass3 : public XObject
 {
 public:
 	MyClass3(XApplication& parent);
-	~MyClass3();
+	~MyClass3() = default;
 
 	void clicked() override {
 		OutputDebugStringA("Clicked3\r\n");
@@ -65,17 +65,9 @@ ExplorerDialog::ExplorerDialog(XApplication& parent)// : parent(parent)
 
 }
 
-ExplorerDialog::~ExplorerDialog()
-{
-}
-
 MyClass2::MyClass2(XApplication& parent)// : parent(parent)
 {
 
-}
-
-MyClass2::~MyClass2()
-{
 }
 
 MyClass3::MyClass3(XApplication& parent)// : parent(parent)
@@ -83,17 +75,13 @@ MyClass3::MyClass3(XApplication& parent)// : parent(parent)
 
 }
 
-MyClass3::~MyClass3()
-{
-}
-
 XMainWindow::XMainWindow(XParams xParams) {
 	Application = new XApplication(xParams);
 	//Application->setWindowOpacity(0.2);
 
-	//ExplorerDialog* explorerDialog = new ExplorerDialog(*Application);
-	//MyClass2* m = new MyClass2(*Application);
-	//MyClass3* m2 = new MyClass3(*Application);
+	ExplorerDialog* explorerDialog = new ExplorerDialog(*Application);
+	MyClass2* m = new MyClass2(*Application);
+	MyClass3* m2 = new MyClass3(*Application);
 	
 	XButton* btn4 = new XButton();
 	XButton* btn5 = new XButton();
@@ -169,9 +157,9 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 	Application->setCursor(CURSOR_CROSSHAIR);
 	
-	/*Application->setClickedEvent<XButton, ExplorerDialog>(*btn, explorerDialog, &ExplorerDialog::clicked);
+	Application->setClickedEvent<XButton, ExplorerDialog>(*btn, explorerDialog, &ExplorerDialog::clicked);
 	Application->setClickedEvent<XButton, MyClass3>(*btn3, m2, &MyClass3::clicked);
-	Application->setClickedEvent<XButton, MyClass2>(*btn2, m, &MyClass2::clicked);*/
+	Application->setClickedEvent<XButton, MyClass2>(*btn2, m, &MyClass2::clicked);
 
 	//Application->setClickedEvent<XButton, MyClass2>(*btn, m, &MyClass2::clicked);
 	//Application->setClickedEvent<XButton, ExplorerDialog>(*btn2, explorerDialog, &ExplorerDialog::clicked);

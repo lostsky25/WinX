@@ -6,6 +6,8 @@
 #include "XWindowType.h"
 #include "XSize.h"
 #include "XString.h"
+#include "XMargins.h"
+#include "XRect.h"
 
 #include <WinUser.h>
 
@@ -38,32 +40,6 @@ namespace XTypes{
 		
 	}XWindowType;
 
-
-	typedef struct _XMargins {
-		//private:
-			int left = 0;
-			int top = 0;
-			int right = 0;
-			int bottom = 0;
-			
-		//public:
-			_XMargins(){}
-			_XMargins(int left, int top, int right, int bottom) :
-				left(left),
-				top(top),
-				right(right),
-				bottom(bottom)
-			{
-				if (left < 0 || top < 0 || right < 0 || bottom < 0)
-				{
-					OutLine("You should use absolute values for XMargins.");
-				}
-			}
-
-
-
-	}XMargins;
-
 	typedef struct _XLayoutDirection {
 		_XLayoutDirection() {}
 	}XLayoutDirection;
@@ -72,21 +48,6 @@ namespace XTypes{
 		_XLayout() {}
 	}XLayout;
 
-	typedef struct _XRect {
-		int x = 0;
-		int y = 0;
-		int right = 0;
-		int bottom = 0;
-		
-		_XRect(){}
-		_XRect(int x, int y, int right, int bottom) :
-			x(x),
-			y(y),
-			right(right),
-			bottom(bottom)
-		{
-		}
-	}XRect;
 
 	typedef struct _XCursor {
 		private:

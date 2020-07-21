@@ -2,12 +2,10 @@
 #include "XApplication.h"
 
 #include "XParams.h"
-//#define XDebug
-
 #include "XApplication.h"
 
 #include "XParams.h"
-#include "XEvent.h"
+#include "XObject.h"
 
 class XMainWindow
 {

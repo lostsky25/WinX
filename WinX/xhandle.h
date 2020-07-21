@@ -1,20 +1,37 @@
 #pragma once
 
-#include <Windows.h>
-#include <memory>
-#include "XTypes.h"
+#if _WIN32 || _WIN64
+	#if _WIN64
+		#define _AMD64_
+	#else
+		#define _X86_
+	#endif
+#endif
+
+
+#include <windef.h>													//For HWND.
+#include "XTypes.h"													//For XMargins, XRect.
 
 class __xhandle
 {
-public:
-	HWND _wnd;
-	XTypes::XMargins _margins;					//Window margins (left, top, right, bottom).
-	XTypes::XRect _rect;							//Window rectangle (x, y, right, bottom).
+private:
+	HWND _wnd;														//The main window handle.
+	XMargins margins;												//Window margins (left, top, right, bottom).
+	XRect rect;												//Window rectangle (x, y, right, bottom).
 
-	int _maximumHeight = 0;											//Maximum window height.
-	int _maximumWidth = 0;											//Maximum window width.
-	int _minimumHeight = 0;											//Minimum window height.
-	int _minimumWidth = 0;											//Minimum window width.
+	int maximumHeight = 0;											//Maximum window height.
+	int maximumWidth = 0;											//Maximum window width.
+	int minimumHeight = 0;											//Minimum window height.
+	int minimumWidth = 0;											//Minimum window width.
+
+protected:
+	friend class XButton;
+	friend class XVLayout;
+	friend class XHLayout;
+	friend class XApplet;
+	friend class XApplication;
+	friend class XApplicationProc;
+	friend class XHANDLE;
 };
 
 class XHANDLE

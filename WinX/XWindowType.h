@@ -4,6 +4,7 @@
 class XWindowType
 {
 public:
+	XWindowType();
 	XWindowType(DWORD);
 
 	DWORD type();

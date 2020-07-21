@@ -1,5 +1,9 @@
 #include "XWindowType.h"
 
+XWindowType::XWindowType() {
+
+}
+
 XWindowType::XWindowType(DWORD _type) : _type(_type)
 {
 	this->_type = _type;

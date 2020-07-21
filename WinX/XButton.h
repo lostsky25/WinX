@@ -8,7 +8,7 @@ public:
 	XButton();
 	~XButton();
 	
-	virtual void setApplet(XHANDLE*, XLayout*, int, bool) override;
+	void setApplet(XHANDLE*, XLayout*, int, bool);
 
 protected:
 	friend class XApplication;

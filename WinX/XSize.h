@@ -6,15 +6,15 @@ public:
 	XSize(unsigned, unsigned);
 	~XSize();
 
-	int height();
-	int width();
+	unsigned height();
+	unsigned width();
 
-	void setHeight(int);
-	void setWidth(int);
+	void setHeight(unsigned);
+	void setWidth(unsigned);
 
 private:
-	int _height = 0;
-	int _width = 0;
+	unsigned _height = 0;
+	unsigned _width = 0;
 
 };
 

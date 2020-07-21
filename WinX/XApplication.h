@@ -38,6 +38,7 @@ class XApplication : XApplet
 public:
 	XApplication();
 	XApplication(XParams xParams);
+	~XApplication() = default;
 
 	template <class T, class U>
 	void setClickedEvent(T& applet, U* object, void (U::* pProc)()) {

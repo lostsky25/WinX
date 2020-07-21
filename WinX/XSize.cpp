@@ -2,11 +2,11 @@
 
 XSize::XSize()
 {
-	this->_height = 0;
-	this->_width = 0;
+	_height = 0;
+	_width = 0;
 }
 
-XSize::XSize(unsigned _widht, unsigned _height) : _height(_height), _width(_width)
+XSize::XSize(unsigned widht, unsigned height) : _height(height), _width(_width)
 {
 
 }
@@ -15,22 +15,22 @@ XSize::~XSize()
 {
 }
 
-int XSize::height()
+unsigned XSize::height()
 {
-	return this->_height;
+	return _height;
 }
 
-int XSize::width()
+unsigned XSize::width()
 {
-	return this->_width;
+	return _width;
 }
 
-void XSize::setHeight(int _height)
+void XSize::setHeight(unsigned height)
 {
-	this->_height = _height;
+	_height = height;
 }
 
-void XSize::setWidth(int _width)
+void XSize::setWidth(unsigned width)
 {
-	this->_width = _width;
+	_width = width;
 }

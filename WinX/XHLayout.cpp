@@ -1,12 +1,7 @@
 #include "XHLayout.h"
 
 XHLayout::XHLayout() {
-	//XLayout::_layoutId++;
 	dir = LayoutDirection::Horizontal;
-}
-
-XHLayout::~XHLayout() {
-
 }
 
 void XHLayout::deleteApplet(int index)

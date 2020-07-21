@@ -17,6 +17,8 @@ public:
 	size_t use_count;
 
 	std::allocator<WCHAR> al;
+
+	XString() = default;
 	
 	XString(LPCWSTR s) {
 		try

@@ -81,7 +81,7 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 	return 0;
 }
 
-XApplication::XApplication() {
+XApplication::XApplication(){
 	icex = { 0 };
 	WndClassEx = { 0 };
 	szClassName = L"XApplicationMainWindow";
@@ -91,7 +91,6 @@ XApplication::XApplication() {
 	nCmdShow = 0;
 	firstElem = false;
 }
-
 
 XApplication::XApplication(XParams xParams) {
 	icex = { 0 };
@@ -161,14 +160,14 @@ void XApplication::setLayout(XVLayout* layout) {
 	//Extract applets from layouts.
 	while (!layout->waitingButtonts.empty()) {
 		//Fixed position check.
-		if (layout->waitingButtonts.front()->_fixedPosition) 
+		if (layout->waitingButtonts.front()->fixedPosition) 
 			throw std::invalid_argument("This applet has a \"fixed status\".");
 
-		XLayout::_beginHeight += layout->waitingButtonts.front()->applet->window->_margins.top;
+		XLayout::_beginHeight += layout->waitingButtonts.front()->applet->window->margins.top();
 
 		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
 
-		XLayout::_beginHeight += layout->waitingButtonts.front()->applet->window->_minimumHeight + layout->waitingButtonts.front()->applet->window->_margins.bottom;
+		XLayout::_beginHeight += layout->waitingButtonts.front()->applet->window->minimumHeight + layout->waitingButtonts.front()->applet->window->margins.bottom();
 
 		if (firstElem) {
 			firstElem = !firstElem;
@@ -186,24 +185,24 @@ void XApplication::setLayout(XHLayout* layout) {
 	XLayout::_beginHorizontalLayout.push_back(layout->_beginWidth);
 
 	//Extract applets from layouts.
-	if (layout->waitingButtonts.front()->_fixedPosition)
+	if (layout->waitingButtonts.front()->fixedPosition)
 		throw std::invalid_argument("This applet has a \"fixed status\".");
 
 	//Find the maximum height element with margins in current layout.
 	for (unsigned i = 0; i < layout->waitingButtonts.size(); i++) {
-		if (max < layout->waitingButtonts.at(i)->applet->window->_margins.top + layout->waitingButtonts.at(i)->applet->window->_minimumHeight + layout->waitingButtonts.at(i)->applet->window->_margins.bottom)
-			max = layout->waitingButtonts.at(i)->applet->window->_margins.top + layout->waitingButtonts.at(i)->applet->window->_minimumHeight + layout->waitingButtonts.at(i)->applet->window->_margins.bottom;
+		if (max < layout->waitingButtonts.at(i)->applet->window->margins.top() + layout->waitingButtonts.at(i)->applet->window->minimumHeight + layout->waitingButtonts.at(i)->applet->window->margins.bottom())
+			max = layout->waitingButtonts.at(i)->applet->window->margins.top() + layout->waitingButtonts.at(i)->applet->window->minimumHeight + layout->waitingButtonts.at(i)->applet->window->margins.bottom();
 	}
 
 	while (!layout->waitingButtonts.empty()) {
 		//Fixed position check.
-		if (layout->waitingButtonts.front()->_fixedPosition) {
+		if (layout->waitingButtonts.front()->fixedPosition) {
 			throw std::invalid_argument("This applet has a \"fixed status\".");
 		}
 
 		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
 
-		XLayout::_betweenHorizontalApplets += layout->waitingButtonts.front()->applet->window->_minimumWidth;
+		XLayout::_betweenHorizontalApplets += layout->waitingButtonts.front()->applet->window->minimumWidth;
 
 		//if (firstElem) {
 		//	firstElem = !firstElem;

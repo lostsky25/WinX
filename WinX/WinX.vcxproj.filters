@@ -46,9 +46,6 @@
     <Filter Include="Исходные файлы\XCore\XApplet\XComboBox">
       <UniqueIdentifier>{f101041c-e3f6-4665-be0d-db212e6b05d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\XCore\XEvent">
-      <UniqueIdentifier>{f16dc3ce-077b-443d-8243-4a2455391507}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\XCore\XTypes">
       <UniqueIdentifier>{91309307-ca29-4c46-b31c-299859918a91}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,15 @@
     </Filter>
     <Filter Include="Исходные файлы\XCore\XTypes\XSize">
       <UniqueIdentifier>{c4c7a6e7-db9a-47a5-b5a3-b8e188a26fb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XTypes\XMargins">
+      <UniqueIdentifier>{240031bc-f474-4195-a31f-307a8be8dd19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XTypes\XRect">
+      <UniqueIdentifier>{808c489b-1326-4c4b-910c-2f5fb7de0cc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\kernel\XObject">
+      <UniqueIdentifier>{f16dc3ce-077b-443d-8243-4a2455391507}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +105,6 @@
     <ClCompile Include="XComboBox.cpp">
       <Filter>Исходные файлы\XCore\XApplet\XComboBox</Filter>
     </ClCompile>
-    <ClCompile Include="XEvent.cpp">
-      <Filter>Исходные файлы\XCore\XEvent</Filter>
-    </ClCompile>
     <ClCompile Include="XString.cpp">
       <Filter>Исходные файлы\XCore\XString</Filter>
     </ClCompile>
@@ -119,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="XSize.cpp">
       <Filter>Исходные файлы\XCore\XTypes\XSize</Filter>
+    </ClCompile>
+    <ClCompile Include="XMargins.cpp">
+      <Filter>Исходные файлы\XCore\XTypes\XMargins</Filter>
+    </ClCompile>
+    <ClCompile Include="XRect.cpp">
+      <Filter>Исходные файлы\XCore\XTypes\XRect</Filter>
+    </ClCompile>
+    <ClCompile Include="XObject.cpp">
+      <Filter>Исходные файлы\XCore\kernel\XObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +167,6 @@
     <ClInclude Include="XComboBox.h">
       <Filter>Исходные файлы\XCore\XApplet\XComboBox</Filter>
     </ClInclude>
-    <ClInclude Include="XEvent.h">
-      <Filter>Исходные файлы\XCore\XEvent</Filter>
-    </ClInclude>
     <ClInclude Include="XTypes.h">
       <Filter>Исходные файлы\XCore\XTypes</Filter>
     </ClInclude>
@@ -181,6 +190,15 @@
     </ClInclude>
     <ClInclude Include="XSize.h">
       <Filter>Исходные файлы\XCore\XTypes\XSize</Filter>
+    </ClInclude>
+    <ClInclude Include="XMargins.h">
+      <Filter>Исходные файлы\XCore\XTypes\XMargins</Filter>
+    </ClInclude>
+    <ClInclude Include="XRect.h">
+      <Filter>Исходные файлы\XCore\XTypes\XRect</Filter>
+    </ClInclude>
+    <ClInclude Include="XObject.h">
+      <Filter>Исходные файлы\XCore\kernel\XObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

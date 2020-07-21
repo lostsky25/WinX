@@ -4,11 +4,6 @@ XVLayout::XVLayout() {
 	dir = LayoutDirection::Vertical;
 }
 
-XVLayout::~XVLayout()
-{
-
-}
-
 void XVLayout::deleteApplet(int index)
 {
 }

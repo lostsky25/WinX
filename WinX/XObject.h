@@ -1,6 +1,6 @@
 #pragma once
 
-class XEvent
+class XObject
 {
 public:
 	virtual void clicked() = 0;
