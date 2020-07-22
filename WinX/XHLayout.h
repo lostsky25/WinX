@@ -13,6 +13,7 @@ public:
 	~XHLayout() = default;
 
 	int beginWidth = 0;
+	int _count;
 
 	template <class T>
 	void addApplet(T* object) {
@@ -20,6 +21,12 @@ public:
 			++_count;
 			waitingButtonts.emplace_back(object);
 			
+			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
+		}
+		else if (std::is_same<T, XLabel>::value) {
+			++_count;
+			waitingLabels.emplace_back(reinterpret_cast<XLabel*>(object));
+
 			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
@@ -31,10 +38,11 @@ public:
 	virtual void destroyedLayout() override;
 	virtual void activate() override;
 	virtual void addSpacing(int) override;
-	virtual int count() override;
+	//virtual int count() override;
 
 private:
 	std::vector<XButton*> waitingButtonts;
+	std::vector<XLabel*> waitingLabels;
 	std::vector<XComboBox*> waitingComboBox;
 
 protected:

@@ -20,7 +20,7 @@ void XVLayout::addSpacing(int space)
 {
 }
 
-int XVLayout::count()
-{
-	return _count;
-}
+//int XVLayout::count()
+//{
+//	return _count;
+//}

@@ -20,7 +20,7 @@ void XHLayout::addSpacing(int space)
 {
 }
 
-int XHLayout::count()
-{
-	return _count;
-}
+//int XHLayout::count()
+//{
+//	return _count;
+//}

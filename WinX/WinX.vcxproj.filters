@@ -73,6 +73,9 @@
     <Filter Include="Исходные файлы\XCore\kernel\XObject">
       <UniqueIdentifier>{f16dc3ce-077b-443d-8243-4a2455391507}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\XCore\XApplet\XLabel">
+      <UniqueIdentifier>{5b6d8965-f515-49f2-aa03-04d84b2d026f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinX.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="XObject.cpp">
       <Filter>Исходные файлы\XCore\kernel\XObject</Filter>
+    </ClCompile>
+    <ClCompile Include="XLabel.cpp">
+      <Filter>Исходные файлы\XCore\XApplet\XLabel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="XObject.h">
       <Filter>Исходные файлы\XCore\kernel\XObject</Filter>
+    </ClInclude>
+    <ClInclude Include="XLabel.h">
+      <Filter>Исходные файлы\XCore\XApplet\XLabel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

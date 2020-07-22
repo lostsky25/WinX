@@ -1,6 +1,6 @@
-#include "XButton.h"
+#include "XLabel.h"
 
-XButton::XButton() {
+XLabel::XLabel() {
 	XApplet::applet = new XHANDLE();
 	XWindow::enabled = 0;
 	XWindow::focus = 0;
@@ -12,17 +12,17 @@ XButton::XButton() {
 	XWindow::flags.setFlags(WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON);
 }
 
-XButton::~XButton() {
+XLabel::~XLabel() {
 	delete XApplet::applet;
 }
 
-void XButton::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool firstElem) {
+void XLabel::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool firstElem) {
 
 	////////////////////////////////////////////////////////////////////
 	//XLayout::_beginHeight += this->_margins.top;
 	////////////////////////////////////////////////////////////////////
 
-	if(!fixedPosition){
+	if (!fixedPosition) {
 		switch (layout->dir)
 		{
 		case LayoutDirection::None:
@@ -43,7 +43,7 @@ void XButton::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 			}
 
 			XLayout::appletId++;
-		
+
 			break;
 		case LayoutDirection::Horizontal:
 			applet->window->rect.setRight(applet->window->minimumWidth);
@@ -63,40 +63,29 @@ void XButton::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 		}
 
 		//USES_CONVERSION;
-
-		applet->window->_wnd = CreateWindowExW(
-			XWindow::flags.extendedFlags(),												//Extended styles.
-			L"BUTTON",																	//Predefined class; Unicode assumed.
-			text.getData(),																	//Button text.
-			XWindow::flags.flags(),														//Styles.
-			(layout->dir == LayoutDirection::Horizontal ? XLayout::betweenHorizontalApplets : 0),																	//x position.
+		applet->window->_wnd = CreateWindowExW(0, L"static", L"ST_U",
+			WS_CHILD | WS_VISIBLE | WS_TABSTOP,
+			(layout->dir == LayoutDirection::Horizontal ? XLayout::betweenHorizontalApplets : 0),										//x position.
 			(layout->dir == LayoutDirection::Horizontal ? XLayout::beginHeight + applet->window->margins.top() :
 				XLayout::beginHeight + applet->window->margins.top()),																	//y position.
-			applet->window->minimumWidth,																//Button width.
-			applet->window->minimumHeight,																//Button height.
-			parent->window->_wnd,														//Parent window.
-			(HMENU)BN_CLICKED,															//No menu.
-			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
-			NULL);																		//Pointer not needed.
-
+			applet->window->minimumWidth,																								//Label width.
+			applet->window->minimumHeight,																								//Label height.
+			parent->window->_wnd, (HMENU)(501),
+			(HINSTANCE)GetWindowLong(parent->window->_wnd, GWLP_HINSTANCE), NULL);
+		SetWindowText(applet->window->_wnd, text.getData());
 	}
 	else {
 		//USES_CONVERSION;
-
-		applet->window->_wnd = CreateWindowExW(
-			XWindow::flags.extendedFlags(),												//Extended styles.
-			L"BUTTON",																	//Predefined class; Unicode assumed.
-			text.getData(),																	//Button text.
-			XWindow::flags.flags(),														//Styles.
+		applet->window->_wnd = CreateWindowExW(0, L"static", L"ST_U",
+			WS_CHILD | WS_VISIBLE | WS_TABSTOP,
 			applet->window->rect.x(),																	//x position.
 			applet->window->rect.y(),																	//y position.
 			applet->window->minimumWidth,																//Button width.
 			applet->window->minimumHeight,																//Button height.
-			parent->window->_wnd,														//Parent window.
-			(HMENU)BN_CLICKED,															//No menu.
-			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
-			NULL);																		//Pointer not needed.
-		//SetLayeredWindowAttributes(applet->window->_wnd, 0, 200, LWA_ALPHA);
+			parent->window->_wnd,																		//Parent window.
+			(HMENU)(501),
+			(HINSTANCE)GetWindowLong(parent->window->_wnd, GWLP_HINSTANCE), NULL);
+		SetWindowText(applet->window->_wnd, text.getData());
 	}
 }
 

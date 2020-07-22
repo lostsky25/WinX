@@ -22,6 +22,7 @@ public:
 protected:
 	friend class XApplication;
 	friend class XButton;
+	friend class XLabel;
 
 	static int beginHeight;
 	static int beginWidth;
@@ -48,5 +49,5 @@ protected:
 	virtual void activate() = 0;																//By default -> true;
 	virtual void addSpacing(int) = 0;															//Set spacing between applets.
 	
-	virtual int count() = 0;																	//Get count of applets in the layout.
+	//virtual int count() = 0;																	//Get count of applets in the layout.
 };

@@ -24,6 +24,7 @@ public:
 	static std::pair<HINSTANCE, LPCWSTR> mainCursor;
 	static std::vector<std::pair<XHANDLE*, std::unique_ptr<XObject>>> XTypes;
 	static std::vector<XHANDLE*> XButtonMessages;
+	static std::vector<XHANDLE*> XLabelMessages;
 	static std::vector<XHANDLE*> XComboBoxMessages;
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 };

@@ -12,6 +12,7 @@
 #include <algorithm>
 
 #include "XButton.h"
+#include "XLabel.h"
 #include "XComboBox.h"
 #include "XParams.h"
 
@@ -70,6 +71,9 @@ public:
 
 		if (std::is_same<T, XButton>::value) {
 			XApplicationProc::XButtonMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
+		}
+		else if (std::is_same<T, XLabel>::value) {
+			XApplicationProc::XLabelMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
 			XApplicationProc::XComboBoxMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
