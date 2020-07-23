@@ -77,15 +77,13 @@ public:
 	friend void swap(XString& first, XString& second)
 	{
 		using std::swap;
-		std::swap(first.data, second.data);
-		std::swap(first.size, second.size);
+		swap(first.data, second.data);
+		swap(first.size, second.size);
 	}
-	
-	
 
-
-protected:
-	friend class XButton;
+	~XString() {
+		al.destroy(data);
+	}
 };
 //
 //std::ostream& operator<<(std::ostream& os, XString& str) {

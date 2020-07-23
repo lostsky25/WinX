@@ -231,6 +231,27 @@ void XApplication::setLayout(XHLayout* layout) {
 
 		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
 	}
+
+	//XLabel
+	while (!layout->waitingLabels.empty()) {
+		//Fixed position check.
+		if (layout->waitingLabels.front()->fixedPosition)
+			throw std::invalid_argument("This applet has a \"fixed status\".");
+
+#define FONT_SIZE 14
+		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->margins.top() + FONT_SIZE;
+
+		layout->waitingLabels.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+
+		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->minimumHeight + layout->waitingLabels.front()->applet->window->margins.bottom();
+
+		if (firstElem) {
+			firstElem = !firstElem;
+		}
+
+		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
+	}
+
 	XLayout::beginWidth = 0;
 	XLayout::beginHeight += max;
 	XLayout::betweenHorizontalApplets = 0;

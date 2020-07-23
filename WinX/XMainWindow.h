@@ -2,9 +2,6 @@
 #include "XApplication.h"
 
 #include "XParams.h"
-#include "XApplication.h"
-
-#include "XParams.h"
 
 class XMainWindow
 {

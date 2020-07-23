@@ -4,6 +4,14 @@ XApplet::~XApplet() {
 	delete applet;
 }
 
+void XApplet::clicked() {
+
+}
+
+void XApplet::released() {
+
+}
+
 XHANDLE* XApplet::windowHandle() {
 	if (applet)
 		return applet;

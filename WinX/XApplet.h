@@ -9,11 +9,6 @@
 
 #include "XLayout.h"
 
-//////////
-//#include "XHLayout.h"
-//#include "XVLayout.h"
-//////////
-
 #include "XTypes.h"
 #include "XString.h"
 #include "XDebug.h"
@@ -54,7 +49,6 @@ public:
 	void setWindowName(XString);
 	void setMargins(int, int, int, int);
 
-
 	XWindowType windowType();
 	void setWindowType(DWORD);
 	bool isFullScreen();
@@ -67,24 +61,18 @@ public:
 	void setFixedSize(int, int);
 	void activateWindow();
 
-	virtual void clicked() {
-
-	}
-
-	virtual void released() {
-
-	}
+	virtual void clicked();
+	virtual void released();
 
 	int width();
 	int height();
 
 protected:
 	XHANDLE* applet;														//Applet handle.
-	XString text;												//Text in applet (this parameter use in XButton etc.).
-	XTypes::XCursor cursor;												//Cursor when hovering the applet.
-	std::vector<std::pair<XRect, XMargins>> _properties;
+	XString text;															//Text in applet (this parameter use in XButton etc.).
+	XTypes::XCursor cursor;													//Cursor when hovering the applet.
 	
-	void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...
+	virtual void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...
 
 	friend class XApplication;
 	friend class XHLayout;
