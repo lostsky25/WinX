@@ -1,10 +1,14 @@
 #include "XApplet.h"
 
+XApplet::~XApplet() {
+	delete applet;
+}
+
 XHANDLE* XApplet::windowHandle() {
 	if (applet)
 		return applet;
 	else{
-		OutLine("You have a empty applet. Check the pointer.");
+		OutLine("You have an empty applet. Check the pointer.");
 		return nullptr;
 	}
 }

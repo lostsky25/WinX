@@ -70,9 +70,6 @@
     <Filter Include="Исходные файлы\XCore\XTypes\XRect">
       <UniqueIdentifier>{808c489b-1326-4c4b-910c-2f5fb7de0cc5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\XCore\kernel\XObject">
-      <UniqueIdentifier>{f16dc3ce-077b-443d-8243-4a2455391507}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\XCore\XApplet\XLabel">
       <UniqueIdentifier>{5b6d8965-f515-49f2-aa03-04d84b2d026f}</UniqueIdentifier>
     </Filter>
@@ -131,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="XRect.cpp">
       <Filter>Исходные файлы\XCore\XTypes\XRect</Filter>
-    </ClCompile>
-    <ClCompile Include="XObject.cpp">
-      <Filter>Исходные файлы\XCore\kernel\XObject</Filter>
     </ClCompile>
     <ClCompile Include="XLabel.cpp">
       <Filter>Исходные файлы\XCore\XApplet\XLabel</Filter>
@@ -202,9 +196,6 @@
     </ClInclude>
     <ClInclude Include="XRect.h">
       <Filter>Исходные файлы\XCore\XTypes\XRect</Filter>
-    </ClInclude>
-    <ClInclude Include="XObject.h">
-      <Filter>Исходные файлы\XCore\kernel\XObject</Filter>
     </ClInclude>
     <ClInclude Include="XLabel.h">
       <Filter>Исходные файлы\XCore\XApplet\XLabel</Filter>

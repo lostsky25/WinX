@@ -6,7 +6,6 @@
 #include "XMainWindow.h"
 
 #include "XVLayout.h"
-#include "XObject.h"
 
 //using namespace XTypes;
 
@@ -14,7 +13,7 @@ void foo2() {
 	OutputDebugStringA("Clicked2\r\n");
 }
 
-class ExplorerDialog : public XObject
+class ExplorerDialog : public XApplet
 {
 public:
 	ExplorerDialog(XApplication& parent);
@@ -30,7 +29,7 @@ public:
 	}
 };
 
-class MyClass2 : public XObject
+class MyClass2 : public XApplet
 {
 public:
 	MyClass2(XApplication& parent);
@@ -45,7 +44,7 @@ public:
 	}
 };
 
-class MyClass3 : public XObject
+class MyClass3 : public XApplet
 {
 public:
 	MyClass3(XApplication& parent);

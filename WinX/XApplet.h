@@ -1,5 +1,5 @@
 #pragma once
-#define ISOLATION_AWARE_ENABLED 1
+//#define ISOLATION_AWARE_ENABLED 1
 #include <Windows.h>
 #include <commctrl.h>
 #include <atlbase.h>
@@ -24,6 +24,7 @@ class XLayout;
 class XApplet : public XWindow
 {
 public:
+	virtual ~XApplet();
 
 	XHANDLE* windowHandle();
 
@@ -65,6 +66,14 @@ public:
 	void setFixedSize(XSize);
 	void setFixedSize(int, int);
 	void activateWindow();
+
+	virtual void clicked() {
+
+	}
+
+	virtual void released() {
+
+	}
 
 	int width();
 	int height();

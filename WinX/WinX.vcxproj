@@ -26,7 +26,6 @@
     <ClCompile Include="XButton.cpp" />
     <ClCompile Include="XComboBox.cpp" />
     <ClCompile Include="XLabel.cpp" />
-    <ClCompile Include="XObject.cpp" />
     <ClCompile Include="xhandle.cpp" />
     <ClCompile Include="XHLayout.cpp" />
     <ClCompile Include="XLayout.cpp" />
@@ -49,7 +48,6 @@
     <ClInclude Include="XComboBox.h" />
     <ClInclude Include="XDebug.h" />
     <ClInclude Include="XLabel.h" />
-    <ClInclude Include="XObject.h" />
     <ClInclude Include="xhandle.h" />
     <ClInclude Include="XHLayout.h" />
     <ClInclude Include="XLayout.h" />

@@ -5,7 +5,6 @@
 #include "XApplication.h"
 
 #include "XParams.h"
-#include "XObject.h"
 
 class XMainWindow
 {
