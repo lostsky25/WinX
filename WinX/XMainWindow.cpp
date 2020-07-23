@@ -94,30 +94,30 @@ XMainWindow::XMainWindow(XParams xParams) {
 	XLabel* lb1 = new XLabel();
 
 	lb1->setMinimumSize(50, 20);
-	lb1->setText(L"Some text:");
+	lb1->setWindowName(L"Some text:");
 
 	btn->setMinimumSize(200, 20);
-	btn->setText(L"Open explorer");
+	btn->setWindowName(L"Open explorer");
 
 	//btn->setWindowOpacity(0.9);
 
 	btn2->setMinimumSize(200, 234);
-	btn2->setText(L"btn2");
+	btn2->setWindowName(L"btn2");
 
 	btn3->setMinimumSize(500, 50);
-	btn3->setText(L"btn3");
+	btn3->setWindowName(L"btn3");
 
 		btn4->setMinimumSize(250, 123);
-		btn4->setText(L"btn4");
+		btn4->setWindowName(L"btn4");
 
 	btn5->setMinimumSize(200, 50);
-	btn5->setText(L"btn5");
+	btn5->setWindowName(L"btn5");
 
 		btn6->setMinimumSize(500, 126);
-		btn6->setText(L"btn6");
+		btn6->setWindowName(L"btn6");
 
 		btn7->setMinimumSize(500, 126);
-		btn7->setText(L"btn7");
+		btn7->setWindowName(L"btn7");
 
 	btn->setMargins(0, 10, 0, 30);
 	btn2->setMargins(0, 10, 0, 10);

@@ -50,7 +50,7 @@ public:
 
 	XMargins margins();
 	void setPosition(int, int);
-	void setText(XString);
+	void setWindowName(XString);
 	void setMargins(int, int, int, int);
 
 
@@ -75,6 +75,10 @@ protected:
 	XTypes::XCursor cursor;												//Cursor when hovering the applet.
 	std::vector<std::pair<XRect, XMargins>> _properties;
 	
-	virtual void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...
+	void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...
+
+	friend class XApplication;
+	friend class XHLayout;
+	friend class XVLayout;
 };
 

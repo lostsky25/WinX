@@ -2,9 +2,10 @@
 #include <map>
 #include <queue>
 
-#include "XApplet.h"
+//#include "XApplet.h"
 #include "XTypes.h"
 
+class XApplet;
 class XButton;
 class XComboBox;
 
@@ -21,6 +22,8 @@ public:
 
 protected:
 	friend class XApplication;
+	friend class XApplet;
+	//
 	friend class XButton;
 	friend class XLabel;
 
