@@ -4,91 +4,60 @@
 #include <exception>
 #include <memory>
 #include <Windows.h>
+#include <atomic>
 
 #pragma warning (disable : 4996)
 
+class impl_xstring {
+	wchar_t* data;
+	size_t size;
+	size_t useCount;
+
+	friend class XString;
+};
+
 class XString
 {
+	impl_xstring* impl;
 public:
-
-	LPCWSTR data;
-	size_t size;
-	size_t capacity;
-	size_t use_count;
-
-	std::allocator<WCHAR> al;
-
-	XString() = default;
-	
-	XString(LPCWSTR s) {
-		try
-		{
-			size = lstrlen(s) + 1;
-			data = al.allocate(size);
-			if (data) {
-				++use_count;
-				//wcscpy((wchar_t*)data, (wchar_t*)s);
-				data = s;
-			}	
-		}
-		catch (const std::exception& e)
-		{
-			OutputDebugStringA(e.what());
-		}
+	XString() {
+		impl = new impl_xstring();
+		++impl->useCount;
 	}
 
-	XString(const XString& obj) : size(lstrlen(obj.data) + 1), data(new WCHAR[size]) {
-		try
-		{
-			size = lstrlen(obj.data) + 1;
-			data = al.allocate(size);
-			if (data) {
-				++use_count;
-				//std::copy(obj.data, obj.data + size, data);
-				//wcscpy((wchar_t*)data, (wchar_t*)obj.data);
-				data = obj.data;
-			}
-		}
-		catch (const std::exception& e)
-		{
-			OutputDebugStringA(e.what());
-		}
+	XString(const XString& s) : impl(s.impl) {
+		++impl->useCount;
+		//std::cout << "0x" << impl << " " << impl->useCount << std::endl;
+	}
+	XString(const wchar_t* s) {
+		impl = new impl_xstring();
+		++impl->useCount;
+		//std::cout << "0x" << impl << " " << impl->useCount << std::endl;
+		impl->size = lstrlen(s) +1;
+		impl->data = new wchar_t[impl->size + 1];
+		wcscpy_s(impl->data, impl->size, s);
 	}
 
-	size_t getSize() {
-		return size;
+	size_t getSize() const {
+		return impl->size;
 	}
 
-	LPCWSTR getData() {
-		return data;
+	wchar_t* getData() const {
+		return impl->data;
 	}
 
-	operator LPCWSTR () {
-		return data;
-	}
-
-	XString& operator=(const LPCWSTR other)
+	XString& operator=(const WCHAR* other)
 	{
-		XString tmp(other);
-		swap(tmp, *this);
+		XString tmp = other;
+		std::swap(*this, tmp);
 		return *this;
 	}
 
-	friend void swap(XString& first, XString& second)
-	{
-		using std::swap;
-		swap(first.data, second.data);
-		swap(first.size, second.size);
-	}
-
 	~XString() {
-		al.destroy(data);
+		--impl->useCount;
+		//std::cout << "0x" << impl << " " << impl->useCount << std::endl;
+		if (!impl->useCount) {
+			//delete impl;
+		}
 	}
 };
-//
-//std::ostream& operator<<(std::ostream& os, XString& str) {
-//	if (!str.getData())
-//		return (os << "");
-//	os << str.getData();
-//	return os;
-//}
