@@ -26,6 +26,7 @@ private:
 
 protected:
 	friend class XButton;
+	friend class XComboBox;
 	friend class XLabel;
 	friend class XVLayout;
 	friend class XHLayout;
@@ -46,6 +47,7 @@ private:
 
 protected:
 	friend class XButton;
+	friend class XComboBox;
 	friend class XLabel;
 	friend class XVLayout;
 	friend class XHLayout;

@@ -196,6 +196,25 @@ void XApplication::setLayout(XVLayout* layout) {
 		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
 	}
 
+	//XComboBox
+	while (!layout->waitingComboBox.empty()) {
+		//Fixed position check.
+		if (layout->waitingComboBox.front()->fixedPosition)
+			throw std::invalid_argument("This applet has a \"fixed status\".");
+
+		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
+
+		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+
+		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
+
+		if (firstElem) {
+			firstElem = !firstElem;
+		}
+
+		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
+	}
+
 	XLayout::betweenVeticalApplets = 0;
 }
 
@@ -250,6 +269,25 @@ void XApplication::setLayout(XHLayout* layout) {
 		}
 
 		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
+	}
+
+	//XComboBox
+	while (!layout->waitingComboBox.empty()) {
+		//Fixed position check.
+		if (layout->waitingComboBox.front()->fixedPosition)
+			throw std::invalid_argument("This applet has a \"fixed status\".");
+
+		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
+
+		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+
+		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
+
+		if (firstElem) {
+			firstElem = !firstElem;
+		}
+
+		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
 	}
 
 	XLayout::beginWidth = 0;

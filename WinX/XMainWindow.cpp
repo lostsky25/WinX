@@ -91,9 +91,13 @@ XMainWindow::XMainWindow(XParams xParams) {
 	XButton* btn3 = new XButton();
 
 	XLabel* lb1 = new XLabel();
+	XComboBox* box1 = new XComboBox();
 
 	lb1->setMinimumSize(50, 20);
 	lb1->setWindowName(L"Some text:");
+
+	box1->setMinimumSize(50, 50);
+	//box1->setWindowName(L"Box");
 
 	btn->setMinimumSize(200, 20);
 	btn->setWindowName(L"Open explorer");
@@ -128,10 +132,11 @@ XMainWindow::XMainWindow(XParams xParams) {
 		btn7->setMargins(0, 10, 0, 15);
 
 	XVLayout* lv = new XVLayout();
+	lv->addApplet<XComboBox>(box1);
 	lv->addApplet<XButton>(btn);
 	lv->addApplet<XButton>(btn2);
 	lv->addApplet<XButton>(btn3);
-	lv->addApplet<XLabel>(lb1);
+	//lv->addApplet<XLabel>(lb1);
 
 	XVLayout* lv2 = new XVLayout();
 	lv2->addApplet<XButton>(btn5);

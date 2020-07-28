@@ -30,6 +30,10 @@ public:
 			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
+			++_count;
+			waitingComboBox.emplace_back(reinterpret_cast<XComboBox*>(object));
+
+			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
 		}
 	}
 
