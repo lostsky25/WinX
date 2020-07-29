@@ -73,6 +73,9 @@
     <Filter Include="Исходные файлы\XCore\XApplet\XLabel">
       <UniqueIdentifier>{5b6d8965-f515-49f2-aa03-04d84b2d026f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\XCore\Dispether">
+      <UniqueIdentifier>{16d96671-af64-40e6-9593-26b8af149196}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinX.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="XLabel.cpp">
       <Filter>Исходные файлы\XCore\XApplet\XLabel</Filter>
+    </ClCompile>
+    <ClCompile Include="Dispether.cpp">
+      <Filter>Исходные файлы\XCore\Dispether</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="XLabel.h">
       <Filter>Исходные файлы\XCore\XApplet\XLabel</Filter>
+    </ClInclude>
+    <ClInclude Include="Dispether.h">
+      <Filter>Исходные файлы\XCore\Dispether</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

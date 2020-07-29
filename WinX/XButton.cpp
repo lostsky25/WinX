@@ -2,6 +2,7 @@
 
 XButton::XButton() {
 	XApplet::applet = new XHANDLE();
+	XApplet::disp = new Dispether();
 	XWindow::enabled = 0;
 	XWindow::focus = 0;
 	XWindow::fixedPosition = false;
@@ -15,6 +16,7 @@ XButton::XButton() {
 }
 
 XButton::~XButton() {
+	delete XApplet::disp;
 	delete XApplet::applet;
 }
 

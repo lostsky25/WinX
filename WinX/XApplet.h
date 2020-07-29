@@ -14,6 +14,8 @@
 #include "XDebug.h"
 #include "XWindow.h"
 
+#include "dispether.h"
+
 class XLayout;
 
 class XApplet : public XWindow
@@ -66,12 +68,13 @@ public:
 
 	int width();
 	int height();
+	Dispether* disp;
 
 protected:
 	XHANDLE* applet;														//Applet handle.
 	XString text;															//Text in applet (this parameter use in XButton etc.).
 	XTypes::XCursor cursor;													//Cursor when hovering the applet.
-	
+
 	virtual void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...
 
 	friend class XApplication;

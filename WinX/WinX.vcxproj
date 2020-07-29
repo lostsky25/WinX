@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Dispether.cpp" />
     <ClCompile Include="WinX.cpp" />
     <ClCompile Include="XApplet.cpp" />
     <ClCompile Include="XApplication.cpp" />
@@ -40,6 +41,7 @@
     <ClCompile Include="XWindowType.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dispether.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="XApplet.h" />
     <ClInclude Include="XApplication.h" />

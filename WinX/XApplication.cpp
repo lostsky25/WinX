@@ -19,6 +19,9 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 	//Base* b = types[0]();
 	
 	switch (uMsg) {
+	case WM_CREATE:
+
+		break;
 	case WM_NOTIFY:
 		
 		break;
@@ -74,11 +77,9 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
-	default:
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
-	return 0;
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 XApplication::XApplication(){
@@ -136,6 +137,8 @@ XApplication::XApplication(XParams xParams) {
 	}
 
 	XApplicationMainWindow->window->_wnd = CreateWindowEx(WS_EX_TRANSPARENT, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, (HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL);
+
+	//SetWindowLongPtrW(btn, GWLP_WNDPROC, (LONG_PTR)SubclassWindowProc);
 	/*
 		CS_ - Опция стиля класса
 		CW_ - Опция создания окна

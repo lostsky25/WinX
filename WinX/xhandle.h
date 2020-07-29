@@ -34,6 +34,7 @@ protected:
 	friend class XApplication;
 	friend class XApplicationProc;
 	friend class XHANDLE;
+	friend class Dispether;
 };
 
 class XHANDLE
@@ -54,4 +55,5 @@ protected:
 	friend class XApplet;
 	friend class XApplication;
 	friend class XApplicationProc;
+	friend class Dispether;
 };

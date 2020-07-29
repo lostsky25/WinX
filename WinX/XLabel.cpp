@@ -2,6 +2,7 @@
 
 XLabel::XLabel() {
 	XApplet::applet = new XHANDLE();
+	XApplet::disp = new Dispether();
 	XWindow::enabled = 0;
 	XWindow::focus = 0;
 	XWindow::fixedPosition = false;
@@ -15,5 +16,6 @@ XLabel::XLabel() {
 }
 
 XLabel::~XLabel() {
+	delete XApplet::disp;
 	delete XApplet::applet;
 }

@@ -90,6 +90,13 @@ public:
 	void setLayout(XHLayout*);
 	void setLayout(XVLayout*);
 
+	void applySubClasses() {
+		for (size_t i = 0; i < Dispether::waitingSubclasses.size(); i++)
+		{
+			SetWindowSubclass(Dispether::waitingSubclasses.at(i).first->window->_wnd, Dispether::waitingSubclasses.at(i).second, ++Dispether::subProcId, NULL);
+		}
+	}
+
 private:
 	INITCOMMONCONTROLSEX icex;
 

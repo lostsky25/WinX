@@ -24,6 +24,28 @@ public:
 		
 	}
 
+	static LRESULT CALLBACK OwnerDrawButtonProc(HWND hWnd, UINT uMsg, WPARAM wParam,
+		LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+	{
+		switch (uMsg)
+		{
+		case WM_MOUSEMOVE:
+			//SetCursor(LoadCursor(NULL, IDC_HAND));
+			break;
+
+		case WM_LBUTTONDOWN:
+			//MessageBoxA(hWnd, "Button down!", 0, 0);
+			OutputDebugStringA("adsad");
+			break;
+
+		case WM_NCDESTROY:
+			RemoveWindowSubclass(hWnd, &OwnerDrawButtonProc, 1);
+			break;
+		}
+
+		return DefSubclassProc(hWnd, uMsg, wParam, lParam);
+	}
+
 	void released() override {
 
 	}
@@ -131,6 +153,8 @@ XMainWindow::XMainWindow(XParams xParams) {
 		btn6->setMargins(0, 50, 0, 10);
 		btn7->setMargins(0, 10, 0, 15);
 
+		//btn->disp->setSubClass(btn->windowHandle(), ExplorerDialog::OwnerDrawButtonProc);
+
 	XVLayout* lv = new XVLayout();
 	lv->addApplet<XComboBox>(box1);
 	lv->addApplet<XButton>(btn);
@@ -167,7 +191,7 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 	Application->setCursor(CURSOR_CROSSHAIR);
 	
-	Application->setClickedEvent<XButton, ExplorerDialog>(*btn, explorerDialog, &ExplorerDialog::clicked);
+	//Application->setClickedEvent<XButton, ExplorerDialog>(*btn, explorerDialog, &ExplorerDialog::clicked);
 	Application->setClickedEvent<XButton, MyClass3>(*btn3, m2, &MyClass3::clicked);
 	Application->setClickedEvent<XButton, MyClass2>(*btn2, m, &MyClass2::clicked);
 
@@ -180,7 +204,9 @@ XMainWindow::XMainWindow(XParams xParams) {
 	Application->setLayout(lv3);
 	//Application->setLayout(lv6);
 	Application->setLayout(lv5);
+	//btn->disp->setSubClass(btn->windowHandle(), ::SubclassWindowProc);
 	//Application->setLayout(lv4);
 
+	Application->applySubClasses();
 	Application->windowUpdate();
 }
