@@ -77,6 +77,7 @@ protected:
 
 	virtual void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...
 
+	friend class XApplicationProc;
 	friend class XApplication;
 	friend class XHLayout;
 	friend class XVLayout;

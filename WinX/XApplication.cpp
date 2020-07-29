@@ -36,7 +36,7 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 		break;
 	
 	case WM_COMMAND:
-		for (unsigned i = 0; i < XApplicationProc::XComboBoxMessages.size(); i++) {
+		/*for (unsigned i = 0; i < XApplicationProc::XComboBoxMessages.size(); i++) {
 			switch (HIWORD(wParam))
 			{
 			case CBN_SELCHANGE:
@@ -48,7 +48,7 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 				break;
 			}
 			break;
-		}
+		}*/
 
 		//Event click
 		switch (LOWORD(wParam))
@@ -160,63 +160,83 @@ void XApplication::setLayout(XVLayout* layout) {
 	firstElem = true;
 	max = 0;
 
-	//Extract applets from layouts.
-	while (!layout->waitingButtonts.empty()) {
+
+	//Just XApplet.
+	while (!layout->XWaiting.empty()) {
 		//Fixed position check.
-		if (layout->waitingButtonts.front()->fixedPosition) 
+		if (layout->XWaiting.front()->fixedPosition)
 			throw std::invalid_argument("This applet has a \"fixed status\".");
 
-		XLayout::beginHeight += layout->waitingButtonts.front()->applet->window->margins.top();
+		XLayout::beginHeight += layout->XWaiting.front()->applet->window->margins.top();
 
-		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+		layout->XWaiting.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
 
-		XLayout::beginHeight += layout->waitingButtonts.front()->applet->window->minimumHeight + layout->waitingButtonts.front()->applet->window->margins.bottom();
+		XLayout::beginHeight += layout->XWaiting.front()->applet->window->minimumHeight + layout->XWaiting.front()->applet->window->margins.bottom();
 
 		if (firstElem) {
 			firstElem = !firstElem;
 		}
 
-		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
+		layout->XWaiting.erase(std::find(layout->XWaiting.begin(), layout->XWaiting.end(), layout->XWaiting.front()));
 	}
 
-	//XLabel
-	while (!layout->waitingLabels.empty()) {
-		//Fixed position check.
-		if (layout->waitingLabels.front()->fixedPosition)
-			throw std::invalid_argument("This applet has a \"fixed status\".");
-
-#define FONT_SIZE 14
-		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->margins.top() + FONT_SIZE;
-
-		layout->waitingLabels.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-
-		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->minimumHeight + layout->waitingLabels.front()->applet->window->margins.bottom();
-
-		if (firstElem) {
-			firstElem = !firstElem;
-		}
-
-		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
-	}
-
-	//XComboBox
-	while (!layout->waitingComboBox.empty()) {
-		//Fixed position check.
-		if (layout->waitingComboBox.front()->fixedPosition)
-			throw std::invalid_argument("This applet has a \"fixed status\".");
-
-		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
-
-		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-
-		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
-
-		if (firstElem) {
-			firstElem = !firstElem;
-		}
-
-		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
-	}
+//	//Extract applets from layouts.
+//	while (!layout->waitingButtonts.empty()) {
+//		//Fixed position check.
+//		if (layout->waitingButtonts.front()->fixedPosition) 
+//			throw std::invalid_argument("This applet has a \"fixed status\".");
+//
+//		XLayout::beginHeight += layout->waitingButtonts.front()->applet->window->margins.top();
+//
+//		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+//
+//		XLayout::beginHeight += layout->waitingButtonts.front()->applet->window->minimumHeight + layout->waitingButtonts.front()->applet->window->margins.bottom();
+//
+//		if (firstElem) {
+//			firstElem = !firstElem;
+//		}
+//
+//		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
+//	}
+//
+//	//XLabel
+//	while (!layout->waitingLabels.empty()) {
+//		//Fixed position check.
+//		if (layout->waitingLabels.front()->fixedPosition)
+//			throw std::invalid_argument("This applet has a \"fixed status\".");
+//
+//#define FONT_SIZE 14
+//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->margins.top() + FONT_SIZE;
+//
+//		layout->waitingLabels.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+//
+//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->minimumHeight + layout->waitingLabels.front()->applet->window->margins.bottom();
+//
+//		if (firstElem) {
+//			firstElem = !firstElem;
+//		}
+//
+//		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
+//	}
+//
+//	//XComboBox
+//	while (!layout->waitingComboBox.empty()) {
+//		//Fixed position check.
+//		if (layout->waitingComboBox.front()->fixedPosition)
+//			throw std::invalid_argument("This applet has a \"fixed status\".");
+//
+//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
+//
+//		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+//
+//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
+//
+//		if (firstElem) {
+//			firstElem = !firstElem;
+//		}
+//
+//		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
+//	}
 
 	XLayout::betweenVeticalApplets = 0;
 }
@@ -228,70 +248,96 @@ void XApplication::setLayout(XHLayout* layout) {
 	XLayout::beginHorizontalLayout.push_back(layout->beginWidth);
 
 	//Extract applets from layouts.
-	if (layout->waitingButtonts.front()->fixedPosition)
+	//if (layout->waitingButtonts.front()->fixedPosition)
+	//	throw std::invalid_argument("This applet has a \"fixed status\".");
+
+	if (layout->XWaiting.front()->fixedPosition)
 		throw std::invalid_argument("This applet has a \"fixed status\".");
 
 	//Find the maximum height element with margins in current layout.
-	for (unsigned i = 0; i < layout->waitingButtonts.size(); i++) {
+	/*for (unsigned i = 0; i < layout->waitingButtonts.size(); i++) {
 		if (max < layout->waitingButtonts.at(i)->applet->window->margins.top() + layout->waitingButtonts.at(i)->applet->window->minimumHeight + layout->waitingButtonts.at(i)->applet->window->margins.bottom())
 			max = layout->waitingButtonts.at(i)->applet->window->margins.top() + layout->waitingButtonts.at(i)->applet->window->minimumHeight + layout->waitingButtonts.at(i)->applet->window->margins.bottom();
+	}*/
+
+	for (unsigned i = 0; i < layout->XWaiting.size(); i++) {
+		if (max < layout->XWaiting.at(i)->applet->window->margins.top() + layout->XWaiting.at(i)->applet->window->minimumHeight + layout->XWaiting.at(i)->applet->window->margins.bottom())
+			max = layout->XWaiting.at(i)->applet->window->margins.top() + layout->XWaiting.at(i)->applet->window->minimumHeight + layout->XWaiting.at(i)->applet->window->margins.bottom();
 	}
 
-	while (!layout->waitingButtonts.empty()) {
+	while (!layout->XWaiting.empty()) {
 		//Fixed position check.
-		if (layout->waitingButtonts.front()->fixedPosition) {
+		if (layout->XWaiting.front()->fixedPosition) {
 			throw std::invalid_argument("This applet has a \"fixed status\".");
 		}
 
-		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+		layout->XWaiting.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
 
-		XLayout::betweenHorizontalApplets += layout->waitingButtonts.front()->applet->window->minimumWidth;
+		XLayout::betweenHorizontalApplets += layout->XWaiting.front()->applet->window->minimumWidth;
 
 		//if (firstElem) {
 		//	firstElem = !firstElem;
 		//}
 
-		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
+		layout->XWaiting.erase(std::find(layout->XWaiting.begin(), layout->XWaiting.end(), layout->XWaiting.front()));
 	}
 
-	//XLabel
-	while (!layout->waitingLabels.empty()) {
-		//Fixed position check.
-		if (layout->waitingLabels.front()->fixedPosition)
-			throw std::invalid_argument("This applet has a \"fixed status\".");
-
-#define FONT_SIZE 14
-		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->margins.top() + FONT_SIZE;
-
-		layout->waitingLabels.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-
-		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->minimumHeight + layout->waitingLabels.front()->applet->window->margins.bottom();
-
-		if (firstElem) {
-			firstElem = !firstElem;
-		}
-
-		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
-	}
-
-	//XComboBox
-	while (!layout->waitingComboBox.empty()) {
-		//Fixed position check.
-		if (layout->waitingComboBox.front()->fixedPosition)
-			throw std::invalid_argument("This applet has a \"fixed status\".");
-
-		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
-
-		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-
-		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
-
-		if (firstElem) {
-			firstElem = !firstElem;
-		}
-
-		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
-	}
+//
+//	while (!layout->waitingButtonts.empty()) {
+//		//Fixed position check.
+//		if (layout->waitingButtonts.front()->fixedPosition) {
+//			throw std::invalid_argument("This applet has a \"fixed status\".");
+//		}
+//
+//		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+//
+//		XLayout::betweenHorizontalApplets += layout->waitingButtonts.front()->applet->window->minimumWidth;
+//
+//		//if (firstElem) {
+//		//	firstElem = !firstElem;
+//		//}
+//
+//		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
+//	}
+//
+//	//XLabel
+//	while (!layout->waitingLabels.empty()) {
+//		//Fixed position check.
+//		if (layout->waitingLabels.front()->fixedPosition)
+//			throw std::invalid_argument("This applet has a \"fixed status\".");
+//
+//#define FONT_SIZE 14
+//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->margins.top() + FONT_SIZE;
+//
+//		layout->waitingLabels.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+//
+//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->minimumHeight + layout->waitingLabels.front()->applet->window->margins.bottom();
+//
+//		if (firstElem) {
+//			firstElem = !firstElem;
+//		}
+//
+//		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
+//	}
+//
+//	//XComboBox
+//	while (!layout->waitingComboBox.empty()) {
+//		//Fixed position check.
+//		if (layout->waitingComboBox.front()->fixedPosition)
+//			throw std::invalid_argument("This applet has a \"fixed status\".");
+//
+//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
+//
+//		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
+//
+//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
+//
+//		if (firstElem) {
+//			firstElem = !firstElem;
+//		}
+//
+//		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
+//	}
 
 	XLayout::beginWidth = 0;
 	XLayout::beginHeight += max;

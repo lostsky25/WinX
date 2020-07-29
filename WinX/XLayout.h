@@ -23,9 +23,6 @@ public:
 protected:
 	friend class XApplication;
 	friend class XApplet;
-	//
-	friend class XButton;
-	friend class XLabel;
 
 	static int beginHeight;
 	static int beginWidth;
@@ -45,6 +42,8 @@ protected:
 	static std::vector<int> beginHorizontalLayout;
 	static std::vector<int> maxHorizontalElement;
 	static std::vector<int> maxVerticalElement;
+
+	std::vector<XApplet*> XWaiting;
 
 	LayoutDirection dir = LayoutDirection(0);													//Current direction.
 	virtual void deleteApplet(int) = 0;															//Delete some applet by id.

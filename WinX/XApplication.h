@@ -33,6 +33,7 @@
 
 class XVLayout;
 class XHLayout;
+class XButton;
 
 class XApplication : XApplet
 {
@@ -41,15 +42,23 @@ public:
 	XApplication(XParams xParams);
 	~XApplication() = default;
 
+	//It needs change to connect function.
 	template <class T, class U>
-	void setClickedEvent(T& applet, U* object, void (U::* pProc)()) {
-		if (pProc != nullptr) {
-			XApplicationProc::XMapMessages<U>.push_back(std::make_tuple(applet.applet, object, pProc));
-			XApplicationProc::XTypes.emplace_back(applet.applet, object);
+	void connect(T* applet, U* object/*, void (U::* pProc)()*/) {
+		//if (pProc != nullptr) {
+			//XApplicationProc::XMapMessages<U>.push_back(std::make_tuple(applet->applet, object, pProc));
+			//XApplicationProc::XTypes.emplace_back(std::make_pair(applet->applet, object));
+			//XApplicationProc::XMessages.push_back(applet);
+		//}
+
+		if (applet && object) {
+			XApplicationProc::XTypes.emplace_back(std::make_pair(applet->applet, object));
 		}
 	}
 
 	void windowUpdate(void) {
+		applySubClasses();
+
 		while (GetMessage(&XApplicationMessage, NULL, 0, 0)) {
 			XApplicationProc::CurrentHandle = XApplicationMessage.hwnd;
 			TranslateMessage(&XApplicationMessage);
@@ -70,13 +79,16 @@ public:
 		applet->setApplet(XApplicationMainWindow, LayoutDirection::None, appletId++, false);
 
 		if (std::is_same<T, XButton>::value) {
-			XApplicationProc::XButtonMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
+			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			//XApplicationProc::XButtonMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XLabel>::value) {
-			XApplicationProc::XLabelMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
+			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			//XApplicationProc::XLabelMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
-			XApplicationProc::XComboBoxMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
+			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			//XApplicationProc::XComboBoxMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 	}
 

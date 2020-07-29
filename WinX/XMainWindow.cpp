@@ -21,7 +21,6 @@ public:
 
 	void clicked() override {
 		OutputDebugStringA("Clicked1\r\n");
-		
 	}
 
 	static LRESULT CALLBACK OwnerDrawButtonProc(HWND hWnd, UINT uMsg, WPARAM wParam,
@@ -39,7 +38,7 @@ public:
 			break;
 
 		case WM_NCDESTROY:
-			RemoveWindowSubclass(hWnd, &OwnerDrawButtonProc, 1);
+			RemoveWindowSubclass(hWnd, &OwnerDrawButtonProc, uIdSubclass);
 			break;
 		}
 
@@ -64,6 +63,8 @@ public:
 	void released() override {
 
 	}
+	friend class XApplicationProc;
+	friend class XApplication;
 };
 
 class MyClass3 : public XApplet
@@ -103,7 +104,7 @@ XMainWindow::XMainWindow(XParams xParams) {
 	ExplorerDialog* explorerDialog = new ExplorerDialog(*Application);
 	MyClass2* m = new MyClass2(*Application);
 	MyClass3* m2 = new MyClass3(*Application);
-	
+
 	XButton* btn4 = new XButton();
 	XButton* btn5 = new XButton();
 	XButton* btn = new XButton();
@@ -153,11 +154,11 @@ XMainWindow::XMainWindow(XParams xParams) {
 		btn6->setMargins(0, 50, 0, 10);
 		btn7->setMargins(0, 10, 0, 15);
 
-		//btn->disp->setSubClass(btn->windowHandle(), ExplorerDialog::OwnerDrawButtonProc);
+	btn->disp->setSubClass(btn->windowHandle(), ExplorerDialog::OwnerDrawButtonProc);
 
 	XVLayout* lv = new XVLayout();
-	lv->addApplet<XComboBox>(box1);
 	lv->addApplet<XButton>(btn);
+	lv->addApplet<XComboBox>(box1);
 	lv->addApplet<XButton>(btn2);
 	lv->addApplet<XButton>(btn3);
 	//lv->addApplet<XLabel>(lb1);
@@ -190,10 +191,10 @@ XMainWindow::XMainWindow(XParams xParams) {
 	//Application->appendApplet(btn);
 
 	Application->setCursor(CURSOR_CROSSHAIR);
-	
+
 	//Application->setClickedEvent<XButton, ExplorerDialog>(*btn, explorerDialog, &ExplorerDialog::clicked);
-	Application->setClickedEvent<XButton, MyClass3>(*btn3, m2, &MyClass3::clicked);
-	Application->setClickedEvent<XButton, MyClass2>(*btn2, m, &MyClass2::clicked);
+	Application->connect<XButton, MyClass3>(btn3, m2);
+	Application->connect<XButton, MyClass2>(btn2, m);
 
 	//Application->setClickedEvent<XButton, MyClass2>(*btn, m, &MyClass2::clicked);
 	//Application->setClickedEvent<XButton, ExplorerDialog>(*btn2, explorerDialog, &ExplorerDialog::clicked);
@@ -207,6 +208,6 @@ XMainWindow::XMainWindow(XParams xParams) {
 	//btn->disp->setSubClass(btn->windowHandle(), ::SubclassWindowProc);
 	//Application->setLayout(lv4);
 
-	Application->applySubClasses();
+	//Application->applySubClasses();
 	Application->windowUpdate();
 }

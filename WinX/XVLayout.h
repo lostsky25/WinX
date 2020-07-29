@@ -22,20 +22,22 @@ public:
 	void addApplet(T* object) {
 		if (std::is_same<T, XButton>::value) {
 			++_count;
-			waitingButtonts.emplace_back(reinterpret_cast<XButton*>(object));
-
+			//waitingButtonts.emplace_back(reinterpret_cast<XButton*>(object));
+			XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
 			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
 		}
 		else if (std::is_same<T, XLabel>::value) {
 			++_count;
-			waitingLabels.emplace_back(reinterpret_cast<XLabel*>(object));
+			//waitingLabels.emplace_back(reinterpret_cast<XLabel*>(object));
 
+			XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
 			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
 			++_count;
-			waitingComboBox.emplace_back(reinterpret_cast<XComboBox*>(object));
+			//waitingComboBox.emplace_back(reinterpret_cast<XComboBox*>(object));
 
+			XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
 			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
 		}
 	}
@@ -45,13 +47,6 @@ public:
 	virtual void destroyedLayout() override;
 	virtual void activate() override;
 	virtual void addSpacing(int) override;
-	//virtual int count() override;
-	
-private:
-	std::vector<XButton*> waitingButtonts;
-	std::vector<XLabel*> waitingLabels;
-	std::vector<XComboBox*> waitingComboBox;
-
 protected:
 	friend class XApplication;
 };
