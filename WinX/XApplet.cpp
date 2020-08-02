@@ -155,6 +155,11 @@ void XApplet::setFixedSize(int height, int width)
 	applet->window->minimumWidth = width;
 }
 
+void XApplet::setBorder()
+{
+	flags.addFlags(WS_BORDER);
+}
+
 void XApplet::setMinimumWidth(int width)
 {
 	applet->window->minimumWidth = width;
@@ -205,7 +210,7 @@ void XApplet::setPosition(int x, int y) {
 
 void XApplet::activateWindow()
 {
-	XWindow::flags.setFlags(WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON);
+	XWindow::flags.setFlags(WS_TABSTOP | WS_VISIBLE | WS_CHILD);
 }
 
 void XApplet::setMaximumWidth(int width)

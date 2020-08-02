@@ -14,6 +14,7 @@
 #include "XButton.h"
 #include "XLabel.h"
 #include "XComboBox.h"
+#include "XTextBox.h"
 #include "XParams.h"
 
 //#define CONNECT(T, APPLET, FPROC) Application->SetClickedEvent<T>(APPLET, FPROC)
@@ -87,6 +88,10 @@ public:
 			//XApplicationProc::XLabelMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
+			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			//XApplicationProc::XComboBoxMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
+		}
+		else if (std::is_same<T, XTextBox>::value) {
 			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
 			//XApplicationProc::XComboBoxMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}

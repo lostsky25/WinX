@@ -6,10 +6,10 @@ XWindowFlags::XWindowFlags()//(DWORD _flags) : _flags(_flags)
 
 DWORD XWindowFlags::extendedFlags()
 {
-	if (this->_extendedFlags == NULL)
-	{
-		throw std::invalid_argument("Extended flags value is empty.");
-	}
+	//if (this->_extendedFlags == NULL)
+	//{
+		//throw std::invalid_argument("Extended flags value is empty.");
+	//}
 
 	return this->_extendedFlags;
 }
@@ -24,15 +24,25 @@ void XWindowFlags::setExtendedFlags(DWORD _extendedFlags)
 {
 	this->_extendedFlags = _extendedFlags;
 
-	if (this->_extendedFlags == NULL)
-	{
-		throw std::invalid_argument("Flags value is empty.");
-	}
+	//if (this->_extendedFlags == NULL)
+	//{
+		//throw std::invalid_argument("Flags value is empty.");
+	//}
 }
 
 void XWindowFlags::setFlags(DWORD _flags)
 {
 	this->_flags = _flags;
+}
+
+void XWindowFlags::addExtendedFlags(DWORD _extendedFlags)
+{
+	this->_extendedFlags |= _extendedFlags;
+}
+
+void XWindowFlags::addFlags(DWORD _flags)
+{
+	this->_flags |= _flags;
 }
 
 XWindowFlags::~XWindowFlags()

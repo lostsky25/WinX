@@ -14,6 +14,9 @@ public:
 	void setExtendedFlags(DWORD);
 	void setFlags(DWORD);
 
+	void addExtendedFlags(DWORD);
+	void addFlags(DWORD);
+
 	~XWindowFlags();
 
 private:

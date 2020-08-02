@@ -4,10 +4,9 @@
 #define XDebug
 
 #include "XMainWindow.h"
-
 #include "XVLayout.h"
+#include "XThread.h"
 
-//using namespace XTypes;
 
 void foo2() {
 	OutputDebugStringA("Clicked2\r\n");
@@ -50,7 +49,7 @@ public:
 	}
 };
 
-class MyClass2 : public XApplet
+class MyClass2 : public XApplet, public XThread
 {
 public:
 	MyClass2(XApplication& parent);
@@ -58,13 +57,26 @@ public:
 
 	void clicked() override {
 		OutputDebugStringA("Clicked2\r\n");
+		startThread(run);
 	}
 
 	void released() override {
 
 	}
+
 	friend class XApplicationProc;
 	friend class XApplication;
+
+
+	// Унаследовано через XThread
+	static DWORD __stdcall run(LPVOID)
+	{
+		while (1) {
+			OutputDebugStringA("XThread\n");
+			Sleep(100);
+		}
+		return 0;
+	}
 };
 
 class MyClass3 : public XApplet
@@ -115,6 +127,12 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 	XLabel* lb1 = new XLabel();
 	XComboBox* box1 = new XComboBox();
+	XTextBox* textBox = new XTextBox();
+
+	
+	textBox->setMinimumSize(200, 20);
+	textBox->setWindowName(L"Some text");
+	textBox->setBorder();
 
 	lb1->setMinimumSize(50, 20);
 	lb1->setWindowName(L"Some text:");
@@ -154,16 +172,17 @@ XMainWindow::XMainWindow(XParams xParams) {
 		btn6->setMargins(0, 50, 0, 10);
 		btn7->setMargins(0, 10, 0, 15);
 
-	btn->disp->setSubClass(btn->windowHandle(), ExplorerDialog::OwnerDrawButtonProc);
+	//btn->disp->setSubClass(btn->windowHandle(), ExplorerDialog::OwnerDrawButtonProc);
 
 	XVLayout* lv = new XVLayout();
+	lv->addApplet<XTextBox>(textBox);
 	lv->addApplet<XButton>(btn);
-	lv->addApplet<XComboBox>(box1);
-	lv->addApplet<XButton>(btn2);
-	lv->addApplet<XButton>(btn3);
+	//lv->addApplet<XComboBox>(box1);
+	//lv->addApplet<XButton>(btn2);
+	//lv->addApplet<XButton>(btn3);
 	//lv->addApplet<XLabel>(lb1);
 
-	XVLayout* lv2 = new XVLayout();
+	/*XVLayout* lv2 = new XVLayout();
 	lv2->addApplet<XButton>(btn5);
 	lv2->addApplet<XButton>(btn6);
 	lv2->addApplet<XButton>(btn4);
@@ -181,12 +200,8 @@ XMainWindow::XMainWindow(XParams xParams) {
 	XHLayout* lv5 = new XHLayout();
 	lv5->addApplet<XButton>(btn6);
 	lv5->addApplet<XButton>(btn4);
-	lv5->addApplet<XButton>(btn7);
+	lv5->addApplet<XButton>(btn7);*/
 
-	//XVLayout* lv4 = new XVLayout();
-	//lv4->addApplet<XButton>(btn7);
-	//lv4->addApplet<XButton>(btn6);
-	//lv4->addApplet<XButton>(btn4);
 
 	//Application->appendApplet(btn);
 
@@ -202,9 +217,9 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 	Application->setLayout(lv);
 	//Application->setLayout(lv2);
-	Application->setLayout(lv3);
+	//Application->setLayout(lv3);
 	//Application->setLayout(lv6);
-	Application->setLayout(lv5);
+	//Application->setLayout(lv5);
 	//btn->disp->setSubClass(btn->windowHandle(), ::SubclassWindowProc);
 	//Application->setLayout(lv4);
 

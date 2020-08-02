@@ -35,6 +35,8 @@
     <ClCompile Include="XRect.cpp" />
     <ClCompile Include="XSize.cpp" />
     <ClCompile Include="XString.cpp" />
+    <ClCompile Include="XTextBox.cpp" />
+    <ClCompile Include="XThread.cpp" />
     <ClCompile Include="XVLayout.cpp" />
     <ClCompile Include="XWindow.cpp" />
     <ClCompile Include="XWindowFlags.cpp" />
@@ -59,6 +61,8 @@
     <ClInclude Include="XRect.h" />
     <ClInclude Include="XSize.h" />
     <ClInclude Include="XString.h" />
+    <ClInclude Include="XTextBox.h" />
+    <ClInclude Include="XThread.h" />
     <ClInclude Include="XTypes.h" />
     <ClInclude Include="XVLayout.h" />
     <ClInclude Include="XWindow.h" />

@@ -61,6 +61,7 @@ public:
 	XWindowFlags windowFlags();
 	void setFixedSize(XSize);
 	void setFixedSize(int, int);
+	void setBorder();
 	void activateWindow();
 
 	virtual void clicked();

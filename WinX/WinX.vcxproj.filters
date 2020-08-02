@@ -76,6 +76,12 @@
     <Filter Include="Исходные файлы\XCore\Dispether">
       <UniqueIdentifier>{16d96671-af64-40e6-9593-26b8af149196}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\XCore\XThread">
+      <UniqueIdentifier>{b65775b1-4779-4157-9fa5-bdf9c2e466e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\XCore\XApplet\XTextBox">
+      <UniqueIdentifier>{12804267-9fa7-4e8a-8913-e4a6b9ad079c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinX.cpp">
@@ -137,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="Dispether.cpp">
       <Filter>Исходные файлы\XCore\Dispether</Filter>
+    </ClCompile>
+    <ClCompile Include="XThread.cpp">
+      <Filter>Исходные файлы\XCore\XThread</Filter>
+    </ClCompile>
+    <ClCompile Include="XTextBox.cpp">
+      <Filter>Исходные файлы\XCore\XApplet\XTextBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +220,12 @@
     </ClInclude>
     <ClInclude Include="Dispether.h">
       <Filter>Исходные файлы\XCore\Dispether</Filter>
+    </ClInclude>
+    <ClInclude Include="XThread.h">
+      <Filter>Исходные файлы\XCore\XThread</Filter>
+    </ClInclude>
+    <ClInclude Include="XTextBox.h">
+      <Filter>Исходные файлы\XCore\XApplet\XTextBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
