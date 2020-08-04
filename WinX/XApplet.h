@@ -13,8 +13,9 @@
 #include "XString.h"
 #include "XDebug.h"
 #include "XWindow.h"
+#include "XApplicationProc.h"
 
-#include "dispether.h"
+#include "Dispether.h"
 
 class XLayout;
 
@@ -69,6 +70,9 @@ public:
 
 	int width();
 	int height();
+
+	void setOpacity(float);
+
 	Dispether* disp;
 
 protected:

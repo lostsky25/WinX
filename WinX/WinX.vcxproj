@@ -82,7 +82,7 @@
     <None Include="RuleSet.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="WinX.manifest" />
+    <Manifest Include="WinX.exe.manifest" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -179,6 +179,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>C:\Users\User\Documents\GitHub\WinX\WinX\WinX.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

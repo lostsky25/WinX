@@ -253,7 +253,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="WinX.manifest">
+    <Manifest Include="WinX.exe.manifest">
       <Filter>Файлы ресурсов</Filter>
     </Manifest>
   </ItemGroup>

@@ -84,6 +84,8 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
 			NULL);																									//Pointer not needed.
 
+		SetLayeredWindowAttributes(applet->window->_wnd, 0, 255, LWA_ALPHA);
+
 	}
 	else {
 		//USES_CONVERSION;
@@ -101,8 +103,13 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 			(HMENU)BN_CLICKED,																						//No menu.
 			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
 			NULL);																									//Pointer not needed.
-		//SetLayeredWindowAttributes(applet->window->_wnd, 0, 200, LWA_ALPHA);
+
+		SetLayeredWindowAttributes(applet->window->_wnd, 0, 255, LWA_ALPHA);
 	}
+}
+
+void XApplet::setOpacity(float opacity) {
+	XApplicationProc::waitingOpacity.emplace(applet, opacity);
 }
 
 XWindowType XApplet::windowType()
@@ -183,7 +190,8 @@ void XApplet::setMaximumSize(XSize size)
 
 void XApplet::setMaximumSize(int width, int height)
 {
-
+	applet->window->maximumWidth = width;
+	applet->window->maximumHeight = height;
 }
 
 int XApplet::height()

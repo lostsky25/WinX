@@ -9,7 +9,7 @@ XButton::XButton() {
 	XWindow::fixedSizeState = false;
 	XWindow::fixedHeightState = false;
 	XWindow::fixedWidthState = false;
-	XWindow::flags.setExtendedFlags(WS_EX_TRANSPARENT);
+	XWindow::flags.setExtendedFlags(WS_EX_LAYERED);
 	XWindow::flags.setFlags(WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON);
 	XApplet::className = L"BUTTON";
 	XApplet::windowName = L"";

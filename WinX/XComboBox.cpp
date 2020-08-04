@@ -9,7 +9,7 @@ XComboBox::XComboBox() {
 	XWindow::fixedSizeState = false;
 	XWindow::fixedHeightState = false;
 	XWindow::fixedWidthState = false;
-	XWindow::flags.setExtendedFlags(WS_EX_STATICEDGE);
+	XWindow::flags.setExtendedFlags(WS_EX_STATICEDGE | WS_EX_LAYERED);
 	XWindow::flags.setFlags(CBS_DROPDOWN | WS_CHILD | WS_VISIBLE);
 	XApplet::className = L"COMBOBOX";
 	XApplet::windowName = L"";

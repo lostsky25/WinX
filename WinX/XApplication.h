@@ -2,6 +2,9 @@
 
 #define ISOLATION_AWARE_ENABLED 1
 
+#define XWINDOWMINWIDTH 500
+#define XWINDOWMINHEIGHT 500
+
 //#include "xhandle.h"
 
 #include "XApplicationProc.h"
@@ -36,7 +39,7 @@ class XVLayout;
 class XHLayout;
 class XButton;
 
-class XApplication : XApplet
+class XApplication : public XWindow
 {
 public:
 	XApplication();
@@ -46,22 +49,19 @@ public:
 	//It needs change to connect function.
 	template <class T, class U>
 	void connect(T* applet, U* object/*, void (U::* pProc)()*/) {
-		//if (pProc != nullptr) {
-			//XApplicationProc::XMapMessages<U>.push_back(std::make_tuple(applet->applet, object, pProc));
-			//XApplicationProc::XTypes.emplace_back(std::make_pair(applet->applet, object));
-			//XApplicationProc::XMessages.push_back(applet);
-		//}
-
 		if (applet && object) {
 			XApplicationProc::XTypes.emplace_back(std::make_pair(applet->applet, object));
 		}
 	}
 
 	void windowUpdate(void) {
-		applySubClasses();
 
 		while (GetMessage(&XApplicationMessage, NULL, 0, 0)) {
 			XApplicationProc::CurrentHandle = XApplicationMessage.hwnd;
+
+			XApplicationProc::applyOpacity();
+			Dispether::applySubClasses();
+
 			TranslateMessage(&XApplicationMessage);
 			DispatchMessage(&XApplicationMessage);
 		}
@@ -107,12 +107,56 @@ public:
 	void setLayout(XHLayout*);
 	void setLayout(XVLayout*);
 
-	void applySubClasses() {
-		for (size_t i = 0; i < Dispether::waitingSubclasses.size(); i++)
-		{
-			SetWindowSubclass(Dispether::waitingSubclasses.at(i).first->window->_wnd, Dispether::waitingSubclasses.at(i).second, ++Dispether::subProcId, NULL);
-		}
+
+	// Унаследовано через XWindow
+	virtual XHANDLE* windowHandle() override;
+
+	virtual void setPosition(int x, int y) override;
+
+	virtual void setMinimumHeight(int height) override;
+
+	virtual void setMaximumHeight(int height) override;
+
+	virtual void setMinimumWidth(int width) override;
+
+	virtual void setMaximumWidth(int width) override;
+
+	virtual void setMinimumSize(XSize size) override;
+
+	virtual void setMinimumSize(int width, int height) override;
+
+	virtual void setMaximumSize(XSize size) override;
+
+	virtual void setMaximumSize(int, int) override;
+
+	virtual int minimumHeight() override;
+
+	virtual int maximumHeight() override;
+
+	virtual int minimumWidth() override;
+
+	virtual int maximumWidth() override;
+
+	virtual XSize minimumSize() override;
+
+	virtual XSize maximumSize() override;
+
+	virtual bool isFullScreen() override;
+
+	virtual bool isActiveWindow() override;
+
+	virtual void setOpacity(float) override;
+
+	virtual int width() override;
+
+	virtual int height() override;
+
+	virtual XMargins margins() override {
+		return XMargins(0, 0, 0, 0);
 	}
+	virtual void setMargins(int, int, int, int) override {};
+	virtual void setWindowName(XString) override {};
+
 
 private:
 	INITCOMMONCONTROLSEX icex;
@@ -135,9 +179,12 @@ private:
 	LPCWSTR szClassName;
 	static MSG XApplicationMessage;
 	WNDCLASSEX WndClassEx;
+	static RECT rect;
 
 protected:
+	friend LRESULT CALLBACK XApplicationProc::WndProc(HWND, UINT, WPARAM, LPARAM);
 	friend class XVLayout;
 	friend class XHLayout;
+
 
 };

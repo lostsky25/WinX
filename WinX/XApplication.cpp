@@ -7,21 +7,33 @@ class XHLayout;
 XHANDLE* XApplication::XApplicationMainWindow;
 MSG XApplication::XApplicationMessage;
 int XApplication::appletId;
+RECT XApplication::rect;
 
 LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	HDC hDC;
-	PAINTSTRUCT ps;
-	RECT rect;
-	int index = 0;
-
-	NMHDR* h = reinterpret_cast<NMHDR*>(lParam);
-	//Base* b = types[0]();
-	
 	switch (uMsg) {
 	case WM_CREATE:
 
 		break;
+
+	case WM_GETMINMAXINFO:
+	{
+		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+
+		if (XApplication::XApplicationMainWindow->window->minimumWidth > 0 && XApplication::XApplicationMainWindow->window->minimumWidth > 0 &&
+			XApplication::XApplicationMainWindow->window->maximumWidth > 0 && XApplication::XApplicationMainWindow->window->maximumWidth > 0) {
+			lpMMI->ptMinTrackSize.x = XApplication::XApplicationMainWindow->window->minimumWidth;
+			lpMMI->ptMinTrackSize.y = XApplication::XApplicationMainWindow->window->minimumHeight;
+
+			lpMMI->ptMaxTrackSize.x = XApplication::XApplicationMainWindow->window->maximumWidth;
+			lpMMI->ptMaxTrackSize.y = XApplication::XApplicationMainWindow->window->maximumHeight;
+		}
+		else
+		{
+			lpMMI->ptMinTrackSize.x = XWINDOWMINWIDTH;
+			lpMMI->ptMinTrackSize.y = XWINDOWMINHEIGHT;
+		}
+	}
 	case WM_NOTIFY:
 		
 		break;
@@ -66,10 +78,7 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 
 		break;
 	case WM_PAINT:
-		hDC = BeginPaint(hWnd, &ps);
-		GetClientRect(hWnd, &rect);
-		DrawText(hDC, L"Hello, World!", -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-		EndPaint(hWnd, &ps);
+
 		break;
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
@@ -136,9 +145,14 @@ XApplication::XApplication(XParams xParams) {
 		//return EXIT_FAILURE;
 	}
 
-	XApplicationMainWindow->window->_wnd = CreateWindowEx(WS_EX_TRANSPARENT, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, (HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL);
+	GetWindowRect(GetDesktopWindow(), &XApplication::rect);
+	XApplicationMainWindow->window->_wnd = CreateWindowEx(WS_EX_LAYERED, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, 
+		(XApplication::rect.right / 2), (XApplication::rect.bottom / 2),
+		800, 600, 
+		(HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL);
 
-	//SetWindowLongPtrW(btn, GWLP_WNDPROC, (LONG_PTR)SubclassWindowProc);
+	SetLayeredWindowAttributes(XApplicationMainWindow->window->_wnd, 0, 255, LWA_ALPHA);
+	
 	/*
 		CS_ - Опция стиля класса
 		CW_ - Опция создания окна
@@ -160,7 +174,6 @@ void XApplication::setLayout(XVLayout* layout) {
 	firstElem = true;
 	max = 0;
 
-
 	//Just XApplet.
 	while (!layout->XWaiting.empty()) {
 		//Fixed position check.
@@ -180,65 +193,131 @@ void XApplication::setLayout(XVLayout* layout) {
 		layout->XWaiting.erase(std::find(layout->XWaiting.begin(), layout->XWaiting.end(), layout->XWaiting.front()));
 	}
 
-//	//Extract applets from layouts.
-//	while (!layout->waitingButtonts.empty()) {
-//		//Fixed position check.
-//		if (layout->waitingButtonts.front()->fixedPosition) 
-//			throw std::invalid_argument("This applet has a \"fixed status\".");
-//
-//		XLayout::beginHeight += layout->waitingButtonts.front()->applet->window->margins.top();
-//
-//		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-//
-//		XLayout::beginHeight += layout->waitingButtonts.front()->applet->window->minimumHeight + layout->waitingButtonts.front()->applet->window->margins.bottom();
-//
-//		if (firstElem) {
-//			firstElem = !firstElem;
-//		}
-//
-//		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
-//	}
-//
-//	//XLabel
-//	while (!layout->waitingLabels.empty()) {
-//		//Fixed position check.
-//		if (layout->waitingLabels.front()->fixedPosition)
-//			throw std::invalid_argument("This applet has a \"fixed status\".");
-//
-//#define FONT_SIZE 14
-//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->margins.top() + FONT_SIZE;
-//
-//		layout->waitingLabels.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-//
-//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->minimumHeight + layout->waitingLabels.front()->applet->window->margins.bottom();
-//
-//		if (firstElem) {
-//			firstElem = !firstElem;
-//		}
-//
-//		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
-//	}
-//
-//	//XComboBox
-//	while (!layout->waitingComboBox.empty()) {
-//		//Fixed position check.
-//		if (layout->waitingComboBox.front()->fixedPosition)
-//			throw std::invalid_argument("This applet has a \"fixed status\".");
-//
-//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
-//
-//		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-//
-//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
-//
-//		if (firstElem) {
-//			firstElem = !firstElem;
-//		}
-//
-//		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
-//	}
-
 	XLayout::betweenVeticalApplets = 0;
+}
+
+XHANDLE* XApplication::windowHandle()
+{
+	return XApplication::XApplicationMainWindow;
+}
+
+void XApplication::setPosition(int x, int y)
+{
+	GetWindowRect(XApplication::XApplicationMainWindow->window->_wnd, &rect);
+	SetWindowPos(XApplication::XApplicationMainWindow->window->_wnd, (HWND)NULL, x, y, rect.right - rect.left, rect.bottom - rect.top, (UINT)0);
+}
+
+void XApplication::setMinimumHeight(int height)
+{
+	XApplication::XApplicationMainWindow->window->minimumHeight = height;
+}
+
+void XApplication::setMaximumHeight(int height)
+{
+	XApplication::XApplicationMainWindow->window->maximumHeight = height;
+}
+
+void XApplication::setMinimumWidth(int width)
+{
+	XApplication::XApplicationMainWindow->window->minimumWidth = width;
+}
+
+void XApplication::setMaximumWidth(int width)
+{
+	XApplication::XApplicationMainWindow->window->maximumWidth = width;
+}
+
+void XApplication::setMinimumSize(XSize size)
+{
+	XApplication::XApplicationMainWindow->window->minimumWidth = size.width();
+	XApplication::XApplicationMainWindow->window->minimumHeight = size.height();
+}
+
+void XApplication::setMinimumSize(int width, int height)
+{
+	XApplication::XApplicationMainWindow->window->minimumWidth = width;
+	XApplication::XApplicationMainWindow->window->minimumHeight = height;
+}
+
+void XApplication::setMaximumSize(XSize size)
+{
+	XApplication::XApplicationMainWindow->window->maximumWidth = size.width();
+	XApplication::XApplicationMainWindow->window->maximumHeight = size.height();
+}
+
+void XApplication::setMaximumSize(int width, int height)
+{
+	XApplication::XApplicationMainWindow->window->maximumWidth = width;
+	XApplication::XApplicationMainWindow->window->maximumHeight = height;
+}
+
+int XApplication::minimumHeight()
+{
+	return XApplication::XApplicationMainWindow->window->minimumHeight;
+}
+
+int XApplication::maximumHeight()
+{
+	return XApplication::XApplicationMainWindow->window->maximumHeight;
+}
+
+int XApplication::minimumWidth()
+{
+	return XApplication::XApplicationMainWindow->window->minimumWidth;
+}
+
+int XApplication::maximumWidth()
+{
+	return XApplication::XApplicationMainWindow->window->maximumWidth;
+}
+
+XSize XApplication::minimumSize()
+{
+	return XSize(XApplication::XApplicationMainWindow->window->minimumWidth, XApplication::XApplicationMainWindow->window->minimumHeight);
+}
+
+XSize XApplication::maximumSize()
+{
+	return XSize(XApplication::XApplicationMainWindow->window->maximumWidth, XApplication::XApplicationMainWindow->window->maximumHeight);
+}
+
+//void XApplication::setWindowName(XString windowName)
+//{
+//	XWindow::windowName = windowName;
+//}
+//
+//XMargins XApplication::margins()
+//{
+//	return XMargins();
+//}
+//
+//void XApplication::setMargins(int, int, int, int)
+//{
+//}
+
+bool XApplication::isFullScreen()
+{
+	return XWindow::_isFullScreen;
+}
+
+bool XApplication::isActiveWindow()
+{
+	return XWindow::_isActiveWindow;
+}
+
+void XApplication::setOpacity(float opacity)
+{
+	SetLayeredWindowAttributes(XApplication::XApplicationMainWindow->window->_wnd, 0, 255 - (255 * opacity), LWA_ALPHA);
+}
+
+int XApplication::width()
+{
+	return XApplication::XApplicationMainWindow->window->minimumWidth;
+}
+
+int XApplication::height()
+{
+	return XApplication::XApplicationMainWindow->window->minimumHeight;
 }
 
 void XApplication::setLayout(XHLayout* layout) {
@@ -247,18 +326,8 @@ void XApplication::setLayout(XHLayout* layout) {
 	max = 0;
 	XLayout::beginHorizontalLayout.push_back(layout->beginWidth);
 
-	//Extract applets from layouts.
-	//if (layout->waitingButtonts.front()->fixedPosition)
-	//	throw std::invalid_argument("This applet has a \"fixed status\".");
-
 	if (layout->XWaiting.front()->fixedPosition)
 		throw std::invalid_argument("This applet has a \"fixed status\".");
-
-	//Find the maximum height element with margins in current layout.
-	/*for (unsigned i = 0; i < layout->waitingButtonts.size(); i++) {
-		if (max < layout->waitingButtonts.at(i)->applet->window->margins.top() + layout->waitingButtonts.at(i)->applet->window->minimumHeight + layout->waitingButtonts.at(i)->applet->window->margins.bottom())
-			max = layout->waitingButtonts.at(i)->applet->window->margins.top() + layout->waitingButtonts.at(i)->applet->window->minimumHeight + layout->waitingButtonts.at(i)->applet->window->margins.bottom();
-	}*/
 
 	for (unsigned i = 0; i < layout->XWaiting.size(); i++) {
 		if (max < layout->XWaiting.at(i)->applet->window->margins.top() + layout->XWaiting.at(i)->applet->window->minimumHeight + layout->XWaiting.at(i)->applet->window->margins.bottom())
@@ -275,69 +344,8 @@ void XApplication::setLayout(XHLayout* layout) {
 
 		XLayout::betweenHorizontalApplets += layout->XWaiting.front()->applet->window->minimumWidth;
 
-		//if (firstElem) {
-		//	firstElem = !firstElem;
-		//}
-
 		layout->XWaiting.erase(std::find(layout->XWaiting.begin(), layout->XWaiting.end(), layout->XWaiting.front()));
 	}
-
-//
-//	while (!layout->waitingButtonts.empty()) {
-//		//Fixed position check.
-//		if (layout->waitingButtonts.front()->fixedPosition) {
-//			throw std::invalid_argument("This applet has a \"fixed status\".");
-//		}
-//
-//		layout->waitingButtonts.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-//
-//		XLayout::betweenHorizontalApplets += layout->waitingButtonts.front()->applet->window->minimumWidth;
-//
-//		//if (firstElem) {
-//		//	firstElem = !firstElem;
-//		//}
-//
-//		layout->waitingButtonts.erase(std::find(layout->waitingButtonts.begin(), layout->waitingButtonts.end(), layout->waitingButtonts.front()));
-//	}
-//
-//	//XLabel
-//	while (!layout->waitingLabels.empty()) {
-//		//Fixed position check.
-//		if (layout->waitingLabels.front()->fixedPosition)
-//			throw std::invalid_argument("This applet has a \"fixed status\".");
-//
-//#define FONT_SIZE 14
-//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->margins.top() + FONT_SIZE;
-//
-//		layout->waitingLabels.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-//
-//		XLayout::beginHeight += layout->waitingLabels.front()->applet->window->minimumHeight + layout->waitingLabels.front()->applet->window->margins.bottom();
-//
-//		if (firstElem) {
-//			firstElem = !firstElem;
-//		}
-//
-//		layout->waitingLabels.erase(std::find(layout->waitingLabels.begin(), layout->waitingLabels.end(), layout->waitingLabels.front()));
-//	}
-//
-//	//XComboBox
-//	while (!layout->waitingComboBox.empty()) {
-//		//Fixed position check.
-//		if (layout->waitingComboBox.front()->fixedPosition)
-//			throw std::invalid_argument("This applet has a \"fixed status\".");
-//
-//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->margins.top() + FONT_SIZE;
-//
-//		layout->waitingComboBox.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
-//
-//		XLayout::beginHeight += layout->waitingComboBox.front()->applet->window->minimumHeight + layout->waitingComboBox.front()->applet->window->margins.bottom();
-//
-//		if (firstElem) {
-//			firstElem = !firstElem;
-//		}
-//
-//		layout->waitingComboBox.erase(std::find(layout->waitingComboBox.begin(), layout->waitingComboBox.end(), layout->waitingComboBox.front()));
-//	}
 
 	XLayout::beginWidth = 0;
 	XLayout::beginHeight += max;

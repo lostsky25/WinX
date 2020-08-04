@@ -9,7 +9,7 @@ XTextBox::XTextBox() {
 	XWindow::fixedSizeState = false;
 	XWindow::fixedHeightState = false;
 	XWindow::fixedWidthState = false;
-	XWindow::flags.setExtendedFlags(WS_EX_TRANSPARENT);
+	XWindow::flags.setExtendedFlags(WS_EX_LAYERED);
 	XWindow::flags.setFlags(WS_VISIBLE | WS_CHILD);
 	XApplet::className = L"EDIT";
 	XApplet::windowName = L"Smth";

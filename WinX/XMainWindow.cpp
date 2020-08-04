@@ -111,7 +111,9 @@ MyClass3::MyClass3(XApplication& parent)// : parent(parent)
 
 XMainWindow::XMainWindow(XParams xParams) {
 	Application = new XApplication(xParams);
-	//Application->setWindowOpacity(0.2);
+	//Application->setOpacity(0.9);
+	//Application->setMaximumSize(800, 600);
+	//Application->setMinimumSize(200, 200);
 
 	ExplorerDialog* explorerDialog = new ExplorerDialog(*Application);
 	MyClass2* m = new MyClass2(*Application);
@@ -172,7 +174,10 @@ XMainWindow::XMainWindow(XParams xParams) {
 		btn6->setMargins(0, 50, 0, 10);
 		btn7->setMargins(0, 10, 0, 15);
 
+		Application->setPosition(10,10);
+
 	//btn->disp->setSubClass(btn->windowHandle(), ExplorerDialog::OwnerDrawButtonProc);
+
 
 	XVLayout* lv = new XVLayout();
 	lv->addApplet<XTextBox>(textBox);
@@ -204,12 +209,13 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 
 	//Application->appendApplet(btn);
+	btn->setOpacity(0.9);
 
 	Application->setCursor(CURSOR_CROSSHAIR);
 
 	//Application->setClickedEvent<XButton, ExplorerDialog>(*btn, explorerDialog, &ExplorerDialog::clicked);
-	Application->connect<XButton, MyClass3>(btn3, m2);
-	Application->connect<XButton, MyClass2>(btn2, m);
+	//Application->connect<XButton, MyClass3>(btn3, m2);
+	//Application->connect<XButton, MyClass2>(btn2, m);
 
 	//Application->setClickedEvent<XButton, MyClass2>(*btn, m, &MyClass2::clicked);
 	//Application->setClickedEvent<XButton, ExplorerDialog>(*btn2, explorerDialog, &ExplorerDialog::clicked);
@@ -224,5 +230,6 @@ XMainWindow::XMainWindow(XParams xParams) {
 	//Application->setLayout(lv4);
 
 	//Application->applySubClasses();
+
 	Application->windowUpdate();
 }

@@ -9,7 +9,7 @@ XLabel::XLabel() {
 	XWindow::fixedSizeState = false;
 	XWindow::fixedHeightState = false;
 	XWindow::fixedWidthState = false;
-	XWindow::flags.setExtendedFlags(WS_EX_TRANSPARENT);
+	XWindow::flags.setExtendedFlags(WS_EX_TRANSPARENT | WS_EX_LAYERED);
 	XWindow::flags.setFlags(WS_CHILD | WS_VISIBLE | WS_TABSTOP);
 	XApplet::className = L"static";
 	XApplet::windowName = L"ST_U";

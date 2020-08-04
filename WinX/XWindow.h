@@ -78,6 +78,8 @@ public:
 	virtual bool isFullScreen() = 0;								//Get fullscreen state.
 	virtual bool isActiveWindow() = 0;								//Get active state.
 
+	virtual void setOpacity(float) = 0;
+
 	/// <summary>
 	/// This getter needs for information about (minimum) width of applet.
 	/// </summary>
@@ -100,6 +102,8 @@ protected:
 	bool fixedSizeState;									//Fixed size state.
 	bool fixedHeightState;									//Fixed height state.
 	bool fixedWidthState;									//Fixed width state.
+	bool _isFullScreen;
+	bool _isActiveWindow;
 	XWindowFlags flags;
 	XWindowType type;
 	XString className;
@@ -107,5 +111,6 @@ protected:
 	XRect rect;
 	XTypes::XPoint pos;										//Postion of something (x, y).
 	bool visible;											//Visible state.
+
 };
 
