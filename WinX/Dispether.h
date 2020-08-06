@@ -18,6 +18,15 @@ public:
 		}
 	}
 
+	//static void applyStandartSubClasses(XHANDLE* xhandle, LRESULT(*wndProc)(HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR)) {
+	//	SetWindowSubclass(xhandle->window->_wnd, wndProc, 0, 0);
+	//}
+
+	void setSubClass(XHANDLE* xhandle, LRESULT(*wndProc)(HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR))
+	{
+		waitingSubclasses.emplace(xhandle, wndProc);
+	}
+
 	~Dispether();
 private:
 	friend class XApplication;

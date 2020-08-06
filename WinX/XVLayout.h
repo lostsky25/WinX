@@ -20,33 +20,13 @@ public:
 
 	template <class T>
 	void addApplet(T* object) {
-		//if (std::is_same<T, XButton>::value) {
-			++_count;
-			//waitingButtonts.emplace_back(reinterpret_cast<XButton*>(object));
-			XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
-			XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
-		//}
-		//else if (std::is_same<T, XLabel>::value) {
-		//	++_count;
-		//	//waitingLabels.emplace_back(reinterpret_cast<XLabel*>(object));
+		++_count;
+		XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
+		object->disp->setSubClass(object->applet, standartProc);
 
-		//	XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
-		//	XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
-		//}
-		//else if (std::is_same<T, XComboBox>::value) {
-		//	++_count;
-		//	//waitingComboBox.emplace_back(reinterpret_cast<XComboBox*>(object));
-
-		//	XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
-		//	XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
-		//}
-		//else if (std::is_same<T, XTextBox>::value) {
-		//	++_count;
-		//	//waitingComboBox.emplace_back(reinterpret_cast<XComboBox*>(object));
-
-		//	XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
-		//	XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
-		//}
+		//I should delete this.
+		XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
+		applets.emplace_back(object);
 	}
 
 	// Inherited from XLayout

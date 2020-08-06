@@ -1,13 +1,15 @@
 #pragma once
 #include <map>
 #include <queue>
+#include <Windows.h>
+#include <commctrl.h>
 
 //#include "XApplet.h"
 #include "XTypes.h"
 
+#include "xhandle.h"
+
 class XApplet;
-class XButton;
-class XComboBox;
 
 enum class LayoutDirection {
 	Vertical = 0,
@@ -19,10 +21,47 @@ class XLayout
 {
 public:
 	static std::vector<std::pair<XRect, XMargins>> properties;					//Window margins (left, top, right, bottom).	
+	static std::vector<XApplet*> applets;
 
 protected:
+	static LRESULT CALLBACK standartProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+	{
+		switch (uMsg)
+		{
+		case WM_GETMINMAXINFO:
+		{
+			LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+			lpMMI->ptMinTrackSize.x = 200;
+			lpMMI->ptMinTrackSize.y = 20;
+
+			lpMMI->ptMaxTrackSize.x = 500;
+			lpMMI->ptMaxTrackSize.y = 500;
+		}
+		case WM_SIZE: {
+
+			break;
+		}
+		case WM_MOUSEMOVE:
+			break;
+
+		case WM_LBUTTONDOWN:
+			char buf[128];
+			sprintf(buf, "Addr: 0x%p Clicked\n", hWnd);
+			OutputDebugStringA(buf);
+			break;
+
+		case WM_NCDESTROY:
+			RemoveWindowSubclass(hWnd, standartProc, uIdSubclass);
+			break;
+		}
+		return DefSubclassProc(hWnd, uMsg, wParam, lParam);
+	}
+
+	friend class XApplicationProc;
 	friend class XApplication;
 	friend class XApplet;
+
+	static RECT rect;
 
 	static int beginHeight;
 	static int beginWidth;

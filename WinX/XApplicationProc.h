@@ -26,6 +26,7 @@ public:
 	static std::vector<XHANDLE*> XLabelMessages;
 	static std::vector<XHANDLE*> XComboBoxMessages;*/
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+	static BOOL CALLBACK EnumChildProc(HWND, LPARAM);
 
 	static void applyOpacity() {
 		while (!waitingOpacity.empty())

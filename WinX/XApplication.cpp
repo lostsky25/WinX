@@ -1,5 +1,6 @@
 #include "XApplication.h"
 #include "XApplicationProc.h"
+#include "XLayout.h"
 
 class XVLayout;
 class XHLayout;
@@ -8,6 +9,49 @@ XHANDLE* XApplication::XApplicationMainWindow;
 MSG XApplication::XApplicationMessage;
 int XApplication::appletId;
 RECT XApplication::rect;
+RECT rectPreviousMainWindow = { 0 };
+
+BOOL CALLBACK XApplicationProc::EnumChildProc(HWND hWnd, LPARAM lParam) {
+	for (size_t i = 0; i < XLayout::applets.size(); i++) {
+		if (XLayout::applets.at(i)->applet->window->_wnd == hWnd && XLayout::applets.at(i)->windowHasMaximumSize()) {
+			RECT rectMainWindow = { 0 };
+			RECT rectChildWindow = { 0 };
+
+			GetWindowRect(hWnd, &rectChildWindow);
+			GetWindowRect(XApplication::XApplicationMainWindow->window->_wnd, &rectMainWindow);
+
+			int right = rectChildWindow.right - rectChildWindow.left;
+			int bottom = rectChildWindow.bottom - rectChildWindow.top;
+
+			if (rectMainWindow.right - rectMainWindow.left > rectPreviousMainWindow.right - rectPreviousMainWindow.left
+				&& right <= XLayout::applets.at(i)->maximumWidth()) {
+				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), ++right, bottom, (UINT)0);
+			}
+			else if (rectMainWindow.right - rectMainWindow.left < rectPreviousMainWindow.right - rectPreviousMainWindow.left
+				&& right >= XLayout::applets.at(i)->minimumWidth()) {
+				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), --right, bottom, (UINT)0);
+			}
+
+			if (rectMainWindow.bottom - rectMainWindow.top > rectPreviousMainWindow.bottom - rectPreviousMainWindow.top
+				&& bottom <= XLayout::applets.at(i)->maximumHeight()) {
+				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), right, ++bottom, (UINT)0);
+			}
+			else if (rectMainWindow.bottom - rectMainWindow.top < rectPreviousMainWindow.bottom - rectPreviousMainWindow.top
+				&& bottom >= XLayout::applets.at(i)->minimumHeight()) {
+				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), right, --bottom, (UINT)0);
+			}
+		}
+	}
+
+	/*char buf[128];
+	sprintf(buf, "Addr: 0x%p x: %d y: %d | right: %d bottom: %d\n", hWnd, rect.left, rect.top, rect.right, rect.bottom);
+	OutputDebugStringA(buf);*/
+
+	if (hWnd)
+		return TRUE;
+	else
+		return FALSE;
+}
 
 LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -20,8 +64,7 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 	{
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
 
-		if (XApplication::XApplicationMainWindow->window->minimumWidth > 0 && XApplication::XApplicationMainWindow->window->minimumWidth > 0 &&
-			XApplication::XApplicationMainWindow->window->maximumWidth > 0 && XApplication::XApplicationMainWindow->window->maximumWidth > 0) {
+		if (XApplication::XApplicationMainWindow->window->minimumWidth > 0 && XApplication::XApplicationMainWindow->window->minimumWidth > 0) {
 			lpMMI->ptMinTrackSize.x = XApplication::XApplicationMainWindow->window->minimumWidth;
 			lpMMI->ptMinTrackSize.y = XApplication::XApplicationMainWindow->window->minimumHeight;
 
@@ -35,8 +78,14 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 		}
 	}
 	case WM_NOTIFY:
-		
+
 		break;
+	case WM_SIZE: {
+		EnumChildWindows(hWnd, EnumChildProc, 0);
+		GetWindowRect(hWnd, &rectPreviousMainWindow);
+
+		break;
+	}
 
 	case WM_SETCURSOR:
 		if (LOWORD(lParam) == HTCLIENT)
@@ -148,7 +197,7 @@ XApplication::XApplication(XParams xParams) {
 	GetWindowRect(GetDesktopWindow(), &XApplication::rect);
 	XApplicationMainWindow->window->_wnd = CreateWindowEx(WS_EX_LAYERED, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, 
 		(XApplication::rect.right / 2), (XApplication::rect.bottom / 2),
-		800, 600, 
+		NULL, NULL,
 		(HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL);
 
 	SetLayeredWindowAttributes(XApplicationMainWindow->window->_wnd, 0, 255, LWA_ALPHA);
@@ -195,6 +244,12 @@ void XApplication::setLayout(XVLayout* layout) {
 
 	XLayout::betweenVeticalApplets = 0;
 }
+
+bool XApplication::windowHasMaximumSize()
+{
+	return XWindow::_windowHasMaximumSize;
+}
+
 
 XHANDLE* XApplication::windowHandle()
 {

@@ -55,6 +55,8 @@ public:
 	}
 
 	void windowUpdate(void) {
+		GetWindowRect(XApplication::XApplicationMainWindow->window->_wnd, &rect);
+		SetWindowPos(XApplication::XApplicationMainWindow->window->_wnd, (HWND)NULL, rect.left, rect.top, minimumWidth(), minimumHeight(), (UINT)0);
 
 		while (GetMessage(&XApplicationMessage, NULL, 0, 0)) {
 			XApplicationProc::CurrentHandle = XApplicationMessage.hwnd;
@@ -75,12 +77,44 @@ public:
 		XApplicationProc::mainCursor.second = cursor.idc();
 	}
 
+	static LRESULT CALLBACK standartProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+	{
+		switch (uMsg)
+		{
+		case WM_GETMINMAXINFO:
+		{
+			//GetWindowRect(XApplication::);
+			LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+			lpMMI->ptMinTrackSize.x = 200;
+			lpMMI->ptMinTrackSize.y = 20;
+
+			lpMMI->ptMaxTrackSize.x = 500;
+			lpMMI->ptMaxTrackSize.y = 500;
+		}
+		case WM_MOUSEMOVE:
+			//SetCursor(LoadCursor(NULL, IDC_HAND));
+			break;
+
+		case WM_LBUTTONDOWN:
+			//MessageBoxA(hWnd, "Button down!", 0, 0);
+			OutputDebugStringA("adsad");
+			break;
+
+		case WM_NCDESTROY:
+			RemoveWindowSubclass(hWnd, standartProc, uIdSubclass);
+			break;
+		}
+
+		return DefSubclassProc(hWnd, uMsg, wParam, lParam);
+	}
+
 	template <class T>
 	void appendApplet(T* applet, void (*pProc)()) {
 		applet->setApplet(XApplicationMainWindow, LayoutDirection::None, appletId++, false);
 
 		if (std::is_same<T, XButton>::value) {
 			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			reinterpret_cast<XButton*>(applet)->disp->setSubClass(applet, standartProc);
 			//XApplicationProc::XButtonMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XLabel>::value) {
@@ -183,8 +217,13 @@ private:
 
 protected:
 	friend LRESULT CALLBACK XApplicationProc::WndProc(HWND, UINT, WPARAM, LPARAM);
+	friend BOOL CALLBACK XApplicationProc::EnumChildProc(HWND, LPARAM);
 	friend class XVLayout;
 	friend class XHLayout;
 
+
+
+	// Унаследовано через XWindow
+	virtual bool windowHasMaximumSize() override;
 
 };

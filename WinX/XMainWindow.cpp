@@ -22,27 +22,37 @@ public:
 		OutputDebugStringA("Clicked1\r\n");
 	}
 
-	static LRESULT CALLBACK OwnerDrawButtonProc(HWND hWnd, UINT uMsg, WPARAM wParam,
-		LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
-	{
-		switch (uMsg)
-		{
-		case WM_MOUSEMOVE:
-			//SetCursor(LoadCursor(NULL, IDC_HAND));
-			break;
+	//static LRESULT CALLBACK OwnerDrawButtonProc(HWND hWnd, UINT uMsg, WPARAM wParam,
+	//	LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+	//{
+	//	switch (uMsg)
+	//	{
+	//	case WM_GETMINMAXINFO:
+	//	{
+	//		GetWindowRect(XApplication::);
+	//		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+	//			lpMMI->ptMinTrackSize.x = 200;
+	//			lpMMI->ptMinTrackSize.y = 20;
 
-		case WM_LBUTTONDOWN:
-			//MessageBoxA(hWnd, "Button down!", 0, 0);
-			OutputDebugStringA("adsad");
-			break;
+	//			lpMMI->ptMaxTrackSize.x = 500;
+	//			lpMMI->ptMaxTrackSize.y = 500;
+	//	}
+	//	case WM_MOUSEMOVE:
+	//		//SetCursor(LoadCursor(NULL, IDC_HAND));
+	//		break;
 
-		case WM_NCDESTROY:
-			RemoveWindowSubclass(hWnd, &OwnerDrawButtonProc, uIdSubclass);
-			break;
-		}
+	//	case WM_LBUTTONDOWN:
+	//		//MessageBoxA(hWnd, "Button down!", 0, 0);
+	//		OutputDebugStringA("adsad");
+	//		break;
 
-		return DefSubclassProc(hWnd, uMsg, wParam, lParam);
-	}
+	//	case WM_NCDESTROY:
+	//		RemoveWindowSubclass(hWnd, &OwnerDrawButtonProc, uIdSubclass);
+	//		break;
+	//	}
+
+	//	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
+	//}
 
 	void released() override {
 
@@ -112,8 +122,8 @@ MyClass3::MyClass3(XApplication& parent)// : parent(parent)
 XMainWindow::XMainWindow(XParams xParams) {
 	Application = new XApplication(xParams);
 	//Application->setOpacity(0.9);
-	//Application->setMaximumSize(800, 600);
-	//Application->setMinimumSize(200, 200);
+	Application->setMaximumSize(1000, 1000);
+	Application->setMinimumSize(800, 800);
 
 	ExplorerDialog* explorerDialog = new ExplorerDialog(*Application);
 	MyClass2* m = new MyClass2(*Application);
@@ -144,14 +154,17 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 	btn->setMinimumSize(200, 20);
 	btn->setWindowName(L"Open explorer");
+	btn->setMaximumSize(300, 30);
 
 	//btn->setWindowOpacity(0.9);
 
 	btn2->setMinimumSize(200, 234);
 	btn2->setWindowName(L"btn2");
+	btn2->setMaximumSize(300, 30);
 
 	btn3->setMinimumSize(500, 50);
 	btn3->setWindowName(L"btn3");
+	btn3->setMaximumSize(600, 30);
 
 		btn4->setMinimumSize(250, 123);
 		btn4->setWindowName(L"btn4");
@@ -182,20 +195,19 @@ XMainWindow::XMainWindow(XParams xParams) {
 	XVLayout* lv = new XVLayout();
 	lv->addApplet<XTextBox>(textBox);
 	lv->addApplet<XButton>(btn);
-	//lv->addApplet<XComboBox>(box1);
-	//lv->addApplet<XButton>(btn2);
-	//lv->addApplet<XButton>(btn3);
-	//lv->addApplet<XLabel>(lb1);
-
-	/*XVLayout* lv2 = new XVLayout();
-	lv2->addApplet<XButton>(btn5);
-	lv2->addApplet<XButton>(btn6);
-	lv2->addApplet<XButton>(btn4);
+	lv->addApplet<XButton>(btn2);
+	lv->addApplet<XButton>(btn3);
+	lv->addApplet<XLabel>(lb1);
 
 	XHLayout* lv3 = new XHLayout();
 	lv3->addApplet<XButton>(btn7);
 	lv3->addApplet<XButton>(btn6);
 	lv3->addApplet<XButton>(btn4);
+
+	/*XVLayout* lv2 = new XVLayout();
+	lv2->addApplet<XButton>(btn5);
+	lv2->addApplet<XButton>(btn6);
+	lv2->addApplet<XButton>(btn4);
 
 	XVLayout* lv6 = new XVLayout();
 	lv6->addApplet<XButton>(btn7);
@@ -209,7 +221,7 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 
 	//Application->appendApplet(btn);
-	btn->setOpacity(0.9);
+	//btn->setOpacity(0.9);
 
 	Application->setCursor(CURSOR_CROSSHAIR);
 
@@ -223,7 +235,7 @@ XMainWindow::XMainWindow(XParams xParams) {
 
 	Application->setLayout(lv);
 	//Application->setLayout(lv2);
-	//Application->setLayout(lv3);
+	Application->setLayout(lv3);
 	//Application->setLayout(lv6);
 	//Application->setLayout(lv5);
 	//btn->disp->setSubClass(btn->windowHandle(), ::SubclassWindowProc);

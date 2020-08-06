@@ -12,6 +12,11 @@ void XApplet::released() {
 
 }
 
+bool XApplet::windowHasMaximumSize()
+{
+	return XWindow::_windowHasMaximumSize;
+}
+
 XHANDLE* XApplet::windowHandle() {
 	if (applet)
 		return applet;
@@ -22,26 +27,16 @@ XHANDLE* XApplet::windowHandle() {
 }
 
 void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool firstElem) {
-
-	////////////////////////////////////////////////////////////////////
-	//XLayout::_beginHeight += this->_margins.top;
-	////////////////////////////////////////////////////////////////////
+	applet->window->rect.setX((layout->dir == LayoutDirection::Horizontal ? XLayout::betweenHorizontalApplets : 0));
+	applet->window->rect.setY((layout->dir == LayoutDirection::Horizontal ? XLayout::beginHeight + applet->window->margins.top() : XLayout::beginHeight + applet->window->margins.top()));
+	applet->window->rect.setRight(applet->window->minimumWidth);
+	applet->window->rect.setBottom(applet->window->minimumHeight);
 
 	if (!fixedPosition) {
 		switch (layout->dir)
 		{
 		case LayoutDirection::None:
 		case LayoutDirection::Vertical:
-			applet->window->rect.setRight(applet->window->minimumWidth);
-			applet->window->rect.setBottom(applet->window->minimumHeight);
-
-			//Save current rectangle and margins of applet
-			//XLayout::_properties.push_back(std::make_pair(_rect, _margins));
-
-			//If it's not first layout, we add a previous height layout
-			//if(layout->id > 1){
-				//_beginVertical = XLayout::_beginVerticalLayout.at(layout->id - 2);
-			//}
 
 			if (!firstElem && XLayout::appletId > 0) {
 				XLayout::betweenVeticalApplets += XLayout::properties.at(XLayout::appletId - 1).first.bottom();
@@ -51,17 +46,11 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 
 			break;
 		case LayoutDirection::Horizontal:
-			applet->window->rect.setRight(applet->window->minimumWidth);
-			applet->window->rect.setBottom(applet->window->minimumHeight);
-
-			//XLayout::_properties.push_back(std::make_pair(_rect, _margins));
-
 			if (!firstElem && XLayout::appletId > 0) {
 				XLayout::betweenHorizontalApplets += XLayout::properties.at(XLayout::appletId - 1).first.right();
 			}
 
 			XLayout::appletId++;
-
 			break;
 		default:
 			break;
@@ -83,9 +72,6 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 			(HMENU)BN_CLICKED,																						//No menu.
 			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
 			NULL);																									//Pointer not needed.
-
-		SetLayeredWindowAttributes(applet->window->_wnd, 0, 255, LWA_ALPHA);
-
 	}
 	else {
 		//USES_CONVERSION;
@@ -103,9 +89,9 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 			(HMENU)BN_CLICKED,																						//No menu.
 			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
 			NULL);																									//Pointer not needed.
-
-		SetLayeredWindowAttributes(applet->window->_wnd, 0, 255, LWA_ALPHA);
 	}
+
+	SetLayeredWindowAttributes(applet->window->_wnd, 0, 255, LWA_ALPHA);
 }
 
 void XApplet::setOpacity(float opacity) {
@@ -179,17 +165,20 @@ void XApplet::setMinimumHeight(int height)
 
 void XApplet::setMaximumHeight(int height)
 {
+	XWindow::_windowHasMaximumSize = true;
 	applet->window->maximumHeight = height;
 }
 
 void XApplet::setMaximumSize(XSize size)
 {
+	XWindow::_windowHasMaximumSize = true;
 	applet->window->maximumWidth = size.width();
 	applet->window->maximumHeight = size.height();
 }
 
 void XApplet::setMaximumSize(int width, int height)
 {
+	XWindow::_windowHasMaximumSize = true;
 	applet->window->maximumWidth = width;
 	applet->window->maximumHeight = height;
 }
@@ -223,6 +212,7 @@ void XApplet::activateWindow()
 
 void XApplet::setMaximumWidth(int width)
 {
+	XWindow::_windowHasMaximumSize = true;
 	applet->window->maximumWidth = width;
 }
 
@@ -240,7 +230,7 @@ void XApplet::setMinimumSize(XSize size)
 
 int XApplet::maximumHeight()
 {
-	return applet->window->minimumHeight;
+	return applet->window->maximumHeight;
 }
 
 XSize XApplet::maximumSize()

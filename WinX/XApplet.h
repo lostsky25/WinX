@@ -68,6 +68,8 @@ public:
 	virtual void clicked();
 	virtual void released();
 
+	virtual bool windowHasMaximumSize() override;
+
 	int width();
 	int height();
 

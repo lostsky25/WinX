@@ -6,5 +6,4 @@ class XButton : public XApplet
 public:
 	XButton();
 	~XButton();
-
 };

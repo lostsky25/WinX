@@ -92,6 +92,8 @@ public:
 	/// <returns>height of appplet</returns>
 	virtual int height() = 0;
 
+	virtual bool windowHasMaximumSize() = 0;
+
 	virtual XMargins margins() = 0;							//Get margins of current window <-(XMargins).
 	virtual void setMargins(int, int, int, int) = 0;
 
@@ -104,6 +106,7 @@ protected:
 	bool fixedWidthState;									//Fixed width state.
 	bool _isFullScreen;
 	bool _isActiveWindow;
+	bool _windowHasMaximumSize;
 	XWindowFlags flags;
 	XWindowType type;
 	XString className;
