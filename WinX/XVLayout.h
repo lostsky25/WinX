@@ -22,11 +22,12 @@ public:
 	void addApplet(T* object) {
 		++_count;
 		XWaiting.emplace_back(reinterpret_cast<XApplet*>(object));
-		object->disp->setSubClass(object->applet, standartProc);
 
-		//I should delete this.
-		XLayout::properties.push_back(std::make_pair(object->applet->window->rect, object->applet->window->margins));
-		applets.emplace_back(object);
+		XApplicationProc::XApplets.emplace_back(reinterpret_cast<XApplet*>(object));
+
+		object->disp->setSubClass(object->applet, standartProc);
+		XLayout::properties.push_back(std::make_pair(object->applet->windowRect(), object->applet->windowMargins()));
+		applets.emplace_back(object, LayoutDirection::Vertical);
 	}
 
 	// Inherited from XLayout

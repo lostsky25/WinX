@@ -13,5 +13,5 @@ std::vector<int> XLayout::maxVerticalElement;
 std::vector<int> XLayout::beginVerticalLayout;
 std::vector<int> XLayout::beginHorizontalLayout;
 std::vector<std::pair<XRect, XMargins>> XLayout::properties;					//Window margins (left, top, right, bottom).
-std::vector<XApplet*> XLayout::applets;
+std::vector<std::pair<XApplet*, LayoutDirection>> XLayout::applets;
 RECT XLayout::rect;

@@ -1,40 +1,49 @@
 #pragma once
 #include <Windows.h>
-#include <string>
-#include <tuple>
 #include <vector>
-#include <map>
-#include <typeinfo>
-#include <type_traits>
-#include <memory>
-#include "XApplet.h"
+#include <queue>
+#include <functional>
 
 #include "xhandle.h"
+#include "XApplet.h"
+
+//#include "XTrackbar.h"
+//#include "XButton.h"
+//#include "XLabel.h"
+//#include "XComboBox.h"
+//#include "XTextBox.h"
+//#include "XParams.h"
+//#include "XTypes.h"
+//#include "XLayout.h"
+//#include "XVLayout.h"
+//#include "XHLayout.h"
 
 class XApplicationProc
 {
 public:
 	static HWND CurrentHandle;
-
-	//template <class U>
-	//static std::vector<std::tuple<XHANDLE*, U*, void (U::*)()>> XMapMessages;
 	static std::pair<HINSTANCE, LPCWSTR> mainCursor;
-	static std::vector<std::pair<XHANDLE*, std::unique_ptr<XApplet>>> XTypes;
 	static std::queue<std::pair<XHANDLE*, float>> waitingOpacity;
-	static std::vector<XApplet*> XMessages;/*
-	static std::vector<XHANDLE*> XButtonMessages;
-	static std::vector<XHANDLE*> XLabelMessages;
-	static std::vector<XHANDLE*> XComboBoxMessages;*/
+	static std::vector<std::pair<XHANDLE*, std::function<void(void)>>> XCallback;
+	static std::vector<std::pair<XApplet*, std::pair<std::function<int(HWND)>, std::function<void(int)>>>> bunchSignalSlot;
+	static std::vector<XApplet*> XApplets;
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-	static BOOL CALLBACK EnumChildProc(HWND, LPARAM);
+	//static BOOL CALLBACK EnumChildProc(HWND, LPARAM);
 
 	static void applyOpacity() {
 		while (!waitingOpacity.empty())
 		{
-			SetLayeredWindowAttributes(waitingOpacity.front().first->window->_wnd, 0, 255 - (255 * waitingOpacity.front().second), LWA_ALPHA);
+			SetLayeredWindowAttributes(waitingOpacity.front().first->windowHWND(), 0, 255 - (255 * waitingOpacity.front().second), LWA_ALPHA);
 			waitingOpacity.pop();
 		}
 	}
 
+protected:
+	friend class XLabel;
+	friend class XButton;
+	friend class XTextBox;
+	friend class XComboBox;
+	friend class XApplication;
+	friend class XApplicationProc;
 };
 

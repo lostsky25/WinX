@@ -21,7 +21,7 @@ class XLayout
 {
 public:
 	static std::vector<std::pair<XRect, XMargins>> properties;					//Window margins (left, top, right, bottom).	
-	static std::vector<XApplet*> applets;
+	static std::vector<std::pair<XApplet*, LayoutDirection>> applets;
 
 protected:
 	static LRESULT CALLBACK standartProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)

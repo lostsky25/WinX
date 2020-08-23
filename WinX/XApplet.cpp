@@ -1,15 +1,9 @@
 #include "XApplet.h"
 
+uint8_t XApplet::clicked = 1;
+
 XApplet::~XApplet() {
 	delete applet;
-}
-
-void XApplet::clicked() {
-
-}
-
-void XApplet::released() {
-
 }
 
 bool XApplet::windowHasMaximumSize()
@@ -27,10 +21,10 @@ XHANDLE* XApplet::windowHandle() {
 }
 
 void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool firstElem) {
-	applet->window->rect.setX((layout->dir == LayoutDirection::Horizontal ? XLayout::betweenHorizontalApplets : 0));
-	applet->window->rect.setY((layout->dir == LayoutDirection::Horizontal ? XLayout::beginHeight + applet->window->margins.top() : XLayout::beginHeight + applet->window->margins.top()));
-	applet->window->rect.setRight(applet->window->minimumWidth);
-	applet->window->rect.setBottom(applet->window->minimumHeight);
+	applet->windowRect().setX((layout->dir == LayoutDirection::Horizontal ? XLayout::betweenHorizontalApplets : 0));
+	applet->windowRect().setY((layout->dir == LayoutDirection::Horizontal ? XLayout::beginHeight + applet->windowMargins().top() : XLayout::beginHeight + applet->windowMargins().top()));
+	applet->windowRect().setRight(applet->minimumWidth());
+	applet->windowRect().setBottom(applet->minimumHeight());
 
 	if (!fixedPosition) {
 		switch (layout->dir)
@@ -56,42 +50,45 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 			break;
 		}
 
+		//?????
+		XLayout::betweenHorizontalApplets += applet->windowMargins().left();
+
 		//USES_CONVERSION;
 
-		applet->window->_wnd = CreateWindowExW(
+		applet->setWindowHWND(CreateWindowExW(
 			XWindow::flags.extendedFlags(),																			//Extended styles.
 			XWindow::className.getData(),																			//Predefined class; Unicode assumed.
 			XWindow::windowName.getData(),																			//Button text.
 			XWindow::flags.flags(),																					//Styles.
 			(layout->dir == LayoutDirection::Horizontal ? XLayout::betweenHorizontalApplets : 0),					//x position.
-			(layout->dir == LayoutDirection::Horizontal ? XLayout::beginHeight + applet->window->margins.top() :
-				XLayout::beginHeight + applet->window->margins.top()),												//y position.
-			applet->window->minimumWidth,																			//Button width.
-			applet->window->minimumHeight,																			//Button height.
-			parent->window->_wnd,																					//Parent window.
+			(layout->dir == LayoutDirection::Horizontal ? XLayout::beginHeight + applet->windowMargins().top() :
+				XLayout::beginHeight + applet->windowMargins().top()),												//y position.
+			applet->minimumWidth(),																			//Button width.
+			applet->minimumHeight(),																			//Button height.
+			parent->windowHWND(),																					//Parent window.
 			(HMENU)BN_CLICKED,																						//No menu.
-			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
-			NULL);																									//Pointer not needed.
+			(HINSTANCE)GetWindowLongPtr(parent->windowHWND(), GWLP_HINSTANCE),
+			NULL));																									//Pointer not needed.
 	}
 	else {
 		//USES_CONVERSION;
 
-		applet->window->_wnd = CreateWindowExW(
+		applet->setWindowHWND(CreateWindowExW(
 			XWindow::flags.extendedFlags(),																			//Extended styles.
 			XWindow::className.getData(),																			//Predefined class; Unicode assumed.
 			XWindow::windowName.getData(),																			//Button text.
 			XWindow::flags.flags(),																					//Styles.
-			applet->window->rect.x(),																				//x position.
-			applet->window->rect.y(),																				//y position.
-			applet->window->minimumWidth,																			//Button width.
-			applet->window->minimumHeight,																			//Button height.
-			parent->window->_wnd,																					//Parent window.
+			applet->windowRect().x(),																				//x position.
+			applet->windowRect().y(),																				//y position.
+			applet->minimumWidth(),																			//Button width.
+			applet->minimumHeight(),																			//Button height.
+			parent->windowHWND(),																					//Parent window.
 			(HMENU)BN_CLICKED,																						//No menu.
-			(HINSTANCE)GetWindowLongPtr(parent->window->_wnd, GWLP_HINSTANCE),
-			NULL);																									//Pointer not needed.
+			(HINSTANCE)GetWindowLongPtr(parent->windowHWND(), GWLP_HINSTANCE),
+			NULL));																									//Pointer not needed.
 	}
 
-	SetLayeredWindowAttributes(applet->window->_wnd, 0, 255, LWA_ALPHA);
+	SetLayeredWindowAttributes(applet->windowHWND(), 0, 255, LWA_ALPHA);
 }
 
 void XApplet::setOpacity(float opacity) {
@@ -115,7 +112,7 @@ XSize XApplet::iconSize()
 
 XSize XApplet::size()
 {
-	return XSize(applet->window->minimumHeight, applet->window->minimumWidth);
+	return XSize(applet->minimumHeight(), applet->minimumWidth());
 }
 
 XSize XApplet::sizeIncrement()
@@ -129,23 +126,23 @@ XWindowFlags XApplet::windowFlags()
 }
 
 XMargins XApplet::margins() {
-	return applet->window->margins;
+	return applet->windowMargins();
 }
 
 void XApplet::setFixedSize(XSize _fixedSize)
 {
 	XWindow::fixedSizeState = true;
 
-	applet->window->minimumHeight = _fixedSize.height();
-	applet->window->minimumWidth = _fixedSize.width();
+	applet->setMinimumHeight(_fixedSize.height());
+	applet->setMinimumWidth(_fixedSize.width());
 }
 
 void XApplet::setFixedSize(int height, int width)
 {
 	XWindow::fixedSizeState = true;
 
-	applet->window->minimumHeight = height;
-	applet->window->minimumWidth = width;
+	applet->setMinimumHeight(height);
+	applet->setMinimumWidth(width);
 }
 
 void XApplet::setBorder()
@@ -155,47 +152,47 @@ void XApplet::setBorder()
 
 void XApplet::setMinimumWidth(int width)
 {
-	applet->window->minimumWidth = width;
+	applet->setMinimumWidth(width);
 }
 
 void XApplet::setMinimumHeight(int height)
 {
-	applet->window->minimumHeight = height;
+	applet->setMinimumHeight(height);
 }
 
 void XApplet::setMaximumHeight(int height)
 {
 	XWindow::_windowHasMaximumSize = true;
-	applet->window->maximumHeight = height;
+	applet->setMaximumHeight(height);
 }
 
 void XApplet::setMaximumSize(XSize size)
 {
 	XWindow::_windowHasMaximumSize = true;
-	applet->window->maximumWidth = size.width();
-	applet->window->maximumHeight = size.height();
+	applet->setMaximumWidth(size.width());
+	applet->setMaximumHeight(size.height());
 }
 
 void XApplet::setMaximumSize(int width, int height)
 {
 	XWindow::_windowHasMaximumSize = true;
-	applet->window->maximumWidth = width;
-	applet->window->maximumHeight = height;
+	applet->setMaximumWidth(width);
+	applet->setMaximumHeight(height);
 }
 
 int XApplet::height()
 {
-	return applet->window->minimumHeight;
+	return applet->minimumHeight();
 }
 
 int XApplet::width()
 {
-	return applet->window->minimumWidth;
+	return applet->minimumWidth();
 }
 
 void XApplet::setMargins(int left, int top, int right, int bottom) {
 
-	applet->window->margins.setMargins(left, top, right, bottom);
+	applet->windowMargins().setMargins(left, top, right, bottom);
 }
 
 void XApplet::setPosition(int x, int y) {
@@ -213,53 +210,54 @@ void XApplet::activateWindow()
 void XApplet::setMaximumWidth(int width)
 {
 	XWindow::_windowHasMaximumSize = true;
-	applet->window->maximumWidth = width;
+	applet->setMaximumWidth(width);
 }
 
 void XApplet::setMinimumSize(int width, int height)
 {
-	applet->window->minimumWidth = width;
-	applet->window->minimumHeight = height;
+	applet->setMinimumWidth(width);
+	applet->setMinimumHeight(height);
 }
 
 void XApplet::setMinimumSize(XSize size)
 {
-	applet->window->minimumWidth = size.width();
-	applet->window->minimumHeight = size.height();
+	applet->setMinimumWidth(size.width());
+	applet->setMinimumHeight(size.height());
 }
 
 int XApplet::maximumHeight()
 {
-	return applet->window->maximumHeight;
+	return applet->maximumHeight();
 }
 
 XSize XApplet::maximumSize()
 {
-	return XSize(applet->window->maximumHeight, applet->window->maximumWidth);
+	return XSize(applet->maximumHeight(), applet->maximumWidth());
 }
 
 int XApplet::maximumWidth()
 {
-	return applet->window->maximumWidth;
+	return applet->maximumWidth();
 }
 
 int XApplet::minimumHeight()
 {
-	return applet->window->minimumHeight;
+	return applet->minimumHeight();
 }
 
 XSize XApplet::minimumSize()
 {
-	return XSize(applet->window->minimumHeight, applet->window->minimumWidth);
+	return XSize(applet->minimumHeight(), applet->minimumWidth());
 }
 
 int XApplet::minimumWidth()
 {
-	return applet->window->minimumWidth;
+	return applet->minimumWidth();
 }
 
 void XApplet::setWindowName(XString windowName) {
 	this->windowName = windowName;
+	SetWindowTextW(applet->windowHWND(), windowName.getData());
 }
 
 bool XApplet::isFullScreen()

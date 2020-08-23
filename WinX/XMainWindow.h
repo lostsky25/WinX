@@ -1,7 +1,6 @@
 #pragma once
 #include "XApplication.h"
 
-#include "XParams.h"
 
 class XMainWindow
 {

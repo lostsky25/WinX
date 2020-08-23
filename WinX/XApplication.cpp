@@ -10,66 +10,46 @@ MSG XApplication::XApplicationMessage;
 int XApplication::appletId;
 RECT XApplication::rect;
 RECT rectPreviousMainWindow = { 0 };
+RECT rectChildWindow;
+RECT rectMainWindow;
+RECT previousSizeMainWindow;
 
-BOOL CALLBACK XApplicationProc::EnumChildProc(HWND hWnd, LPARAM lParam) {
-	for (size_t i = 0; i < XLayout::applets.size(); i++) {
-		if (XLayout::applets.at(i)->applet->window->_wnd == hWnd && XLayout::applets.at(i)->windowHasMaximumSize()) {
-			RECT rectMainWindow = { 0 };
-			RECT rectChildWindow = { 0 };
-
-			GetWindowRect(hWnd, &rectChildWindow);
-			GetWindowRect(XApplication::XApplicationMainWindow->window->_wnd, &rectMainWindow);
-
-			int right = rectChildWindow.right - rectChildWindow.left;
-			int bottom = rectChildWindow.bottom - rectChildWindow.top;
-
-			if (rectMainWindow.right - rectMainWindow.left > rectPreviousMainWindow.right - rectPreviousMainWindow.left
-				&& right <= XLayout::applets.at(i)->maximumWidth()) {
-				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), ++right, bottom, (UINT)0);
-			}
-			else if (rectMainWindow.right - rectMainWindow.left < rectPreviousMainWindow.right - rectPreviousMainWindow.left
-				&& right >= XLayout::applets.at(i)->minimumWidth()) {
-				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), --right, bottom, (UINT)0);
-			}
-
-			if (rectMainWindow.bottom - rectMainWindow.top > rectPreviousMainWindow.bottom - rectPreviousMainWindow.top
-				&& bottom <= XLayout::applets.at(i)->maximumHeight()) {
-				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), right, ++bottom, (UINT)0);
-			}
-			else if (rectMainWindow.bottom - rectMainWindow.top < rectPreviousMainWindow.bottom - rectPreviousMainWindow.top
-				&& bottom >= XLayout::applets.at(i)->minimumHeight()) {
-				SetWindowPos(hWnd, (HWND)NULL, XLayout::applets.at(i)->applet->window->rect.x(), XLayout::applets.at(i)->applet->window->rect.y(), right, --bottom, (UINT)0);
-			}
-		}
-	}
-
-	/*char buf[128];
-	sprintf(buf, "Addr: 0x%p x: %d y: %d | right: %d bottom: %d\n", hWnd, rect.left, rect.top, rect.right, rect.bottom);
-	OutputDebugStringA(buf);*/
-
-	if (hWnd)
-		return TRUE;
-	else
-		return FALSE;
-}
+//BOOL CALLBACK XApplicationProc::EnumChildProc(HWND hWnd, LPARAM lParam) {}
 
 LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_CREATE:
-
+		
 		break;
+
+	case WM_HSCROLL: {
+		//for (size_t i = 0; i < XApplicationProc::bunchSignalSlot.size(); i++) {
+			for (size_t j = 0; j < XApplicationProc::XApplets.size(); j++) {
+				if (XApplets.at(j)->applet->windowHWND() == hWnd) {
+					reinterpret_cast<XTrackbar*>(XApplets.at(j))->_currentValue = SendMessageW(reinterpret_cast<XTrackbar*>(XApplets.at(j))->applet->windowHWND(), TBM_GETPOS, 0, 0);
+				}
+			}
+
+			for (size_t c = 0; c < XApplicationProc::bunchSignalSlot.size(); c++) {
+				if (XApplicationProc::bunchSignalSlot.at(c).first->applet->windowHWND() == CurrentHandle) {
+					XApplicationProc::bunchSignalSlot.at(c).second.second(XApplicationProc::bunchSignalSlot.at(c).second.first(XApplicationProc::bunchSignalSlot.at(c).first->applet->windowHWND()));
+				}
+			}
+		//}
+		break;
+	}
 
 	case WM_GETMINMAXINFO:
 	{
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
 
-		if (XApplication::XApplicationMainWindow->window->minimumWidth > 0 && XApplication::XApplicationMainWindow->window->minimumWidth > 0) {
-			lpMMI->ptMinTrackSize.x = XApplication::XApplicationMainWindow->window->minimumWidth;
-			lpMMI->ptMinTrackSize.y = XApplication::XApplicationMainWindow->window->minimumHeight;
+		if (XApplication::XApplicationMainWindow->minimumWidth() > 0 && XApplication::XApplicationMainWindow->minimumWidth() > 0) {
+			lpMMI->ptMinTrackSize.x = XApplication::XApplicationMainWindow->minimumWidth();
+			lpMMI->ptMinTrackSize.y = XApplication::XApplicationMainWindow->minimumHeight();
 
-			lpMMI->ptMaxTrackSize.x = XApplication::XApplicationMainWindow->window->maximumWidth;
-			lpMMI->ptMaxTrackSize.y = XApplication::XApplicationMainWindow->window->maximumHeight;
+			lpMMI->ptMaxTrackSize.x = XApplication::XApplicationMainWindow->maximumWidth();
+			lpMMI->ptMaxTrackSize.y = XApplication::XApplicationMainWindow->maximumHeight();
 		}
 		else
 		{
@@ -81,8 +61,8 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 
 		break;
 	case WM_SIZE: {
-		EnumChildWindows(hWnd, EnumChildProc, 0);
-		GetWindowRect(hWnd, &rectPreviousMainWindow);
+		//EnumChildWindows(hWnd, EnumChildProc, 0);
+		//GetWindowRect(hWnd, &rectPreviousMainWindow);
 
 		break;
 	}
@@ -97,27 +77,30 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 		break;
 	
 	case WM_COMMAND:
-		/*for (unsigned i = 0; i < XApplicationProc::XComboBoxMessages.size(); i++) {
 			switch (HIWORD(wParam))
 			{
-			case CBN_SELCHANGE:
-				if(XApplicationProc::XComboBoxMessages.at(i) != NULL){
-					index = SendMessage(XApplicationProc::XComboBoxMessages.at(i)->window->_wnd, CB_GETCURSEL, 0, 0);
+				case CBN_SELCHANGE:{
+					for (size_t j = 0; j < XComboBox::waitingItems.size(); j++) {
+						for (size_t i = 0; i < XApplets.size(); i++) {
+							if (XApplets.at(i)->applet->windowHWND() == XComboBox::waitingItems.at(j).first->windowHWND()) {
+								reinterpret_cast<XComboBox*>(XApplets.at(i))->_selectedIndex = SendMessageW(XApplets.at(i)->applet->windowHWND(), CB_GETCURSEL, 0, 0);
+							}
+						}
+					}
+					break;
 				}
-				break;
 			default:
 				break;
-			}
 			break;
-		}*/
+		}
 
 		//Event click
 		switch (LOWORD(wParam))
 		{
 		case BN_CLICKED:
-			for (unsigned i = 0; i < XTypes.size(); i++) {
-				if (CurrentHandle == XTypes.at(i).first->window->_wnd) {
-					XTypes.at(i).second->clicked();
+			for (unsigned i = 0; i < XCallback.size(); i++) {
+				if (CurrentHandle == XCallback.at(i).first->windowHWND()) {
+					XCallback.at(i).second();
 				}
 			}
 			break;
@@ -195,12 +178,12 @@ XApplication::XApplication(XParams xParams) {
 	}
 
 	GetWindowRect(GetDesktopWindow(), &XApplication::rect);
-	XApplicationMainWindow->window->_wnd = CreateWindowEx(WS_EX_LAYERED, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, 
+	XApplicationMainWindow->setWindowHWND(CreateWindowEx(WS_EX_LAYERED, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, 
 		(XApplication::rect.right / 2), (XApplication::rect.bottom / 2),
 		NULL, NULL,
-		(HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL);
+		(HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL));
 
-	SetLayeredWindowAttributes(XApplicationMainWindow->window->_wnd, 0, 255, LWA_ALPHA);
+	SetLayeredWindowAttributes(XApplicationMainWindow->windowHWND(), 0, 255, LWA_ALPHA);
 	
 	/*
 		CS_ - Опция стиля класса
@@ -216,7 +199,7 @@ XApplication::XApplication(XParams xParams) {
 		exit(EXIT_FAILURE);
 	}
 
-	ShowWindow(XApplicationMainWindow->window->_wnd, SW_SHOWDEFAULT);
+	ShowWindow(XApplicationMainWindow->windowHWND(), SW_SHOWDEFAULT);
 }
 
 void XApplication::setLayout(XVLayout* layout) {
@@ -229,11 +212,11 @@ void XApplication::setLayout(XVLayout* layout) {
 		if (layout->XWaiting.front()->fixedPosition)
 			throw std::invalid_argument("This applet has a \"fixed status\".");
 
-		XLayout::beginHeight += layout->XWaiting.front()->applet->window->margins.top();
+		XLayout::beginHeight += layout->XWaiting.front()->applet->windowMargins().top();
 
 		layout->XWaiting.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
 
-		XLayout::beginHeight += layout->XWaiting.front()->applet->window->minimumHeight + layout->XWaiting.front()->applet->window->margins.bottom();
+		XLayout::beginHeight += layout->XWaiting.front()->applet->minimumHeight() + layout->XWaiting.front()->applet->windowMargins().bottom();
 
 		if (firstElem) {
 			firstElem = !firstElem;
@@ -258,82 +241,82 @@ XHANDLE* XApplication::windowHandle()
 
 void XApplication::setPosition(int x, int y)
 {
-	GetWindowRect(XApplication::XApplicationMainWindow->window->_wnd, &rect);
-	SetWindowPos(XApplication::XApplicationMainWindow->window->_wnd, (HWND)NULL, x, y, rect.right - rect.left, rect.bottom - rect.top, (UINT)0);
+	GetWindowRect(XApplication::XApplicationMainWindow->windowHWND(), &rect);
+	SetWindowPos(XApplication::XApplicationMainWindow->windowHWND(), (HWND)NULL, x, y, rect.right - rect.left, rect.bottom - rect.top, (UINT)0);
 }
 
 void XApplication::setMinimumHeight(int height)
 {
-	XApplication::XApplicationMainWindow->window->minimumHeight = height;
+	XApplication::XApplicationMainWindow->setMinimumHeight(height);
 }
 
 void XApplication::setMaximumHeight(int height)
 {
-	XApplication::XApplicationMainWindow->window->maximumHeight = height;
+	XApplication::XApplicationMainWindow->setMaximumHeight(height);
 }
 
 void XApplication::setMinimumWidth(int width)
 {
-	XApplication::XApplicationMainWindow->window->minimumWidth = width;
+	XApplication::XApplicationMainWindow->setMinimumWidth(width);
 }
 
 void XApplication::setMaximumWidth(int width)
 {
-	XApplication::XApplicationMainWindow->window->maximumWidth = width;
+	XApplication::XApplicationMainWindow->setMaximumWidth(width);
 }
 
 void XApplication::setMinimumSize(XSize size)
 {
-	XApplication::XApplicationMainWindow->window->minimumWidth = size.width();
-	XApplication::XApplicationMainWindow->window->minimumHeight = size.height();
+	XApplication::XApplicationMainWindow->setMinimumWidth(size.width());
+	XApplication::XApplicationMainWindow->setMinimumHeight(size.height());
 }
 
 void XApplication::setMinimumSize(int width, int height)
 {
-	XApplication::XApplicationMainWindow->window->minimumWidth = width;
-	XApplication::XApplicationMainWindow->window->minimumHeight = height;
+	XApplication::XApplicationMainWindow->setMinimumWidth(width);
+	XApplication::XApplicationMainWindow->setMinimumHeight(height);
 }
 
 void XApplication::setMaximumSize(XSize size)
 {
-	XApplication::XApplicationMainWindow->window->maximumWidth = size.width();
-	XApplication::XApplicationMainWindow->window->maximumHeight = size.height();
+	XApplication::XApplicationMainWindow->setMaximumWidth(size.width());
+	XApplication::XApplicationMainWindow->setMaximumHeight(size.height());
 }
 
 void XApplication::setMaximumSize(int width, int height)
 {
-	XApplication::XApplicationMainWindow->window->maximumWidth = width;
-	XApplication::XApplicationMainWindow->window->maximumHeight = height;
+	XApplication::XApplicationMainWindow->setMaximumWidth(width);
+	XApplication::XApplicationMainWindow->setMaximumHeight(height);
 }
 
 int XApplication::minimumHeight()
 {
-	return XApplication::XApplicationMainWindow->window->minimumHeight;
+	return XApplication::XApplicationMainWindow->minimumHeight();
 }
 
 int XApplication::maximumHeight()
 {
-	return XApplication::XApplicationMainWindow->window->maximumHeight;
+	return XApplication::XApplicationMainWindow->maximumHeight();
 }
 
 int XApplication::minimumWidth()
 {
-	return XApplication::XApplicationMainWindow->window->minimumWidth;
+	return XApplication::XApplicationMainWindow->minimumWidth();
 }
 
 int XApplication::maximumWidth()
 {
-	return XApplication::XApplicationMainWindow->window->maximumWidth;
+	return XApplication::XApplicationMainWindow->maximumWidth();
 }
 
 XSize XApplication::minimumSize()
 {
-	return XSize(XApplication::XApplicationMainWindow->window->minimumWidth, XApplication::XApplicationMainWindow->window->minimumHeight);
+	return XSize(XApplication::XApplicationMainWindow->minimumWidth(), XApplication::XApplicationMainWindow->minimumHeight());
 }
 
 XSize XApplication::maximumSize()
 {
-	return XSize(XApplication::XApplicationMainWindow->window->maximumWidth, XApplication::XApplicationMainWindow->window->maximumHeight);
+	return XSize(XApplication::XApplicationMainWindow->maximumWidth(), XApplication::XApplicationMainWindow->maximumHeight());
 }
 
 //void XApplication::setWindowName(XString windowName)
@@ -362,21 +345,20 @@ bool XApplication::isActiveWindow()
 
 void XApplication::setOpacity(float opacity)
 {
-	SetLayeredWindowAttributes(XApplication::XApplicationMainWindow->window->_wnd, 0, 255 - (255 * opacity), LWA_ALPHA);
+	SetLayeredWindowAttributes(XApplication::XApplicationMainWindow->windowHWND(), 0, 255 - (255 * opacity), LWA_ALPHA);
 }
 
 int XApplication::width()
 {
-	return XApplication::XApplicationMainWindow->window->minimumWidth;
+	return XApplication::XApplicationMainWindow->minimumWidth();
 }
 
 int XApplication::height()
 {
-	return XApplication::XApplicationMainWindow->window->minimumHeight;
+	return XApplication::XApplicationMainWindow->minimumHeight();
 }
 
 void XApplication::setLayout(XHLayout* layout) {
-
 	firstElem = true;
 	max = 0;
 	XLayout::beginHorizontalLayout.push_back(layout->beginWidth);
@@ -385,8 +367,8 @@ void XApplication::setLayout(XHLayout* layout) {
 		throw std::invalid_argument("This applet has a \"fixed status\".");
 
 	for (unsigned i = 0; i < layout->XWaiting.size(); i++) {
-		if (max < layout->XWaiting.at(i)->applet->window->margins.top() + layout->XWaiting.at(i)->applet->window->minimumHeight + layout->XWaiting.at(i)->applet->window->margins.bottom())
-			max = layout->XWaiting.at(i)->applet->window->margins.top() + layout->XWaiting.at(i)->applet->window->minimumHeight + layout->XWaiting.at(i)->applet->window->margins.bottom();
+		if (max < layout->XWaiting.at(i)->applet->windowMargins().top() + layout->XWaiting.at(i)->applet->minimumHeight() + layout->XWaiting.at(i)->applet->windowMargins().bottom())
+			max = layout->XWaiting.at(i)->applet->windowMargins().top() + layout->XWaiting.at(i)->applet->minimumHeight() + layout->XWaiting.at(i)->applet->windowMargins().bottom();
 	}
 
 	while (!layout->XWaiting.empty()) {
@@ -397,7 +379,7 @@ void XApplication::setLayout(XHLayout* layout) {
 
 		layout->XWaiting.front()->setApplet(XApplication::XApplicationMainWindow, layout, appletId++, firstElem);
 
-		XLayout::betweenHorizontalApplets += layout->XWaiting.front()->applet->window->minimumWidth;
+		XLayout::betweenHorizontalApplets += layout->XWaiting.front()->applet->minimumWidth();
 
 		layout->XWaiting.erase(std::find(layout->XWaiting.begin(), layout->XWaiting.end(), layout->XWaiting.front()));
 	}

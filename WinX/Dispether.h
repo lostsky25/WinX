@@ -13,7 +13,7 @@ public:
 	static void applySubClasses() {
 		while (!waitingSubclasses.empty())
 		{
-			SetWindowSubclass(waitingSubclasses.front().first->window->_wnd, waitingSubclasses.front().second, ++subProcId, NULL);
+			SetWindowSubclass(waitingSubclasses.front().first->windowHWND(), waitingSubclasses.front().second, ++subProcId, NULL);
 			waitingSubclasses.pop();
 		}
 	}

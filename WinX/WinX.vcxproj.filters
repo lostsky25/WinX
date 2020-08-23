@@ -82,6 +82,9 @@
     <Filter Include="Исходные файлы\XCore\XApplet\XTextBox">
       <UniqueIdentifier>{12804267-9fa7-4e8a-8913-e4a6b9ad079c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\XCore\XApplet\XTrackbar">
+      <UniqueIdentifier>{5a291580-5907-4a70-a7ab-7bfc1c58102d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinX.cpp">
@@ -149,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="XTextBox.cpp">
       <Filter>Исходные файлы\XCore\XApplet\XTextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="XTrackbar.cpp">
+      <Filter>Исходные файлы\XCore\XApplet\XTrackbar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="XTextBox.h">
       <Filter>Исходные файлы\XCore\XApplet\XTextBox</Filter>
+    </ClInclude>
+    <ClInclude Include="XTrackbar.h">
+      <Filter>Исходные файлы\XCore\XApplet\XTrackbar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

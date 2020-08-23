@@ -1,6 +1,15 @@
 #pragma once
-#include "XTypes.h"
+
+#include <Windows.h>
+#include <commctrl.h>
+#include <atlbase.h>
+#include <stdexcept>
+
+#include "Dispether.h"
+#include "XString.h"
+#include "XLayout.h"
 #include "xhandle.h"
+#include "XTypes.h"
 
 class XWindow
 {

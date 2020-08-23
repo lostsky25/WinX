@@ -1,43 +1,30 @@
 #pragma once
 
 #define ISOLATION_AWARE_ENABLED 1
-
 #define XWINDOWMINWIDTH 500
 #define XWINDOWMINHEIGHT 500
 
-//#include "xhandle.h"
+#define SIGNAL(obj, signal) obj, std::bind(signal, obj, std::placeholders::_1)
+#define SLOT(obj, slot) obj, std::bind(slot, obj, std::placeholders::_1)
 
-#include "XApplicationProc.h"
-
-#include <type_traits>
-#include <cstdint>
-#include <commctrl.h>
+//#include <Uxtheme.h>
+#include <functional>
 #include <algorithm>
 
+#include "XTrackbar.h"
 #include "XButton.h"
 #include "XLabel.h"
 #include "XComboBox.h"
 #include "XTextBox.h"
-#include "XParams.h"
-
-//#define CONNECT(T, APPLET, FPROC) Application->SetClickedEvent<T>(APPLET, FPROC)
-
-#include "XTypes.h"
-
-#include "XLayout.h"
-
 #include "XWindow.h"
-
+#include "XParams.h"
+#include "XTypes.h"
+#include "XLayout.h"
 #include "XVLayout.h"
 #include "XHLayout.h"
 
-//#include <Uxtheme.h>
+#include "XApplicationProc.h"
 
-//#define CONNECT(T, APPLET, FPROC) Application->SetClickedEvent<T>(APPLET, FPROC)
-
-class XVLayout;
-class XHLayout;
-class XButton;
 
 class XApplication : public XWindow
 {
@@ -46,17 +33,51 @@ public:
 	XApplication(XParams xParams);
 	~XApplication() = default;
 
-	//It needs change to connect function.
+	//template <class T, class U>
+	//void connect(T* applet, uint8_t signal_type, U* object, std::function<void(void)> callback) {
+	//	if (applet && signal_type && object && !callback._Empty()) {
+	//		switch (signal_type){
+	//			case 1: {
+	//				XApplicationProc::XCallback.emplace_back(std::make_pair(applet->applet, callback));
+	//				break;
+	//			}
+
+	//			default:
+	//				break;
+	//		}
+	//	}
+	//}
+	
 	template <class T, class U>
-	void connect(T* applet, U* object/*, void (U::* pProc)()*/) {
-		if (applet && object) {
-			XApplicationProc::XTypes.emplace_back(std::make_pair(applet->applet, object));
-		}
+	void connect(T* signal_object, std::function<int(HWND)> signal_callback, U* slot_object, std::function<void(int)> slot_callback) {
+	//void connect(T* signal_object, int (T::* signal)(HWND), U* slot_object, void (U::* slot_callback)(int)) {
+		//slot_callback(signal_callback());
+		XApplicationProc::bunchSignalSlot.push_back(std::make_pair(signal_object, std::make_pair(signal_callback, slot_callback)));
 	}
 
+	//template <class T, class U>
+	//void connect(T* applet, uint8_t signal_type, U* object, void (U::* callback)()) {
+	//	if (applet && signal_type && object && callback != nullptr) {
+	//		switch (signal_type) {
+	//			case 1: {
+	//				std::function<void(void)> fn = std::bind(callback, object);
+	//				XApplicationProc::XCallback.emplace_back(std::make_pair(applet->applet, fn));
+
+	//				break;
+	//			}
+
+	//			default:
+	//				break;
+	//		}
+	//	}
+	//}
+
 	void windowUpdate(void) {
-		GetWindowRect(XApplication::XApplicationMainWindow->window->_wnd, &rect);
-		SetWindowPos(XApplication::XApplicationMainWindow->window->_wnd, (HWND)NULL, rect.left, rect.top, minimumWidth(), minimumHeight(), (UINT)0);
+		GetWindowRect(XApplication::XApplicationMainWindow->windowHWND(), &rect);
+		SetWindowPos(XApplication::XApplicationMainWindow->windowHWND(), (HWND)NULL, rect.left, rect.top, minimumWidth(), minimumHeight(), (UINT)0);
+		
+		XComboBox::applyItems();
+		XTrackbar::applyTrackConfiguration();
 
 		while (GetMessage(&XApplicationMessage, NULL, 0, 0)) {
 			XApplicationProc::CurrentHandle = XApplicationMessage.hwnd;
@@ -113,20 +134,20 @@ public:
 		applet->setApplet(XApplicationMainWindow, LayoutDirection::None, appletId++, false);
 
 		if (std::is_same<T, XButton>::value) {
-			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
-			reinterpret_cast<XButton*>(applet)->disp->setSubClass(applet, standartProc);
+			XApplicationProc::XApplets.emplace_back(reinterpret_cast<XApplet*>(applet));
+			applet->disp->setSubClass(applet, standartProc);
 			//XApplicationProc::XButtonMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XLabel>::value) {
-			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			XApplicationProc::XApplets.emplace_back(reinterpret_cast<XApplet*>(applet));
 			//XApplicationProc::XLabelMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XComboBox>::value) {
-			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			XApplicationProc::XApplets.emplace_back(reinterpret_cast<XApplet*>(applet));
 			//XApplicationProc::XComboBoxMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 		else if (std::is_same<T, XTextBox>::value) {
-			XApplicationProc::XMessages.emplace_back(reinterpret_cast<XApplet*>(applet));
+			XApplicationProc::XApplets.emplace_back(reinterpret_cast<XApplet*>(applet));
 			//XApplicationProc::XComboBoxMessages.push_back(reinterpret_cast<HWND>(applet->applet->window->_wnd));
 		}
 	}
@@ -135,7 +156,7 @@ public:
 	void appendApplet(T* applet) {
 		//WTF???!!!
 		XVLayout* l = new XVLayout();
-		applet->setApplet(XApplicationMainWindow->window->_wnd, l, appletId++, false);
+		applet->setApplet(XApplicationMainWindow->windowHWND(), l, appletId++, false);
 	}
 
 	void setLayout(XHLayout*);
@@ -217,7 +238,7 @@ private:
 
 protected:
 	friend LRESULT CALLBACK XApplicationProc::WndProc(HWND, UINT, WPARAM, LPARAM);
-	friend BOOL CALLBACK XApplicationProc::EnumChildProc(HWND, LPARAM);
+	//friend BOOL CALLBACK XApplicationProc::EnumChildProc(HWND, LPARAM);
 	friend class XVLayout;
 	friend class XHLayout;
 

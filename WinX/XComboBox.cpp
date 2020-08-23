@@ -1,5 +1,7 @@
 #include "XComboBox.h"
 
+std::vector<std::pair<XHANDLE*, wchar_t*>> XComboBox::waitingItems;
+
 XComboBox::XComboBox() {
 	XApplet::applet = new XHANDLE();
 	XApplet::disp = new Dispether();
@@ -13,6 +15,12 @@ XComboBox::XComboBox() {
 	XWindow::flags.setFlags(CBS_DROPDOWN | WS_CHILD | WS_VISIBLE);
 	XApplet::className = L"COMBOBOX";
 	XApplet::windowName = L"";
+}
+
+void XComboBox::addItem(XString item)
+{
+	waitingItems.emplace_back(applet, item.getData());
+
 }
 
 XComboBox::~XComboBox() {

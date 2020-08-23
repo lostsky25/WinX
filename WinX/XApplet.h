@@ -1,23 +1,8 @@
 #pragma once
-//#define ISOLATION_AWARE_ENABLED 1
-#include <Windows.h>
-#include <commctrl.h>
-#include <atlbase.h>
-#include <stdexcept>
-
-#include "xhandle.h"
-
-#include "XLayout.h"
-
-#include "XTypes.h"
-#include "XString.h"
-#include "XDebug.h"
 #include "XWindow.h"
 #include "XApplicationProc.h"
 
-#include "Dispether.h"
-
-class XLayout;
+//#define ISOLATION_AWARE_ENABLED 1
 
 class XApplet : public XWindow
 {
@@ -65,9 +50,6 @@ public:
 	void setBorder();
 	void activateWindow();
 
-	virtual void clicked();
-	virtual void released();
-
 	virtual bool windowHasMaximumSize() override;
 
 	int width();
@@ -76,6 +58,8 @@ public:
 	void setOpacity(float);
 
 	Dispether* disp;
+
+	static uint8_t clicked;
 
 protected:
 	XHANDLE* applet;														//Applet handle.
