@@ -34,7 +34,7 @@ public:
 
 	XMargins margins();
 	void setPosition(int, int);
-	void setWindowName(XString);
+	void setWindowName(std::wstring);
 	void setMargins(int, int, int, int);
 
 	XWindowType windowType();
@@ -59,11 +59,9 @@ public:
 
 	Dispether* disp;
 
-	static uint8_t clicked;
-
 protected:
 	XHANDLE* applet;														//Applet handle.
-	XString text;															//Text in applet (this parameter use in XButton etc.).
+	std::wstring text;															//Text in applet (this parameter use in XButton etc.).
 	XTypes::XCursor cursor;													//Cursor when hovering the applet.
 
 	virtual void setApplet(XHANDLE*, XLayout*, int, bool);					//Set applet into ...

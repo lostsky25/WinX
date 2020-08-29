@@ -45,9 +45,9 @@ protected:
 			break;
 
 		case WM_LBUTTONDOWN:
-			char buf[128];
-			sprintf(buf, "Addr: 0x%p Clicked\n", hWnd);
-			OutputDebugStringA(buf);
+			//char buf[128];
+			//sprintf(buf, "Addr: 0x%p Clicked\n", hWnd);
+			//OutputDebugStringA(buf);
 			break;
 
 		case WM_NCDESTROY:

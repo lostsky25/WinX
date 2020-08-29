@@ -1,7 +1,5 @@
 #include "XApplet.h"
 
-uint8_t XApplet::clicked = 1;
-
 XApplet::~XApplet() {
 	delete applet;
 }
@@ -57,8 +55,8 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 
 		applet->setWindowHWND(CreateWindowExW(
 			XWindow::flags.extendedFlags(),																			//Extended styles.
-			XWindow::className.getData(),																			//Predefined class; Unicode assumed.
-			XWindow::windowName.getData(),																			//Button text.
+			XWindow::className.c_str(),																			//Predefined class; Unicode assumed.
+			XWindow::windowName.c_str(),																			//Button text.
 			XWindow::flags.flags(),																					//Styles.
 			(layout->dir == LayoutDirection::Horizontal ? XLayout::betweenHorizontalApplets : 0),					//x position.
 			(layout->dir == LayoutDirection::Horizontal ? XLayout::beginHeight + applet->windowMargins().top() :
@@ -75,8 +73,8 @@ void XApplet::setApplet(XHANDLE* parent, XLayout* layout, int appletId, bool fir
 
 		applet->setWindowHWND(CreateWindowExW(
 			XWindow::flags.extendedFlags(),																			//Extended styles.
-			XWindow::className.getData(),																			//Predefined class; Unicode assumed.
-			XWindow::windowName.getData(),																			//Button text.
+			XWindow::className.c_str(),																			//Predefined class; Unicode assumed.
+			XWindow::windowName.c_str(),																			//Button text.
 			XWindow::flags.flags(),																					//Styles.
 			applet->windowRect().x(),																				//x position.
 			applet->windowRect().y(),																				//y position.
@@ -255,9 +253,9 @@ int XApplet::minimumWidth()
 	return applet->minimumWidth();
 }
 
-void XApplet::setWindowName(XString windowName) {
+void XApplet::setWindowName(std::wstring windowName) {
 	this->windowName = windowName;
-	SetWindowTextW(applet->windowHWND(), windowName.getData());
+	SetWindowTextW(applet->windowHWND(), windowName.c_str());
 }
 
 bool XApplet::isFullScreen()

@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <vector>
+#include <tuple>
 #include <queue>
 #include <functional>
 
@@ -25,7 +26,9 @@ public:
 	static std::pair<HINSTANCE, LPCWSTR> mainCursor;
 	static std::queue<std::pair<XHANDLE*, float>> waitingOpacity;
 	static std::vector<std::pair<XHANDLE*, std::function<void(void)>>> XCallback;
-	static std::vector<std::pair<XApplet*, std::pair<std::function<int(HWND)>, std::function<void(int)>>>> bunchSignalSlot;
+	static std::vector<std::tuple<XApplet*, std::function<int(void)>, std::function<void(int)>>> bunchSignalSlotInteger;
+	static std::vector<std::tuple<XApplet*, std::function<void(void)>, std::function<void(void)>>> bunchSignalSlotNonParams;
+	//static std::vector<std::tuple<XApplet*, std::function<void*(void)>, std::function<void(void*)>>> bunchSignalSlotVoidPointer;
 	static std::vector<XApplet*> XApplets;
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 	//static BOOL CALLBACK EnumChildProc(HWND, LPARAM);

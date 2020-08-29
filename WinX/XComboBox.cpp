@@ -1,6 +1,6 @@
 #include "XComboBox.h"
 
-std::vector<std::pair<XHANDLE*, wchar_t*>> XComboBox::waitingItems;
+std::vector<std::pair<XHANDLE*, std::wstring>> XComboBox::waitingItems;
 
 XComboBox::XComboBox() {
 	XApplet::applet = new XHANDLE();
@@ -17,9 +17,9 @@ XComboBox::XComboBox() {
 	XApplet::windowName = L"";
 }
 
-void XComboBox::addItem(XString item)
+void XComboBox::addItem(std::wstring item)
 {
-	waitingItems.emplace_back(applet, item.getData());
+	waitingItems.emplace_back(applet, item);
 
 }
 

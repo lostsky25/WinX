@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\test\ChangeCaptionSizeInReg\changeCaptionSizeInReg.cpp" />
     <ClCompile Include="Dispether.cpp" />
     <ClCompile Include="WinX.cpp" />
     <ClCompile Include="XApplet.cpp" />
@@ -34,7 +35,6 @@
     <ClCompile Include="XMargins.cpp" />
     <ClCompile Include="XRect.cpp" />
     <ClCompile Include="XSize.cpp" />
-    <ClCompile Include="XString.cpp" />
     <ClCompile Include="XTextBox.cpp" />
     <ClCompile Include="XThread.cpp" />
     <ClCompile Include="XTrackbar.cpp" />
@@ -61,7 +61,6 @@
     <ClInclude Include="XParams.h" />
     <ClInclude Include="XRect.h" />
     <ClInclude Include="XSize.h" />
-    <ClInclude Include="XString.h" />
     <ClInclude Include="XTextBox.h" />
     <ClInclude Include="XThread.h" />
     <ClInclude Include="XTrackbar.h" />
@@ -176,6 +175,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

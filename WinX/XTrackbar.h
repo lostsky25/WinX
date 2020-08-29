@@ -14,8 +14,8 @@ public:
 	//	return _currentValue;
 	//}
 
-	int changedValue(HWND hWnd) {
-		return SendMessageW(hWnd, TBM_GETPOS, 0, 0);
+	int changedValue() {
+		return SendMessageW(applet->windowHWND(), TBM_GETPOS, 0, 0);
 	}
 
 	~XTrackbar();
@@ -27,7 +27,7 @@ private:
 
 	static void applyTrackConfiguration() {
 		for (int i = 0; i < waitingRanges.size(); i++) {
-			SendMessage(waitingRanges.at(i).first->windowHWND(), TBM_SETRANGE, TRUE, MAKELONG(0, 100));
+			SendMessage(waitingRanges.at(i).first->windowHWND(), TBM_SETRANGE, TRUE, MAKELONG(0, waitingRanges.at(i).second));
 		}
 	}
 

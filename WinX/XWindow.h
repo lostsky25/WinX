@@ -6,7 +6,6 @@
 #include <stdexcept>
 
 #include "Dispether.h"
-#include "XString.h"
 #include "XLayout.h"
 #include "xhandle.h"
 #include "XTypes.h"
@@ -83,7 +82,7 @@ public:
 	virtual XSize minimumSize() = 0;								//Get minimum size <-(XSize).
 	virtual XSize maximumSize() = 0;								//Get maximum size <-(XSize).
 
-	virtual void setWindowName(XString) = 0;								//Set text (such as XButton, etc.).
+	virtual void setWindowName(std::wstring) = 0;								//Set text (such as XButton, etc.).
 	virtual bool isFullScreen() = 0;								//Get fullscreen state.
 	virtual bool isActiveWindow() = 0;								//Get active state.
 
@@ -118,8 +117,8 @@ protected:
 	bool _windowHasMaximumSize;
 	XWindowFlags flags;
 	XWindowType type;
-	XString className;
-	XString windowName;
+	std::wstring className;
+	std::wstring windowName;
 	XRect rect;
 	XTypes::XPoint pos;										//Postion of something (x, y).
 	bool visible;											//Visible state.

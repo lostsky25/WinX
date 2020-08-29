@@ -52,8 +52,8 @@ private:
 		//friend class XTextBox;
 		//friend class XComboBox;
 		//friend class XLabel;
-		//friend class XVLayout;
-		//friend class XHLayout;
+		friend class XVLayout;
+		friend class XHLayout;
 		//friend class XApplet;
 		//friend class XApplication;
 		//friend class XApplicationProc;
@@ -68,8 +68,8 @@ protected:
 	//friend class XTextBox;
 	//friend class XComboBox;
 	//friend class XLabel;
-	//friend class XVLayout;
-	//friend class XHLayout;
+	friend class XVLayout;
+	friend class XHLayout;
 	//friend class XApplet;
 	friend class XApplication;
 	friend class XApplicationProc;

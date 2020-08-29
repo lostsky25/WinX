@@ -20,22 +20,22 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 {
 	switch (uMsg) {
 	case WM_CREATE:
-		
+
 		break;
 
 	case WM_HSCROLL: {
 		//for (size_t i = 0; i < XApplicationProc::bunchSignalSlot.size(); i++) {
-			for (size_t j = 0; j < XApplicationProc::XApplets.size(); j++) {
-				if (XApplets.at(j)->applet->windowHWND() == hWnd) {
-					reinterpret_cast<XTrackbar*>(XApplets.at(j))->_currentValue = SendMessageW(reinterpret_cast<XTrackbar*>(XApplets.at(j))->applet->windowHWND(), TBM_GETPOS, 0, 0);
-				}
+		for (size_t j = 0; j < XApplicationProc::XApplets.size(); j++) {
+			if (XApplets.at(j)->applet->windowHWND() == hWnd) {
+				reinterpret_cast<XTrackbar*>(XApplets.at(j))->_currentValue = SendMessageW(reinterpret_cast<XTrackbar*>(XApplets.at(j))->applet->windowHWND(), TBM_GETPOS, 0, 0);
 			}
+		}
 
-			for (size_t c = 0; c < XApplicationProc::bunchSignalSlot.size(); c++) {
-				if (XApplicationProc::bunchSignalSlot.at(c).first->applet->windowHWND() == CurrentHandle) {
-					XApplicationProc::bunchSignalSlot.at(c).second.second(XApplicationProc::bunchSignalSlot.at(c).second.first(XApplicationProc::bunchSignalSlot.at(c).first->applet->windowHWND()));
-				}
+		for (size_t c = 0; c < XApplicationProc::bunchSignalSlotInteger.size(); c++) {
+			if (std::get<0>(XApplicationProc::bunchSignalSlotInteger.at(c))->applet->windowHWND() == CurrentHandle) {
+				std::get<2>(XApplicationProc::bunchSignalSlotInteger.at(c))(std::get<1>(XApplicationProc::bunchSignalSlotInteger.at(c))());
 			}
+		}
 		//}
 		break;
 	}
@@ -69,28 +69,27 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 
 	case WM_SETCURSOR:
 		if (LOWORD(lParam) == HTCLIENT)
-		{	
+		{
 			SetCursor(LoadCursorW(NULL, XApplicationProc::mainCursor.second));
-
 			return TRUE;
 		}
 		break;
-	
+
 	case WM_COMMAND:
-			switch (HIWORD(wParam))
-			{
-				case CBN_SELCHANGE:{
-					for (size_t j = 0; j < XComboBox::waitingItems.size(); j++) {
-						for (size_t i = 0; i < XApplets.size(); i++) {
-							if (XApplets.at(i)->applet->windowHWND() == XComboBox::waitingItems.at(j).first->windowHWND()) {
-								reinterpret_cast<XComboBox*>(XApplets.at(i))->_selectedIndex = SendMessageW(XApplets.at(i)->applet->windowHWND(), CB_GETCURSEL, 0, 0);
-							}
-						}
+		switch (HIWORD(wParam))
+		{
+		case CBN_SELCHANGE: {
+			for (size_t j = 0; j < XComboBox::waitingItems.size(); j++) {
+				for (size_t i = 0; i < XApplets.size(); i++) {
+					if (XApplets.at(i)->applet->windowHWND() == XComboBox::waitingItems.at(j).first->windowHWND()) {
+						reinterpret_cast<XComboBox*>(XApplets.at(i))->_selectedIndex = SendMessageW(XApplets.at(i)->applet->windowHWND(), CB_GETCURSEL, 0, 0);
 					}
-					break;
 				}
-			default:
-				break;
+			}
+			break;
+		}
+		default:
+			break;
 			break;
 		}
 
@@ -98,11 +97,17 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 		switch (LOWORD(wParam))
 		{
 		case BN_CLICKED:
-			for (unsigned i = 0; i < XCallback.size(); i++) {
-				if (CurrentHandle == XCallback.at(i).first->windowHWND()) {
-					XCallback.at(i).second();
+			for (size_t c = 0; c < XApplicationProc::bunchSignalSlotNonParams.size(); c++) {
+				if (std::get<0>(XApplicationProc::bunchSignalSlotNonParams.at(c))->applet->windowHWND() == CurrentHandle) {
+					std::get<2>(XApplicationProc::bunchSignalSlotNonParams.at(c))();
 				}
 			}
+
+			//for (unsigned i = 0; i < XCallback.size(); i++) {
+			//	if (CurrentHandle == XCallback.at(i).first->windowHWND()) {
+			//		XCallback.at(i).second();
+			//	}
+			//}
 			break;
 		default:
 			break;
@@ -120,10 +125,10 @@ LRESULT CALLBACK XApplicationProc::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
 		break;
 	}
 
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-XApplication::XApplication(){
+XApplication::XApplication() {
 	icex = { 0 };
 	WndClassEx = { 0 };
 	szClassName = L"XApplicationMainWindow";
@@ -140,7 +145,7 @@ XApplication::XApplication(XParams xParams) {
 	szClassName = L"XApplicationMainWindow";
 	hInstance = nullptr;
 	hPrevInstance = nullptr;
-	lpCmdLine = nullptr; 
+	lpCmdLine = nullptr;
 	nCmdShow = 0;
 	firstElem = false;
 
@@ -178,13 +183,13 @@ XApplication::XApplication(XParams xParams) {
 	}
 
 	GetWindowRect(GetDesktopWindow(), &XApplication::rect);
-	XApplicationMainWindow->setWindowHWND(CreateWindowEx(WS_EX_LAYERED, szClassName, L"Window title", WS_OVERLAPPEDWINDOW, 
+	XApplicationMainWindow->setWindowHWND(CreateWindowEx(WS_EX_LAYERED, szClassName, L"Window title", WS_OVERLAPPEDWINDOW,
 		(XApplication::rect.right / 2), (XApplication::rect.bottom / 2),
 		NULL, NULL,
 		(HWND)NULL, (HMENU)NULL, (HINSTANCE)xParams.hInstance, NULL));
 
 	SetLayeredWindowAttributes(XApplicationMainWindow->windowHWND(), 0, 255, LWA_ALPHA);
-	
+
 	/*
 		CS_ - Опция стиля класса
 		CW_ - Опция создания окна
@@ -319,7 +324,7 @@ XSize XApplication::maximumSize()
 	return XSize(XApplication::XApplicationMainWindow->maximumWidth(), XApplication::XApplicationMainWindow->maximumHeight());
 }
 
-//void XApplication::setWindowName(XString windowName)
+//void XApplication::setWindowName(string windowName)
 //{
 //	XWindow::windowName = windowName;
 //}

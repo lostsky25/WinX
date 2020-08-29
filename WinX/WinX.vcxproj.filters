@@ -49,9 +49,6 @@
     <Filter Include="Исходные файлы\XCore\XTypes">
       <UniqueIdentifier>{91309307-ca29-4c46-b31c-299859918a91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\XCore\XString">
-      <UniqueIdentifier>{6563862a-ecd4-494d-b224-3c8f94bd1e72}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\XCore\kernel">
       <UniqueIdentifier>{ff7ab55c-244c-4adc-bc25-5ba6494518c0}</UniqueIdentifier>
     </Filter>
@@ -85,6 +82,9 @@
     <Filter Include="Исходные файлы\XCore\XApplet\XTrackbar">
       <UniqueIdentifier>{5a291580-5907-4a70-a7ab-7bfc1c58102d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\tests">
+      <UniqueIdentifier>{cd4fcb35-4293-41ac-b2d9-c9d75528c11b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinX.cpp">
@@ -116,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="XComboBox.cpp">
       <Filter>Исходные файлы\XCore\XApplet\XComboBox</Filter>
-    </ClCompile>
-    <ClCompile Include="XString.cpp">
-      <Filter>Исходные файлы\XCore\XString</Filter>
     </ClCompile>
     <ClCompile Include="XMainWindow.cpp">
       <Filter>Исходные файлы\XCore</Filter>
@@ -155,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="XTrackbar.cpp">
       <Filter>Исходные файлы\XCore\XApplet\XTrackbar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\ChangeCaptionSizeInReg\changeCaptionSizeInReg.cpp">
+      <Filter>Исходные файлы\tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,9 +193,6 @@
     </ClInclude>
     <ClInclude Include="XTypes.h">
       <Filter>Исходные файлы\XCore\XTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="XString.h">
-      <Filter>Исходные файлы\XCore\XString</Filter>
     </ClInclude>
     <ClInclude Include="XMainWindow.h">
       <Filter>Исходные файлы\XCore</Filter>

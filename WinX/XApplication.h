@@ -4,10 +4,14 @@
 #define XWINDOWMINWIDTH 500
 #define XWINDOWMINHEIGHT 500
 
-#define SIGNAL(obj, signal) obj, std::bind(signal, obj, std::placeholders::_1)
-#define SLOT(obj, slot) obj, std::bind(slot, obj, std::placeholders::_1)
+#define SIGNAL(obj, signal) obj, std::bind(signal, obj)
+#define SLOT(obj, slot) obj, std::bind(slot, obj)
+
+#define SIGNAL_P(obj, signal) obj, std::bind(signal, obj, std::placeholders::_1)
+#define SLOT_P(obj, slot) obj, std::bind(slot, obj, std::placeholders::_1)
 
 //#include <Uxtheme.h>
+#include <string>
 #include <functional>
 #include <algorithm>
 
@@ -25,7 +29,6 @@
 
 #include "XApplicationProc.h"
 
-
 class XApplication : public XWindow
 {
 public:
@@ -41,19 +44,27 @@ public:
 	//				XApplicationProc::XCallback.emplace_back(std::make_pair(applet->applet, callback));
 	//				break;
 	//			}
-
 	//			default:
 	//				break;
 	//		}
 	//	}
 	//}
-	
-	template <class T, class U>
-	void connect(T* signal_object, std::function<int(HWND)> signal_callback, U* slot_object, std::function<void(int)> slot_callback) {
-	//void connect(T* signal_object, int (T::* signal)(HWND), U* slot_object, void (U::* slot_callback)(int)) {
-		//slot_callback(signal_callback());
-		XApplicationProc::bunchSignalSlot.push_back(std::make_pair(signal_object, std::make_pair(signal_callback, slot_callback)));
+
+	template <class S>
+	void connect(XApplet* signal_object, std::function<S(void)> signal_callback, XApplet* slot_object, std::function<void(S)> slot_callback) {
+		if (std::is_same<S, int>::value) {
+			XApplicationProc::bunchSignalSlotInteger.emplace_back(signal_object, signal_callback, slot_callback);
+		}
 	}
+	//Без S
+	//template <class T, class U>
+	void connect(XApplet* signal_object, std::function<void(void)> signal_callback, XApplet* slot_object, std::function<void(void)> slot_callback) {
+		XApplicationProc::bunchSignalSlotNonParams.push_back(std::make_tuple(signal_object, signal_callback, slot_callback));
+	}
+
+	//template <class T, class U>
+	//void connect(T* signal_object, std::function<void()> signal_callback, U* slot_object, std::function<void()> slot_callback) {
+	//}
 
 	//template <class T, class U>
 	//void connect(T* applet, uint8_t signal_type, U* object, void (U::* callback)()) {
@@ -75,7 +86,7 @@ public:
 	void windowUpdate(void) {
 		GetWindowRect(XApplication::XApplicationMainWindow->windowHWND(), &rect);
 		SetWindowPos(XApplication::XApplicationMainWindow->windowHWND(), (HWND)NULL, rect.left, rect.top, minimumWidth(), minimumHeight(), (UINT)0);
-		
+
 		XComboBox::applyItems();
 		XTrackbar::applyTrackConfiguration();
 
@@ -210,7 +221,7 @@ public:
 		return XMargins(0, 0, 0, 0);
 	}
 	virtual void setMargins(int, int, int, int) override {};
-	virtual void setWindowName(XString) override {};
+	virtual void setWindowName(std::wstring) override {};
 
 
 private:

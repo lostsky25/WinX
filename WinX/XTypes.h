@@ -5,7 +5,6 @@
 #include "XWindowFlags.h"
 #include "XWindowType.h"
 #include "XSize.h"
-#include "XString.h"
 #include "XMargins.h"
 #include "XRect.h"
 
