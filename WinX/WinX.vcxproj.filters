@@ -82,8 +82,8 @@
     <Filter Include="Исходные файлы\XCore\XApplet\XTrackbar">
       <UniqueIdentifier>{5a291580-5907-4a70-a7ab-7bfc1c58102d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\tests">
-      <UniqueIdentifier>{cd4fcb35-4293-41ac-b2d9-c9d75528c11b}</UniqueIdentifier>
+    <Filter Include="Исходные файлы\XCore\XThread\ThreadPool">
+      <UniqueIdentifier>{7bb52cf7-e41c-4c4d-aac2-9db59355383d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +153,8 @@
     <ClCompile Include="XTrackbar.cpp">
       <Filter>Исходные файлы\XCore\XApplet\XTrackbar</Filter>
     </ClCompile>
-    <ClCompile Include="..\test\ChangeCaptionSizeInReg\changeCaptionSizeInReg.cpp">
-      <Filter>Исходные файлы\tests</Filter>
+    <ClCompile Include="XThreadPool.cpp">
+      <Filter>Исходные файлы\XCore\XThread\ThreadPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="XTrackbar.h">
       <Filter>Исходные файлы\XCore\XApplet\XTrackbar</Filter>
+    </ClInclude>
+    <ClInclude Include="XThreadPool.h">
+      <Filter>Исходные файлы\XCore\XThread\ThreadPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

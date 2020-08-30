@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\test\ChangeCaptionSizeInReg\changeCaptionSizeInReg.cpp" />
     <ClCompile Include="Dispether.cpp" />
+    <ClCompile Include="XThreadPool.cpp" />
     <ClCompile Include="WinX.cpp" />
     <ClCompile Include="XApplet.cpp" />
     <ClCompile Include="XApplication.cpp" />
@@ -46,6 +46,7 @@
   <ItemGroup>
     <ClInclude Include="Dispether.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="XThreadPool.h" />
     <ClInclude Include="XApplet.h" />
     <ClInclude Include="XApplication.h" />
     <ClInclude Include="XApplicationProc.h" />
